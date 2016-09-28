@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from demo.interface.club/limitless/layout_1/LTR/material/datatable_basic.html by HTTrack Website Copier/3.x [XR&CO'2013], Mon, 19 Sep 2016 09:13:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/core.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/components.css" rel="stylesheet" type="text/css">
+	<link href="assets/css/colors.css" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="assets/js/plugins/loaders/pace.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/core/libraries/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/loaders/blockui.min.js"></script>
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	<script type="text/javascript" src="assets/js/plugins/forms/selects/select2.min.js"></script>
+
+	<script type="text/javascript" src="assets/js/core/app.js"></script>
+	<script type="text/javascript" src="assets/js/pages/datatables_basic.js"></script>
+
+	<script type="text/javascript" src="assets/js/plugins/ui/ripple.min.js"></script>
+	<!-- /theme JS files -->
+
+</head>
+
+<body>
+
+	<!-- Main navbar -->
+	<div class="navbar navbar-inverse bg-green">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="index.html">IVR Platform</a>
+
+			<ul class="nav navbar-nav visible-xs-block">
+				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+				<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+			</ul>
+		</div>
+
+		<div class="navbar-collapse collapse" id="navbar-mobile">
+			<ul class="nav navbar-nav">
+				<li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-puzzle3"></i>
+						<span class="visible-xs-inline-block position-right">Git updates</span>
+						<span class="status-mark border-orange-400"></span>
+					</a>
+					
+					<div class="dropdown-menu dropdown-content">
+						<div class="dropdown-content-heading">
+							Git updates
+							<ul class="icons-list">
+								<li><a href="#"><i class="icon-sync"></i></a></li>
+							</ul>
+						</div>
+
+						<ul class="media-list dropdown-content-body width-350">
+							<li class="media">
+								<div class="media-left">
+									<a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
+								</div>
+
+								<div class="media-body">
+									Drop the IE <a href="#">specific hacks</a> for temporal inputs
+									<div class="media-annotation">4 minutes ago</div>
+								</div>
+							</li>
+
+							<li class="media">
+								<div class="media-left">
+									<a href="#" class="btn border-warning text-warning btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-commit"></i></a>
+								</div>
+								
+								<div class="media-body">
+									Add full font overrides for popovers and tooltips
+									<div class="media-annotation">36 minutes ago</div>
+								</div>
+							</li>
+
+							<li class="media">
+								<div class="media-left">
+									<a href="#" class="btn border-info text-info btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-branch"></i></a>
+								</div>
+								
+								<div class="media-body">
+									<a href="#">Chris Arney</a> created a new <span class="text-semibold">Design</span> branch
+									<div class="media-annotation">2 hours ago</div>
+								</div>
+							</li>
+
+							<li class="media">
+								<div class="media-left">
+									<a href="#" class="btn border-success text-success btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-merge"></i></a>
+								</div>
+								
+								<div class="media-body">
+									<a href="#">Eugene Kopyov</a> merged <span class="text-semibold">Master</span> and <span class="text-semibold">Dev</span> branches
+									<div class="media-annotation">Dec 18, 18:36</div>
+								</div>
+							</li>
+
+							<li class="media">
+								<div class="media-left">
+									<a href="#" class="btn border-primary text-primary btn-flat btn-rounded btn-icon btn-sm"><i class="icon-git-pull-request"></i></a>
+								</div>
+								
+								<div class="media-body">
+									Have Carousel ignore keyboard events
+									<div class="media-annotation">Dec 12, 05:46</div>
+								</div>
+							</li>
+						</ul>
+
+						<div class="dropdown-content-footer">
+							<a href="#" data-popup="tooltip" title="All activity"><i class="icon-menu display-block"></i></a>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+			<div class="navbar-right">
+				<p class="navbar-text"></p>
+				<p class="navbar-text"><span class="label bg-success-400">Online</span></p>
+				
+				<ul class="nav navbar-nav">				
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="icon-bell2"></i>
+							<span class="visible-xs-inline-block position-right">Activity</span>
+							<span class="status-mark border-orange-400"></span>
+						</a>
+
+						<div class="dropdown-menu dropdown-content">
+							<div class="dropdown-content-heading">
+								Activity
+								<ul class="icons-list">
+									<li><a href="#"><i class="icon-menu7"></i></a></li>
+								</ul>
+							</div>
+
+							<ul class="media-list dropdown-content-body width-350">
+								<li class="media">
+									<div class="media-left">
+										<a href="#" class="btn bg-success-400 btn-rounded btn-icon btn-xs"><i class="icon-mention"></i></a>
+									</div>
+
+									<div class="media-body">
+										<a href="#">Taylor Swift</a> mentioned you in a post "Angular JS. Tips and tricks"
+										<div class="media-annotation">4 minutes ago</div>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left">
+										<a href="#" class="btn bg-pink-400 btn-rounded btn-icon btn-xs"><i class="icon-paperplane"></i></a>
+									</div>
+									
+									<div class="media-body">
+										Special offers have been sent to subscribed users by <a href="#">Donna Gordon</a>
+										<div class="media-annotation">36 minutes ago</div>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left">
+										<a href="#" class="btn bg-blue btn-rounded btn-icon btn-xs"><i class="icon-plus3"></i></a>
+									</div>
+									
+									<div class="media-body">
+										<a href="#">Chris Arney</a> created a new <span class="text-semibold">Design</span> branch in <span class="text-semibold">Limitless</span> repository
+										<div class="media-annotation">2 hours ago</div>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left">
+										<a href="#" class="btn bg-purple-300 btn-rounded btn-icon btn-xs"><i class="icon-truck"></i></a>
+									</div>
+									
+									<div class="media-body">
+										Shipping cost to the Netherlands has been reduced, database updated
+										<div class="media-annotation">Feb 8, 11:30</div>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left">
+										<a href="#" class="btn bg-warning-400 btn-rounded btn-icon btn-xs"><i class="icon-bubble8"></i></a>
+									</div>
+									
+									<div class="media-body">
+										New review received on <a href="#">Server side integration</a> services
+										<div class="media-annotation">Feb 2, 10:20</div>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left">
+										<a href="#" class="btn bg-teal-400 btn-rounded btn-icon btn-xs"><i class="icon-spinner11"></i></a>
+									</div>
+									
+									<div class="media-body">
+										<strong>January, 2016</strong> - 1320 new users, 3284 orders, $49,390 revenue
+										<div class="media-annotation">Feb 1, 05:46</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</li>
+
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="icon-bubble8"></i>
+							<span class="visible-xs-inline-block position-right">Messages</span>
+							<span class="status-mark border-orange-400"></span>
+						</a>
+						
+						<div class="dropdown-menu dropdown-content width-350">
+							<div class="dropdown-content-heading">
+								Messages
+								<ul class="icons-list">
+									<li><a href="#"><i class="icon-compose"></i></a></li>
+								</ul>
+							</div>
+
+							<ul class="media-list dropdown-content-body">
+								<li class="media">
+									<div class="media-left">
+										<img src="assets/images/demo/users/face10.jpg" class="img-circle img-sm" alt="">
+										<span class="badge bg-danger-400 media-badge">5</span>
+									</div>
+
+									<div class="media-body">
+										<a href="#" class="media-heading">
+											<span class="text-semibold">James Alexander</span>
+											<span class="media-annotation pull-right">04:58</span>
+										</a>
+
+										<span class="text-muted">who knows, maybe that would be the best thing for me...</span>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left">
+										<img src="assets/images/demo/users/face3.jpg" class="img-circle img-sm" alt="">
+										<span class="badge bg-danger-400 media-badge">4</span>
+									</div>
+
+									<div class="media-body">
+										<a href="#" class="media-heading">
+											<span class="text-semibold">Margo Baker</span>
+											<span class="media-annotation pull-right">12:16</span>
+										</a>
+
+										<span class="text-muted">That was something he was unable to do because...</span>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left"><img src="assets/images/demo/users/face24.jpg" class="img-circle img-sm" alt=""></div>
+									<div class="media-body">
+										<a href="#" class="media-heading">
+											<span class="text-semibold">Jeremy Victorino</span>
+											<span class="media-annotation pull-right">22:48</span>
+										</a>
+
+										<span class="text-muted">But that would be extremely strained and suspicious...</span>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left"><img src="assets/images/demo/users/face4.jpg" class="img-circle img-sm" alt=""></div>
+									<div class="media-body">
+										<a href="#" class="media-heading">
+											<span class="text-semibold">Beatrix Diaz</span>
+											<span class="media-annotation pull-right">Tue</span>
+										</a>
+
+										<span class="text-muted">What a strenuous career it is that I've chosen...</span>
+									</div>
+								</li>
+
+								<li class="media">
+									<div class="media-left"><img src="assets/images/demo/users/face25.jpg" class="img-circle img-sm" alt=""></div>
+									<div class="media-body">
+										<a href="#" class="media-heading">
+											<span class="text-semibold">Richard Vango</span>
+											<span class="media-annotation pull-right">Mon</span>
+										</a>
+										
+										<span class="text-muted">Other travelling salesmen live a life of luxury...</span>
+									</div>
+								</li>
+							</ul>
+
+							<div class="dropdown-content-footer">
+								<a href="#" data-popup="tooltip" title="All messages"><i class="icon-menu display-block"></i></a>
+							</div>
+						</div>
+					</li>					
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- /main navbar -->
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main sidebar -->
+			<div class="sidebar sidebar-main sidebar-default">
+				<div class="sidebar-content">
+
+					<!-- User menu -->
+					<!-- /user menu -->
+
+
+					<!-- Main navigation -->
+					<div class="sidebar-category sidebar-category-visible">
+						<div class="category-content no-padding">
+							<ul class="navigation navigation-main navigation-accordion">
+
+								<!-- Main -->
+								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+								<li class="active"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+								<li>
+									<a href="#"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+									<ul>
+										<li><a href="form_layout_horizontal.html">Create Campaigns </a></li>
+										<li><a href="layout_navbar_sidebar_fixed.html">View Campaigns</a> </li>
+										</ul>
+								</li>
+								<li>
+									<a href="#"><i class="icon-copy"></i> <span>File Manager</span></a>
+									<ul>
+										<li><a href="uploader_plupload.html">Upload Files</a></li>
+										<li><a href="datatable_basic.html">View Files</a></li>
+										
+									</ul>
+								</li>
+								<li>
+									<a href="#"><i class="icon-droplet2"></i> <span>Mailing Lists</span></a>
+									<ul>
+										<li><a href="datatable_api.html">View Lists</a></li>
+										<li><a href="colors_danger.html">Create Lists</a></li>
+										
+									</ul>
+								</li>
+								<li>
+									<a href="#"><i class="icon-stack"></i> <span>Reports</span></a>
+									
+								</li>
+								<!-- /main -->
+
+								<!-- Forms -->
+								<!-- /forms -->
+
+								<!-- Appearance -->
+								<!-- /appearance -->
+
+								<!-- Layout -->
+								<!-- /layout -->
+
+								<!-- Data visualization -->
+								<!-- /data visualization -->
+
+								<!-- Extensions -->
+								<!-- /extensions -->
+
+								<!-- Tables -->
+								<!-- /tables -->
+
+								<!-- Page kits -->
+								<!-- /page kits -->
+
+							</ul>
+						</div>
+					</div>
+					<!-- /main navigation -->
+
+				</div>
+			</div>
+			<!-- /main sidebar -->
+
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+
+				<!-- Page header -->
+				<div class="page-header page-header-default">
+					<div class="page-header-content">
+						<div class="page-title">
+							<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">File Manager</span></h4>
+						</div>
+
+						<div class="heading-elements">
+							<div class="heading-btn-group">
+								<a href="#" class="btn btn-link btn-float text-size-small has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
+								<a href="#" class="btn btn-link btn-float text-size-small has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
+								<a href="#" class="btn btn-link btn-float text-size-small has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+							</div>
+						</div>
+					</div>
+
+					<div class="breadcrumb-line">
+						<ul class="breadcrumb">
+							<li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
+							<li><a href="datatable_basic.html">File Manager</a></li>
+							<li class="active">View Files</li>
+						</ul>
+
+						<ul class="breadcrumb-elements">
+							<li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="icon-gear position-left"></i>
+									Settings
+									<span class="caret"></span>
+								</a>
+
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>
+									<li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>
+									<li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>
+									<li class="divider"></li>
+									<li><a href="#"><i class="icon-gear"></i> All settings</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- /page header -->
+
+
+				<!-- Content area -->
+				<div class="content">
+
+					<!-- Basic datatable -->
+					<!-- /basic datatable -->
+
+
+					<!-- Pagination types -->
+					<!-- /pagination types -->
+
+
+					<!-- State saving -->
+					<!-- /state saving -->
+
+
+					<!-- Scrollable datatable -->
+					<div class="panel panel-flat">
+						<div class="panel-heading">
+							<h5 class="panel-title">Scrollable datatable</h5>
+							<div class="heading-elements">
+								<ul class="icons-list">
+			                		<li><a data-action="collapse"></a></li>
+			                		<li><a data-action="reload"></a></li>
+			                		<li><a data-action="close"></a></li>
+			                	</ul>
+		                	</div>
+						</div>
+
+						<div class="panel-body">
+							This example shows the DataTables table body <code>scrolling</code> in the <code>vertical</code> direction. This can generally be seen as an alternative method to pagination for displaying a large table in a fairly small vertical area, and as such pagination has been disabled here. Note that this is not mandatory, it will work just fine with pagination enabled as well!.
+						</div>
+
+						<table class="table datatable-scroll-y" width="100%">
+							<thead>
+								<tr>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Job Title</th>
+									<th>DOB</th>
+									<th>Status</th>
+									<th class="text-center">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Marth</td>
+									<td><a href="#">Enright</a></td>
+									<td>Traffic Court Referee</td>
+									<td>22 Jun 1972</td>
+									<td><span class="label label-success">Active</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Jackelyn</td>
+									<td>Weible</td>
+									<td><a href="#">Airline Transport Pilot</a></td>
+									<td>3 Oct 1981</td>
+									<td><span class="label label-default">Inactive</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Aura</td>
+									<td>Hard</td>
+									<td>Business Services Sales Representative</td>
+									<td>19 Apr 1969</td>
+									<td><span class="label label-danger">Suspended</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Nathalie</td>
+									<td><a href="#">Pretty</a></td>
+									<td>Drywall Stripper</td>
+									<td>13 Dec 1977</td>
+									<td><span class="label label-info">Pending</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Sharan</td>
+									<td>Leland</td>
+									<td>Aviation Tactical Readiness Officer</td>
+									<td>30 Dec 1991</td>
+									<td><span class="label label-default">Inactive</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Maxine</td>
+									<td><a href="#">Woldt</a></td>
+									<td><a href="#">Business Services Sales Representative</a></td>
+									<td>17 Oct 1987</td>
+									<td><span class="label label-info">Pending</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Sylvia</td>
+									<td><a href="#">Mcgaughy</a></td>
+									<td>Hemodialysis Technician</td>
+									<td>11 Nov 1983</td>
+									<td><span class="label label-danger">Suspended</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Lizzee</td>
+									<td><a href="#">Goodlow</a></td>
+									<td>Technical Services Librarian</td>
+									<td>1 Nov 1961</td>
+									<td><span class="label label-danger">Suspended</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Kennedy</td>
+									<td>Haley</td>
+									<td>Senior Marketing Designer</td>
+									<td>18 Dec 1960</td>
+									<td><span class="label label-success">Active</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Chantal</td>
+									<td><a href="#">Nailor</a></td>
+									<td>Technical Services Librarian</td>
+									<td>10 Jan 1980</td>
+									<td><span class="label label-default">Inactive</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Delma</td>
+									<td>Bonds</td>
+									<td>Lead Brand Manager</td>
+									<td>21 Dec 1968</td>
+									<td><span class="label label-info">Pending</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Roland</td>
+									<td>Salmos</td>
+									<td><a href="#">Senior Program Developer</a></td>
+									<td>5 Jun 1986</td>
+									<td><span class="label label-default">Inactive</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Coy</td>
+									<td>Wollard</td>
+									<td>Customer Service Operator</td>
+									<td>12 Oct 1982</td>
+									<td><span class="label label-success">Active</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Maxwell</td>
+									<td>Maben</td>
+									<td>Regional Representative</td>
+									<td>25 Feb 1988</td>
+									<td><span class="label label-danger">Suspended</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Cicely</td>
+									<td>Sigler</td>
+									<td><a href="#">Senior Research Officer</a></td>
+									<td>15 Mar 1960</td>
+									<td><span class="label label-info">Pending</span></td>
+									<td class="text-center">
+										<ul class="icons-list">
+											<li class="dropdown">
+												<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+													<i class="icon-menu9"></i>
+												</a>
+
+												<ul class="dropdown-menu dropdown-menu-right">
+													<li><a href="#"><i class="icon-file-pdf"></i> Export to .pdf</a></li>
+													<li><a href="#"><i class="icon-file-excel"></i> Export to .csv</a></li>
+													<li><a href="#"><i class="icon-file-word"></i> Export to .doc</a></li>
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- /scrollable datatable -->
+
+
+					<!-- Footer -->
+					<div class="footer text-muted">
+						&copy; 2015. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
+					</div>
+					<!-- /footer -->
+
+				</div>
+				<!-- /content area -->
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+</body>
+
+<!-- Mirrored from demo.interface.club/limitless/layout_1/LTR/material/datatable_basic.html by HTTrack Website Copier/3.x [XR&CO'2013], Mon, 19 Sep 2016 09:13:05 GMT -->
+</html>
