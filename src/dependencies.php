@@ -84,9 +84,26 @@ $container["LoginController"] = function ($c) {
     return new \App\Controllers\LoginController($c);
 };
 
+$container["CampaignController"] = function ($c) {
+    return new \App\Controllers\CampaignController($c);
+};
+
+$container["CreateCampaignController"] = function ($c) {
+    return new \App\Controllers\CreateCampaignController($c);
+};
+
 $container["SettingsController"] = function ($c) {
     return new \App\Controllers\SettingsController($c);
 };
+
+$container["UploadController"] = function ($c) {
+    return new \App\Controllers\UploadController($c);
+};
+
+$container["FileController"] = function ($c) {
+    return new \App\Controllers\FileController($c);
+};
+
 
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \App\Middleware\OldInputMiddleware($container));

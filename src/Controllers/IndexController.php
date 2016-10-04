@@ -16,4 +16,11 @@ class IndexController extends BaseController
         return $this->view->render($response, 'templates/home.twig');
     }
 
+    public function logOut($request, $response) {
+
+        $this->auth->logout();
+
+        return $response->withRedirect($this->router->pathFor('login'));
+    }
+
 }

@@ -21,5 +21,4 @@ class GuestMiddleware extends Middleware
 
         return $next($request, $response);
     }
-
 }

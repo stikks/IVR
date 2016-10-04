@@ -21,9 +21,19 @@ $app->group('', function (){
 
     $this->get('/', 'IndexController:index')->setName('index');
 
-    $this->get('/campaigns', 'SettingsController:getPage')->setName('campaigns');
+    $this->get('/campaigns', 'CampaignController:getPage')->setName('campaigns');
+
+    $this->get('/campaigns/create', 'CreateCampaignController:getPage')->setName('create_campaign');
+
+    $this->get('/upload', 'UploadController:getPage')->setName('upload');
+
+    $this->post('/upload', 'UploadController:postData');
+
+    $this->get('/files', 'FileController:getPage')->setName('files');
 
     $this->post('/settings', 'SettingsController:postData');
+
+    $this->get('/logout', 'IndexController:logOut')->setName('logout');
 
 })->add(new AuthMiddleware($container));
 

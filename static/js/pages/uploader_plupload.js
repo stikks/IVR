@@ -14,7 +14,7 @@ $(function() {
     // Setup all runtimes
     $(".file-uploader").pluploadQueue({
         runtimes: 'html5, html4, Flash, Silverlight',
-        url: 'assets/demo_data/uploader/plupload.json',
+        url: '/upload',
         chunk_size: '300Kb',
         unique_names: true,
         filters: {
