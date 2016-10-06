@@ -40,7 +40,7 @@
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-green">
     <div class="navbar-header">
-        <a class="navbar-brand" href="index.html">IVR Advertising Platform </a>
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Advertising Platform </a>
 
         <ul class="nav navbar-nav visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"> </i></a></li>
@@ -106,7 +106,7 @@
 
                             <!-- Main -->
                             <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-                            <li class="active"><a href="index.html"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+                            <li class="active"><a href="{{ path_for('index') }}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
                             <li>
                                 <a href="{{ path_for('campaigns') }}"><i class="icon-stack2"></i> <span>Campaigns</span></a>
                                 <ul>
@@ -118,12 +118,12 @@
                                 <a href="#"><i class="icon-copy"></i> <span>File Manager</span></a>
                                 <ul>
                                     <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
-                                    <li><a href="datatable_basic.html">View Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
 
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><i class="icon-stack"></i> <span>Reports</span></a>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
 
                             </li>
                         </ul>
@@ -155,9 +155,9 @@
                     </ul>
 
                     <ul class="breadcrumb-elements">
-                        <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                        <li><a href="/support"><i class="icon-comment-discussion position-left"></i> Support</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="/settings" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="icon-gear position-left"></i>
                                 Settings
                             </a>

@@ -104,6 +104,9 @@ $container["FileController"] = function ($c) {
     return new \App\Controllers\FileController($c);
 };
 
+$container["ReportController"] = function ($c) {
+    return new \App\Controllers\ReportController($c);
+};
 
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \App\Middleware\OldInputMiddleware($container));
