@@ -35,5 +35,7 @@ $app->group('', function (){
 
     $this->get('/logout', 'IndexController:logOut')->setName('logout');
 
+    $this->get('/reports', 'ReportController:getPage')->setName('reports');
+    
 })->add(new AuthMiddleware($container));
 

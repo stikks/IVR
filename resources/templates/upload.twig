@@ -2,7 +2,8 @@
 <html lang="en">
 
 <!-- Mirrored from demo.interface.club/limitless/layout_1/LTR/material/uploader_plupload.html by HTTrack Website Copier/3.x [XR&CO'2013], Mon, 19 Sep 2016 09:11:42 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/><!-- /Added by HTTrack -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,7 +43,7 @@
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-green">
     <div class="navbar-header">
-        <a class="navbar-brand" href="/">IVR Marketing Platform</a>
+        <a class="navbar-brand" href="{{ path_for('index') }}">IVR Marketing Platform</a>
 
         <ul class="nav navbar-nav visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -52,7 +53,8 @@
 
     <div class="navbar-collapse collapse" id="navbar-mobile">
         <ul class="nav navbar-nav">
-            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
+            </li>
         </ul>
         <div class="navbar-right">
             <ul class="nav navbar-nav">
@@ -74,14 +76,14 @@
                         </ul>
                         {#<ul class="media-list dropdown-content-body">#}
 
-                            {#<li class="media">#}
-                                {#<div class="media-left"><img src="assets/images/demo/users/face25.jpg" class="img-circle img-sm" alt=""></div>#}
-                                {#<div class="media-body">#}
-                                    {#<a href="{{ path_for('logout') }}" class="media-heading">#}
-                                        {#<span class="text-muted">Sign Out</span>#}
-                                    {#</a>#}
-                                {#</div>#}
-                            {#</li>#}
+                        {#<li class="media">#}
+                        {#<div class="media-left"><img src="assets/images/demo/users/face25.jpg" class="img-circle img-sm" alt=""></div>#}
+                        {#<div class="media-body">#}
+                        {#<a href="{{ path_for('logout') }}" class="media-heading">#}
+                        {#<span class="text-muted">Sign Out</span>#}
+                        {#</a>#}
+                        {#</div>#}
+                        {#</li>#}
                         {#</ul>#}
                     </div>
                 </li>
@@ -101,44 +103,42 @@
         <!-- Main sidebar -->
         <div class="sidebar sidebar-main sidebar-default">
             <div class="sidebar-content">
-
-                <!-- User menu -->
-                <!-- /user menu -->
-
-
                 <!-- Main navigation -->
                 <div class="sidebar-category sidebar-category-visible">
                     <div class="category-content no-padding">
                         <ul class="navigation navigation-main navigation-accordion">
 
                             <!-- Main -->
-                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-                            <li class="active"><a href="/"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+                            <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i>
+                            </li>
+                            <li class="active"><a href="{{ path_for('index') }}"><i class="icon-home4"></i> <span>Dashboard</span></a>
+                            </li>
                             <li>
-                                <a href="#"><i class="icon-stack2"></i> <span>Campaigns</span></a>
+                                <a href="{{ path_for('campaigns') }}"><i class="icon-stack2"></i> <span>Campaigns</span></a>
                                 <ul>
-                                    <li><a href="form_layout_horizontal.html">Create Campaigns </a></li>
-                                    <li><a href="layout_navbar_sidebar_fixed.html">View Campaigns</a> </li>
+                                    <li><a href="{{ path_for('create_campaign') }}">Create Campaigns </a></li>
+                                    <li><a href="{{ path_for('campaigns') }}">View Campaigns</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#"><i class="icon-copy"></i> <span>File Manager</span></a>
+                                <a href="{{ path_for('files') }}"><i class="icon-copy"></i>
+                                    <span>File Manager</span></a>
                                 <ul>
-                                    <li><a href="/upload">Upload Files</a></li>
-                                    <li><a href="/files">View Files</a></li>
+                                    <li><a href="{{ path_for('upload') }}">Upload Files</a></li>
+                                    <li><a href="{{ path_for('files') }}">View Files</a></li>
 
                                 </ul>
                             </li>
                             {#<li>#}
-                                {#<a href="#"><i class="icon-droplet2"></i> <span>Mailing Lists</span></a>#}
-                                {#<ul>#}
-                                    {#<li><a href="datatable_api.html">View Lists</a></li>#}
-                                    {#<li><a href="colors_danger.html">Create Lists</a></li>#}
+                            {#<a href="#"><i class="icon-droplet2"></i> <span>Mailing Lists</span></a>#}
+                            {#<ul>#}
+                            {#<li><a href="datatable_api.html">View Lists</a></li>#}
+                            {#<li><a href="colors_danger.html">Create Lists</a></li>#}
 
-                                {#</ul>#}
+                            {#</ul>#}
                             {#</li>#}
                             <li>
-                                <a href="#"><i class="icon-stack"></i> <span>Reports</span></a>
+                                <a href="{{ path_for('reports') }}"><i class="icon-stack"></i> <span>Reports</span></a>
 
                             </li>
 
@@ -151,7 +151,6 @@
         </div>
         <!-- /main sidebar -->
 
-
         <!-- Main content -->
         <div class="content-wrapper">
 
@@ -159,32 +158,32 @@
             <div class="page-header page-header-default">
                 <div class="page-header-content">
                     <div class="page-title">
-                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">File Manager</span></h4>
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span
+                                    class="text-semibold">File Manager</span></h4>
                     </div>
                 </div>
 
                 <div class="breadcrumb-line">
                     <ul class="breadcrumb">
-                        <li><a href="index.html"><i class="icon-home2 position-left"></i> Home</a></li>
-                        <li><a href="/files">File Manager</a></li>
+                        <li><a href="{{ path_for('index') }}"><i class="icon-home2 position-left"></i> Home</a></li>
+                        <li><a href="{{ path_for('files') }}">File Manager</a></li>
                         <li class="active">Upload Files</li>
                     </ul>
 
                     <ul class="breadcrumb-elements">
-                        <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
+                        <li><a href="/support"><i class="icon-comment-discussion position-left"></i> Support</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="/settings" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="icon-gear position-left"></i>
                                 Settings
-                                {#<span class="caret"></span>#}
                             </a>
 
                             {#<ul class="dropdown-menu dropdown-menu-right">#}
-                                {#<li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>#}
-                                {#<li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>#}
-                                {#<li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>#}
-                                {#<li class="divider"></li>#}
-                                {#<li><a href="#"><i class="icon-gear"></i> All settings</a></li>#}
+                            {#<li><a href="#"><i class="icon-user-lock"></i> Account security</a></li>#}
+                            {#<li><a href="#"><i class="icon-statistics"></i> Analytics</a></li>#}
+                            {#<li><a href="#"><i class="icon-accessibility"></i> Accessibility</a></li>#}
+                            {#<li class="divider"></li>#}
+                            {#<li><a href="#"><i class="icon-gear"></i> All settings</a></li>#}
                             {#</ul>#}
                         </li>
                     </ul>
