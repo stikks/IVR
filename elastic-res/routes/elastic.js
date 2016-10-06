@@ -43,7 +43,7 @@ client.exists({
 	}
 });
 
-
+//Indexing into a type
 router.post('/elasticsearch/:type/create', function(req, res, next){
     res.render('index', { title: req.params.type });
 
@@ -112,6 +112,39 @@ router.post('/elasticsearch/:type/create', function(req, res, next){
     res.render('index', { title: 'Wrong type, please provide a valid type' });
   }
 });
+
+
+/*Number of campaign over a certain period*/
+router.get('/no_of_campaign/:start_date/:end_date', function(req, res, next) {
+  if (req.params.start_date == "" || req.params.end_date == ""){
+
+  }else{
+    client.search({
+    index: "ivr",
+          type: "campaign",
+          body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "range" : {
+                            "created_at" : {
+                                "gte": req.params.start_date, 
+                                "lte": req.params.end_date
+                            }
+                        }
+                    }
+                }
+            }
+          }
+        }).then(function (resp) {
+             res = resp.hits.hits;
+        }, function (err) {
+          console.trace(err.message);
+      });
+  }
+});
+
+
 
 /* GET elastic listing. */
 router.get('/', function(req, res, next) {

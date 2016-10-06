@@ -56,5 +56,9 @@ app.use(function(err, req, res, next) {
   });
 });
 
+var server = app.listen(4043, function () {
+    console.log("Listening on port %s...", server.address().port);
+});
+
 
 module.exports = app;
