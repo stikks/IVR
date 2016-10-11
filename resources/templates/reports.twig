@@ -35,9 +35,12 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+    <script src="../../static/js/angular.min.js"></script>
+    <script src="../../static/js/application.js"></script>
+
 </head>
 
-<body>
+<body ng-app="mainApp" ng-controller="ReportController" ng-init="init()">
 
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-green">
@@ -73,17 +76,6 @@
                                 </a>
                             </ol>
                         </ul>
-                        {#<ul class="media-list dropdown-content-body">#}
-
-                        {#<li class="media">#}
-                        {#<div class="media-left"><img src="assets/images/demo/users/face25.jpg" class="img-circle img-sm" alt=""></div>#}
-                        {#<div class="media-body">#}
-                        {#<a href="{{ path_for('logout') }}" class="media-heading">#}
-                        {#<span class="text-muted">Sign Out</span>#}
-                        {#</a>#}
-                        {#</div>#}
-                        {#</li>#}
-                        {#</ul>#}
                     </div>
                 </li>
             </ul>
@@ -298,10 +290,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /scatter and pie combination -->
-
-
-                <!-- Scatter and line combination -->
                 <div class="panel panel-flat">
                     <div class="panel-heading">
                         <div class="heading-elements">
@@ -321,30 +309,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /scatter and line combination -->
-
-
-                {# <!-- Dynamic data -->
-                <div class="panel panel-flat">
-                    <div class="panel-heading">
-                        <h5 class="panel-title">Dynamic data</h5>
-                        <div class="heading-elements">
-                            <ul class="icons-list">
-                                <li><a data-action="collapse"></a></li>
-                                <li><a data-action="reload"></a></li>
-                                <li><a data-action="close"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="panel-body">
-                        <div class="chart-container">
-                            <div class="chart has-fixed-height" id="candlestick_scatter" style="height: 500px;"></div>
-                        </div>
-                    </div>
-                </div> #}
-                <!-- /dynamic data -->
-
 
                 <!-- Footer -->
                 <div class="footer text-muted">

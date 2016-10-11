@@ -55,7 +55,7 @@ router.post('/elasticsearch/:type/create', function(req, res, next){
       body: {
         "name": req.body.name,
         "created_at": req.body.created_at,
-        "updated_at": req.body.updated_At,
+        "updated_at": req.body.updated_at,
         "scheduled_time": req.body.scheduled_time,
         "file_path": req.body.file_path,
         "start_date": req.body.start_date,
@@ -71,11 +71,12 @@ router.post('/elasticsearch/:type/create', function(req, res, next){
       body: {
         "campaign_id": req.body.campaign_id,
         "created_at": req.body.created_at,
-        "updated_at": req.body.updated_At,
+        "updated_at": req.body.updated_at,
         "success_count" : req.body.success_count
       }
     },function(err,resp,status) {
         console.log(resp);
+        return resp;
     });
   }else if(req.params.type == "cdr"){
 
@@ -107,6 +108,7 @@ router.post('/elasticsearch/:type/create', function(req, res, next){
         }
       },function(err,resp,status) {
           console.log(resp);
+          return resp;
       });
     }else{
     res.render('index', { title: 'Wrong type, please provide a valid type' });
