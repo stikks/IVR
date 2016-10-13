@@ -13,7 +13,7 @@ $pdo = new PDO('pgsql:dbname='.$db['database'].';host=localhost;user='.$db['user
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-$list = array();
+$list = array();    
 $users = "CREATE TABLE IF NOT EXISTS users (
     id serial,
 	username varchar (50) PRIMARY KEY,
@@ -46,6 +46,18 @@ $subscribers = "CREATE TABLE IF NOT EXISTS subscriber(
 );";
 
 array_push($list, $subscribers);
+
+$files = "CREATE TABLE IF NOT EXISTS files(
+  id serial PRIMARY KEY,
+  name VARCHAR (255) NOT NULL,
+  size FLOAT NOT NULL,
+  username varchar REFERENCES users(username) NOT NULL,
+  file_path VARCHAR (255) NOT NULL,
+  file_type VARCHAR (255) NOT NULL,
+  duration FLOAT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at date DEFAULT NULL
+);";
 
 //$details = "CREATE TABLE IF NOT EXISTS user_details(
 //  id serial PRIMARY KEY,

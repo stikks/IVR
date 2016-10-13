@@ -10,29 +10,15 @@
 
     <!-- Global stylesheets -->
     <link href="../../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/fonts/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../../../static/css/datepicker.css">
+    <link rel="stylesheet" href="../../../static/css/timepicker.css">
     <link href="../../../static/css/core.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/components.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/colors.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
-
-    <!-- Core JS files -->
-    <script type="text/javascript" src="../../../static/js/plugins/loaders/pace.min.js"></script>
-    <script type="text/javascript" src="../../../static/js/core/libraries/jquery.min.js"></script>
-    <script type="text/javascript" src="../../../static/js/core/libraries/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../../static/js/plugins/loaders/blockui.min.js"></script>
-    <!-- /core JS files -->
-
-    <!-- Theme JS files -->
-    <script type="text/javascript" src="../../../static/js/plugins/forms/styling/uniform.min.js"></script>
-
-    <script type="text/javascript" src="../../../static/js/core/app.js"></script>
-    <script type="text/javascript" src="../../../static/js/pages/form_inputs.js"></script>
-
-    <script type="text/javascript" src="../../../static/js/plugins/ui/ripple.min.js"></script>
-    <!-- /theme JS files -->
-
 </head>
 
 <body>
@@ -146,13 +132,6 @@
                         <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Campaigns</span> - Create Campaign</h4>
                     </div>
 
-                    <div class="heading-elements">
-                        <div class="heading-btn-group">
-                            <a href="#" class="btn btn-link btn-float text-size-small has-text"><i class="icon-bars-alt text-primary"></i><span>All</span></a>
-                            <a href="#" class="btn btn-link btn-float text-size-small has-text"><img src="/resources/templates/etisalat.png"/><span></span></a>
-                            <a href="#" class="btn btn-link btn-float text-size-small has-text"><img src="/resources/templates/tm.png"/> <span></span></a>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="breadcrumb-line">
@@ -186,14 +165,14 @@
                     {#</div>#}
 
                     <div class="panel-body">
-                        <form class="form-horizontal" action="#">
+                        <form class="form-horizontal" action="{{ path_for('post_campaign') }}" method="post">
                             <fieldset class="content-group">
                                 <legend class="text-bold">BASIC INPUTS</legend>
 
                                 <div class="form-group">
                                     <label class="control-label col-lg-2">Name</label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" placeholder="Enter Name here">
+                                        <input type="text" class="form-control" placeholder="Enter Name here" required>
                                     </div>
                                 </div>
 
@@ -204,46 +183,96 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-lg-2">Start Date:</label>#}
+                                    {#<div class="col-lg-10">#}
+                                        {#<div class="input-group">#}
+                                            {#<span class="input-group-addon"><i class="icon-calendar22"></i></span>#}
+                                            {#<input type="text" class="form-control daterange-single" value="{{ year |date }}" required>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-lg-2">End Date:</label>#}
+                                    {#<div class="col-lg-10">#}
+                                        {#<div class="input-group">#}
+                                            {#<span class="input-group-addon"><i class="icon-calendar22"></i></span>#}
+                                            {#<input type="text" class="form-control daterange-single" value="{{ year |date }}" required>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+
+                                <div class="form-group {% if form.start_date.errors %}has-error{% endif %}">
+                                    <div class="alert-error">
+                                        {{ form.start_date.errors }}
+                                    </div>
                                     <label class="control-label col-lg-2">Start Date:</label>
                                     <div class="col-lg-10">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                            <input type="text" class="form-control daterange-single" value="{{ year |date }}">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" name="start_date"
+                                                   id="start_date" value="{{ start }}" required>
                                         </div>
                                     </div>
+                                    <!-- /.input group -->
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group {% if form.end_date.errors %}has-error{% endif %}">
+                                    <div class="alert-error">
+                                        {{ form.end_date.errors }}
+                                    </div>
                                     <label class="control-label col-lg-2">End Date:</label>
                                     <div class="col-lg-10">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-calendar22"></i></span>
-                                            <input type="text" class="form-control daterange-single" value={{ null }}>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right" name="end_date"
+                                                   id="end_date" value="{{ end }}" required>
+                                        </div>
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-lg-2">Scheduled time:</label>#}
+                                    {#<div class="col-lg-10">#}
+                                        {#<div class="input-group">#}
+                                            {#<span class="input-group-addon"><i class="icon-alarm"></i></span>#}
+                                            {#<input type="text" class="form-control pickatime-hidden" placeholder="time" required>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+
+                                <div class="form-group {% if form.scheduled_time.errors %}has-error{% endif %}">
+                                    <div class="alert-error">
+                                        {{ form.scheduled_time.errors }}
+                                    </div>
+                                    <label class="control-label col-lg-2">Scheduled time:</label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <input id="scheduled_time" name="scheduled_time" type="text"
+                                                   class="form-control input-small" value="{{ campaign.scheduled_time }}">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2">Scheduled time:</label>
-                                    <div class="col-lg-10">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="icon-alarm"></i></span>
-                                            <input type="text" class="form-control pickatime-hidden" placeholder="time">
-                                        </div>
-                                    </div>
-                                </div>
+
                             </fieldset>
 
                             <fieldset class="content-group">
-                                <legend class="text-bold">Attach File</legend>
+                                {#<legend class="text-bold">Attach File</legend>#}
 
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2">Audio file</label>
-                                    <div class="col-lg-10">
-                                        <input type="file" class="file-styled" name="advert_file" id="advert_file">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-lg-2">Audio file</label>#}
+                                    {#<div class="col-lg-10">#}
+                                        {#<input type="file" class="file-styled" name="advert_file" id="advert_file">#}
+                                    {#</div>#}
+                                {#</div>#}
                                 <div class="form-group">
                                     <label class="control-label col-lg-2">Select Uploaded File</label>
                                     <div class="col-lg-10">
@@ -275,6 +304,37 @@
     </div>
 </div>
 
+<!-- Core JS files -->
+<script type="text/javascript" src="../../../static/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/loaders/blockui.min.js"></script>
+<!-- /core JS files -->
+
+<!-- Theme JS files -->
+<script type="text/javascript" src="../../../static/js/plugins/forms/styling/uniform.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/app.js"></script>
+<script type="text/javascript" src="../../../static/js/pages/form_inputs.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/ui/ripple.min.js"></script>
+<script src="../../../static/js/bootstrap-datepicker.js"></script>
+<script src="../../../static/js/bootstrap-timepicker.js"></script>
+<script>
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('#start_date').datepicker({
+            format: "dd/mm/yyyy"
+        });
+
+        $('#end_date').datepicker({
+            format: "dd/mm/yyyy"
+        });
+
+        $('#scheduled_time').timepicker();
+
+    });
+</script>
+<!-- /theme JS files -->
 </body>
 
 </html>

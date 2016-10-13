@@ -23,7 +23,9 @@ $app->group('', function (){
 
     $this->get('/campaigns', 'CampaignController:getPage')->setName('campaigns');
 
-    $this->get('/campaigns/create', 'CreateCampaignController:getPage')->setName('create_campaign');
+    $this->get('/campaigns/create', 'CampaignController:createCampaign')->setName('create_campaign');
+
+    $this->post('/campaigns/create', 'CampaignController:postData')->setName('post_campaign');
 
     $this->get('/upload', 'UploadController:getPage')->setName('upload');
 

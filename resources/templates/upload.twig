@@ -17,6 +17,7 @@
     <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
@@ -25,20 +26,20 @@
     <script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
     <!-- /core JS files -->
-
     <!-- Theme JS files -->
     <script type="text/javascript" src="../../static/js/plugins/uploaders/plupload/plupload.full.min.js"></script>
     <script type="text/javascript" src="../../static/js/plugins/uploaders/plupload/plupload.queue.min.js"></script>
-
     <script type="text/javascript" src="../../static/js/core/app.js"></script>
     <script type="text/javascript" src="../../static/js/pages/uploader_plupload.js"></script>
-
     <script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
     <!-- /theme JS files -->
 
+    <script src="../../static/js/angular.min.js"></script>
+    <script src="../../static/js/application.js"></script>
+
 </head>
 
-<body>
+<body ng-app="mainApp">
 
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-green">
@@ -59,11 +60,11 @@
         <div class="navbar-right">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-person"></i>
-                        <span class="visible-xs-inline-block position-right">Messages</span>
-                        <span class="note-icon-caret"></span>
-                    </a>
+                    {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
+                    {#<i class="icon-person"></i>#}
+                    {#<span class="visible-xs-inline-block position-right">Messages</span>#}
+                    {#<span class="note-icon-caret"></span>#}
+                    {#</a>#}
 
                     <div class="dropdown-menu dropdown-content width-50">
                         <ul class="dropdown-content-body">
@@ -74,17 +75,6 @@
                                 </a>
                             </ol>
                         </ul>
-                        {#<ul class="media-list dropdown-content-body">#}
-
-                        {#<li class="media">#}
-                        {#<div class="media-left"><img src="assets/images/demo/users/face25.jpg" class="img-circle img-sm" alt=""></div>#}
-                        {#<div class="media-body">#}
-                        {#<a href="{{ path_for('logout') }}" class="media-heading">#}
-                        {#<span class="text-muted">Sign Out</span>#}
-                        {#</a>#}
-                        {#</div>#}
-                        {#</li>#}
-                        {#</ul>#}
                     </div>
                 </li>
             </ul>
@@ -95,7 +85,7 @@
 
 
 <!-- Page container -->
-<div class="page-container">
+<div class="page-container" ng-controller="UploadController">
 
     <!-- Page content -->
     <div class="page-content">
@@ -206,9 +196,21 @@
                         </div>
                     </div>
 
+                    {#<div class="panel-body">#}
+                    {#<p class="content-group">Upload audio advert files to be used for different campaigns<strong>#}
+                    {#(max. size of 7MB)</strong></p>#}
+                    {#<form method="post" action="{{ path_for('upload') }}">#}
+                    {#<div class="file-uploader"><p>Your browser doesn't have Flash installed.</p></div>#}
+                    {#</form>#}
+                    {#</div>#}
+                    <!-- Standard Form -->
                     <div class="panel-body">
-                        <p class="content-group">Upload audio advert files to be used for different campaigns</p>
-                        <div class="file-uploader"><p>Your browser doesn't have Flash installed.</p></div>
+                        <form action="{{ path_for('upload') }}" method="post" enctype="multipart/form-data">
+                            <span style="color: red;">{{ error }}</span>
+                            <span style="color: green;">{{ message }}</span>
+                            <input type="file" name="advert" accept="audio/*" required>
+                            <button type="submit" class="btn btn-primary pull-right">Upload</button>
+                        </form>
                     </div>
                 </div>
 

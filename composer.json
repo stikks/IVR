@@ -6,7 +6,9 @@
         "monolog/monolog": "^1.17",
         "illuminate/database": "^5.0.33",
         "respect/validation": "^1.1",
-        "rmccue/requests": "^1.6"
+        "rmccue/requests": "^1.6",
+        "kartik-v/bootstrap-fileinput": "@dev",
+        "php-ffmpeg/php-ffmpeg": "^0.6.1"
     },
     "autoload": {
         "psr-4": {
