@@ -37,7 +37,7 @@ class UploadController extends BaseController
             }
             else
             {
-                if (file_exists("files/".$user->username. '/' . $_FILES["advert"]["name"]))
+                if (file_exists(realpath(__DIR__ . '/../..'). "/files/".$user->username. '/' . $_FILES["advert"]["name"]))
                 {
                     $error =  $_FILES["advert"]["name"] . " already exists. ";
                     return $this->view->render($response, 'templates/upload.twig', [
@@ -48,17 +48,17 @@ class UploadController extends BaseController
                 {
                     move_uploaded_file($_FILES["advert"]["tmp_name"],
                         "files/" . $user->username . '/' . $_FILES["advert"]["name"]);
+                    Converter::convert(realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/'. $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"])[0], "files/" . $user->username . '/');
                     $file = Files::create([
                         "username" => $user->username,
-                        "file_path" => "files/" . $_FILES["advert"]["name"],
+                        "file_path" => realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . explode(".", $_FILES["advert"]["name"])[0]. '.wav',
                         "size" => (float)($_FILES["advert"]["size"] / 1024),
-                        "name" => $_FILES["advert"]["name"],
-                        "file_type" => $_FILES["advert"]["type"],
+                        "name" => explode(".", $_FILES["advert"]["name"])[0] . '.wav',
+                        "file_type" => "audio/wav",
                         "duration" => null
                     ]);
-                    Converter::convert("files/" . $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"]));
                     return $this->view->render($response, 'templates/upload.twig', [
-                        "message" => $file->name . "successfully uploaded"
+                        "message" => $file->name . " was successfully uploaded"
                     ]);
                 }
             }

@@ -14,13 +14,13 @@ class FileController extends BaseController
     public function getPage($request, $response){
 
         $user = $this->auth->user();
+        
+        $files = json_encode(Files::all());
 
-        $files = Files::where("username", $user->username)->get();
-
-        var_dump($files);
-        exit();
-
-        return $this->view->render($response, 'templates/files.twig');
+        return $this->view->render($response, 'templates/files.twig', [
+            'files' => $files,
+            'username' => $user->username
+        ]);
     }
 
 }

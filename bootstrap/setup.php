@@ -26,11 +26,13 @@ array_push($list, $users);
 
 $campaigns = "CREATE TABLE IF NOT EXISTS campaigns(
   id serial,
+  username varchar REFERENCES users(username) NOT NULL,
   name VARCHAR (255) NOT NULL,
+  description VARCHAR (255) NULL,
   file_path VARCHAR (255) NOT NULL,
-  scheduled_time VARCHAR (50) NOT NULL,
   start_date date DEFAULT NULL,
   end_date date DEFAULT NULL,
+  scheduled_time TIME DEFAULT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_at date DEFAULT NULL
 );";

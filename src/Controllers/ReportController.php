@@ -7,7 +7,7 @@
  */
 
 namespace App\Controllers;
-
+use App\Models\Campaign;
 
 class ReportController extends BaseController
 {
@@ -15,5 +15,22 @@ class ReportController extends BaseController
     public function getPage($request, $response){
 
         return $this->view->render($response, 'templates/reports.twig');
+    }
+
+    public function getCampaign($request, $response, $args){
+
+        $user = $this->auth->user();
+
+        if (!isset($args['campaign_id'])) {
+            return $response->withRedirect($this->router->pathFor('campaigns'));
+        }
+
+        $campaign_id = $args['campaign_id'];
+
+        $campaign = Campaign::where('id', $campaign_id);
+
+        return $this->view->render($response, 'templates/reports.twig', [
+            'campaign_id' => $campaign->id
+        ]);
     }
 }

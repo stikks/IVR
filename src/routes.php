@@ -27,6 +27,10 @@ $app->group('', function (){
 
     $this->post('/campaigns/create', 'CampaignController:postData')->setName('post_campaign');
 
+    $this->get('/campaigns/{campaign_id}/update', 'CampaignController:updateCampaign')->setName('campaign');
+
+    $this->post('/campaigns/{campaign_id}/update', 'CampaignController:postUpdate');
+    
     $this->get('/upload', 'UploadController:getPage')->setName('upload');
 
     $this->post('/upload', 'UploadController:postData');
@@ -38,6 +42,8 @@ $app->group('', function (){
     $this->post('/settings', 'SettingsController:postData');
 
     $this->get('/logout', 'IndexController:logOut')->setName('logout');
+
+    $this->get('/campaigns/{campaign_id}/report', 'ReportController:getCampaign')->setName('report');
 
     $this->get('/reports', 'ReportController:getPage')->setName('reports');
     

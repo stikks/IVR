@@ -18,10 +18,11 @@
     <link href="../../../static/css/core.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/components.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/ionicons/css/ionicons.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 </head>
 
-<body>
+<body ng-app="mainApp">
 
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-green">
@@ -77,7 +78,7 @@
 
 
 <!-- Page container -->
-<div class="page-container">
+<div class="page-container" ng-controller="CampaignCtrl" ng-init="init()">
 
     <!-- Page content -->
     <div class="page-content">
@@ -160,78 +161,59 @@
 
                 <!-- Form horizontal -->
                 <div class="panel panel-flat">
-                    {#<div class="panel-heading">#}
-                        {#<h5 class="panel-title">Create a new campaign/advert to be played for users dialing wrong numbers</h5>#}
-                    {#</div>#}
+                    <div class="panel-heading">
+                        {#<h5 class="panel-title"></h5>#}
+                        <legend class="text-bold">BASIC INPUTS</legend>
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <div class="panel-body">
+                        {% if campaign or files|length > 0 %}
                         <form class="form-horizontal" action="{{ path_for('post_campaign') }}" method="post">
                             <fieldset class="content-group">
-                                <legend class="text-bold">BASIC INPUTS</legend>
 
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2">Name</label>
+                                    <label class="control-label col-lg-2"><strong>Name</strong></label>
                                     <div class="col-lg-10">
-                                        <input type="text" class="form-control" placeholder="Enter Name here" required>
+                                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name here" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2">Description</label>
+                                    <label class="control-label col-lg-2"><strong>Description</strong></label>
                                     <div class="col-lg-10">
                                         <textarea rows="5" cols="5" class="form-control" placeholder="Enter description here" name="description" id="description"></textarea>
                                     </div>
                                 </div>
-
-                                {#<div class="form-group">#}
-                                    {#<label class="control-label col-lg-2">Start Date:</label>#}
-                                    {#<div class="col-lg-10">#}
-                                        {#<div class="input-group">#}
-                                            {#<span class="input-group-addon"><i class="icon-calendar22"></i></span>#}
-                                            {#<input type="text" class="form-control daterange-single" value="{{ year |date }}" required>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
-
-                                {#<div class="form-group">#}
-                                    {#<label class="control-label col-lg-2">End Date:</label>#}
-                                    {#<div class="col-lg-10">#}
-                                        {#<div class="input-group">#}
-                                            {#<span class="input-group-addon"><i class="icon-calendar22"></i></span>#}
-                                            {#<input type="text" class="form-control daterange-single" value="{{ year |date }}" required>#}
-                                        {#</div>#}
-                                    {#</div>#}
-                                {#</div>#}
-
-                                <div class="form-group {% if form.start_date.errors %}has-error{% endif %}">
-                                    <div class="alert-error">
-                                        {{ form.start_date.errors }}
-                                    </div>
-                                    <label class="control-label col-lg-2">Start Date:</label>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Start Date:</strong></label>
                                     <div class="col-lg-10">
                                         <div class="input-group date">
                                             <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                                {#<i class="fa fa-calendar"></i>#}
+                                                <i class="ion-calendar"></i>
                                             </div>
                                             <input type="text" class="form-control pull-right" name="start_date"
-                                                   id="start_date" value="{{ start }}" required>
+                                                   id="start_date" required>
                                         </div>
                                     </div>
                                     <!-- /.input group -->
                                 </div>
 
-                                <div class="form-group {% if form.end_date.errors %}has-error{% endif %}">
-                                    <div class="alert-error">
-                                        {{ form.end_date.errors }}
-                                    </div>
-                                    <label class="control-label col-lg-2">End Date:</label>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>End Date:</strong></label>
                                     <div class="col-lg-10">
                                         <div class="input-group date">
                                             <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                                {#<i class="fa fa-calendar"></i>#}
+                                                <i class="ion-calendar"></i>
                                             </div>
                                             <input type="text" class="form-control pull-right" name="end_date"
-                                                   id="end_date" value="{{ end }}" required>
+                                                   id="end_date">
                                         </div>
                                     </div>
                                     <!-- /.input group -->
@@ -247,19 +229,19 @@
                                     {#</div>#}
                                 {#</div>#}
 
-                                <div class="form-group {% if form.scheduled_time.errors %}has-error{% endif %}">
-                                    <div class="alert-error">
-                                        {{ form.scheduled_time.errors }}
-                                    </div>
-                                    <label class="control-label col-lg-2">Scheduled time:</label>
-                                    <div class="col-lg-10">
-                                        <div class="input-group bootstrap-timepicker timepicker">
-                                            <input id="scheduled_time" name="scheduled_time" type="text"
-                                                   class="form-control input-small" value="{{ campaign.scheduled_time }}">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
+                                {#<div class="form-group {% if form.scheduled_time.errors %}has-error{% endif %}">#}
+                                    {#<div class="alert-error">#}
+                                        {#{{ form.scheduled_time.errors }}#}
+                                    {#</div>#}
+                                    {#<label class="control-label col-lg-2"><strong>Scheduled time:</strong></label>#}
+                                    {#<div class="col-lg-10">#}
+                                        {#<div class="input-group bootstrap-timepicker timepicker">#}
+                                            {#<input id="scheduled_time" name="scheduled_time" type="text"#}
+                                                   {#class="form-control input-small" value="{{ campaign.scheduled_time }}">#}
+                                            {#<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
 
 
                             </fieldset>
@@ -274,26 +256,61 @@
                                     {#</div>#}
                                 {#</div>#}
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2">Select Uploaded File</label>
+                                    <label class="control-label col-lg-2"><strong>Select Uploaded File</strong></label>
                                     <div class="col-lg-10">
-                                        <select name="select" class="form-control">
+                                        <select name="file" class="form-control" id="file" {% if campaign %}disabled{% endif %}>
                                          {% for file in files  %}
-                                            <option value="opt1">{{ file.name }}</option>
+                                            <option value="{{ file.name }}">{{ file.name }}</option>
                                          {% endfor %}
                                         </select>
                                     </div>
                                 </div>
-
                             </fieldset>
 
                             <div class="text-right">
                                 <button type="submit" class="btn btn-success">Submit <i class="icon-arrow-right14 position-right"></i></button>
                             </div>
                         </form>
+                        {% else %}
+                            <div class="text-center">
+                                <h2>No files Uploaded yet</h2>
+                                <small><a href="{{ path_for('upload') }}">Click here to upload files</a></small>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- /form horizontal -->
 
+                {% if campaign or files|length > 0 %}
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <legend class="text-bold">CONFIGURE DTMF ACTIONS</legend>
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal" action="{{ path_for('post_campaign') }}" method="post">
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Add Action</strong></label>
+                                    <div class="col-lg-3">
+                                        <select name="file" class="form-control" id="file" ng-repeat="number in numbers">
+                                            <option value="{{ file.name }}">{{ file.name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
 
                 <!-- Footer -->
                 <div class="footer text-muted">
@@ -310,6 +327,9 @@
 <script type="text/javascript" src="../../../static/js/core/libraries/bootstrap.min.js"></script>
 <script type="text/javascript" src="../../../static/js/plugins/loaders/blockui.min.js"></script>
 <!-- /core JS files -->
+
+<script src="../../../static/js/angular.min.js"></script>
+<script src="../../../static/js/application.js"></script>
 
 <!-- Theme JS files -->
 <script type="text/javascript" src="../../../static/js/plugins/forms/styling/uniform.min.js"></script>
@@ -332,6 +352,33 @@
 
         $('#scheduled_time').timepicker();
 
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        var next = 1;
+        $(".add-more").click(function(e){
+            e.preventDefault();
+            var addto = "#field" + next;
+            var addRemove = "#field" + (next);
+            next = next + 1;
+            var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+            var newInput = $(newIn);
+            var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+            var removeButton = $(removeBtn);
+            $(addto).after(newInput);
+            $(addRemove).after(removeButton);
+            $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+            $("#count").val(next);
+
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+        });
     });
 </script>
 <!-- /theme JS files -->

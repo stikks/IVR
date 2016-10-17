@@ -14,7 +14,7 @@ class Converter
 {
     protected $ffmpeg;
 
-    static public function convert($file_path, $filename)
+    static public function convert($file_path, $filename, $directory)
     {
         $ffmpeg = FFMpeg\FFMpeg::create();
 
@@ -24,6 +24,8 @@ class Converter
         
         $format-> setAudioChannels(2)-> setAudioKiloBitrate(256);
 
-        $audio->save($format, $filename . '.wav');
+        $audio->save($format, $directory. $filename. '.wav');
+        
+        return $audio;
     }
 }

@@ -50,6 +50,71 @@ app.controller('UploadController', function($scope, $location) {
 	};
 });
 
+app.controller('FileCtrl', function ($scope) {
+
+    function filterAttr(value) {
+        return value.username == $scope.username;
+    }
+
+    $scope.init = function (data, username) {
+
+        $scope.username = username;
+        $scope.etisalat = false;
+        $scope.tm30 = false;
+        $scope.all = false;
+
+        if (username == 'etisalat') {
+            $scope.etisalat = true;
+        }
+        else if (username == 'tm30') {
+            $scope.tm30 = true;
+        }
+        else {
+            $scope.all = true
+        }
+
+        $scope.data_bank = data;
+
+        if (username != 'all') {
+            $scope.data = $scope.data_bank.filter(function (value) {
+                return value.username == $scope.username;
+            });
+        }
+        else {
+            $scope.data = data;
+        }
+	};
+
+
+    $scope.changeActive = function (value) {
+        $scope.username = value;
+        $scope.etisalat = false;
+        $scope.tm30 = false;
+        $scope.all = false;
+
+        if (value == 'etisalat') {
+            $scope.etisalat = true;
+        }
+        else if (value == 'tm30') {
+            $scope.tm30 = true;
+        }
+        else {
+            $scope.all = true
+        }
+
+        if (value != 'all') {
+            $scope.data = $scope.data_bank.filter(function (value) {
+                return value.username == $scope.username;
+            });
+        }
+        else {
+            $scope.data = $scope.data_bank;
+        }
+        $scope.$apply();
+    }
+
+});
+
 // app.controller("ReportController", function($scope){
 //
 // 	$scope.buildData(data) {
