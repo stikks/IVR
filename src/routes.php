@@ -31,7 +31,9 @@ $app->group('', function (){
 
     $this->post('/upload', 'UploadController:postData');
 
-    $this->get('/files', 'FileController:getPage')->setName('files');
+    $this->get('/file', 'FileController:getPage')->setName('files');
+
+//    $this->get('/files', 'FileController:getPage')->setName('files');
 
     $this->post('/settings', 'SettingsController:postData');
 
