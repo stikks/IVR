@@ -3,43 +3,45 @@ var app = angular.module('mainApp', []);
 app.controller("ReportController", function($scope){
 
 	$scope.buildData(data) {
-		title: {
-            text: data.text,
-            x: -20 //center
-        },
-        subtitle: {
-            text: data.subtitle,
-            x: -20
-        },
-        xAxis: {
-            categories: data.categories
-        },
-        yAxis: {
-            title: {
-                text: data.yaxis_text
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: ''
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: data.series
+		return {
+			title: {
+	            text: data.text,
+	            x: -20 //center
+	        },
+	        subtitle: {
+	            text: data.subtitle,
+	            x: -20
+	        },
+	        xAxis: {
+	            categories: data.categories
+	        },
+	        yAxis: {
+	            title: {
+	                text: data.yaxis_text
+	            },
+	            plotLines: [{
+	                value: 0,
+	                width: 1,
+	                color: '#808080'
+	            }]
+	        },
+	        tooltip: {
+	            valueSuffix: ''
+	        },
+	        legend: {
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'middle',
+	            borderWidth: 0
+	        },
+	        series: data.series
+	    }
 	}
 
 	$scope.init = function() {
 		$('#camp').highcharts({
 	        title: {
-	            text: 'Campaign Impressions',
+	            text: 'No of Campaigns over a period',
 	            x: -20 //center
 	        },
 	        subtitle: {
@@ -69,14 +71,8 @@ app.controller("ReportController", function($scope){
 	            borderWidth: 0
 	        },
 	        series: [{
-	            name: 'Calls',
+	            name: 'Counts',
 	            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2]
-	        }, {
-	            name: 'Clicked',
-	            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8]
-	        }, {
-	            name: 'Unclicked',
-	            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6]
 	        }
 	        ]
 	    });
@@ -240,6 +236,54 @@ app.controller("ReportController", function($scope){
 	                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2]
 	            }
 	        ]
+	    });
+
+	    $('#clicked').highcharts({
+	        title: {
+	            text: 'Click Through Rate Bar chat',
+	            x: -20 //center
+	        },
+	        subtitle: {
+	            text: 'ivr',
+	            x: -20
+	        },
+	        xAxis: {
+	            categories: ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat','Sun']
+	        },
+	        yAxis: {
+	            title: {
+	                text: 'Counts'
+	            },
+	            plotLines: [{
+	                value: 0,
+	                width: 1,
+	                color: '#808080'
+	            }]
+	        },
+	        tooltip: {
+	            valueSuffix: ''
+	        },
+	        legend: {
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'middle',
+	            borderWidth: 0
+	        },
+	        series: [{
+	                name: 'Follow Through',
+	                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2]
+	            }
+	        ]
+	    });
+	}
+
+	$scope.getCampaigns = function() {
+		$.get("", function(data, status){
+	        alert("Data: " + data + "\nStatus: " + status);
+	        $('#camp').highcharts({
+	        	buildData(data);
+	        })
+	        
 	    });
 	}
 })

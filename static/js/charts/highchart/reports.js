@@ -1,7 +1,7 @@
 $(function () {
     // make your ajax request here
     // get data for title, xaxis categories, yAxis title
-    $('#camp').highcharts({
+    $('#clicked').highcharts({
         title: {
             text: 'Campaign Impressions',
             x: -20 //center
@@ -41,6 +41,46 @@ $(function () {
         }, {
             name: 'Unclicked',
             data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6]
+        }
+        ]
+    });
+});
+
+$(function () {
+$('#camp').highcharts({
+        title: {
+            text: 'No of Campaigns over a period',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'ivr',
+            x: -20
+        },
+        xAxis: {
+            categories: ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat','Sun']
+        },
+        yAxis: {
+            title: {
+                text: 'Counts'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Counts',
+            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2]
         }
         ]
     });

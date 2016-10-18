@@ -49,29 +49,41 @@ router.post('/elasticsearch/:type/create', function(req, res, next){
 
   // check or create index type
   if(req.params.type == "campaign"){
+    var cat = new Date(req.body.created_at);
+    var uat = new Date(req.body.updated_at);
+    var sd = new Date(req.body.start_date);
+    var ed = new Date(req.body.end_date);
+    cat.toDateString
+    uat.toDateString
+    sd.toDateString
+    ed.toDateString
     client.index({  
       index: 'ivr',
       type: req.params.type,
       body: {
         "name": req.body.name,
-        "created_at": req.body.created_at,
-        "updated_at": req.body.updated_at,
+        "created_at": cat,
+        "updated_at": uat,
         "scheduled_time": req.body.scheduled_time,
         "file_path": req.body.file_path,
-        "start_date": req.body.start_date,
-        "end_date" : req.body.end_date
+        "start_date": sd,
+        "end_date" : ed
       }
     },function(err,resp,status) {
         console.log(resp);
     });
   }else if(req.params.type =="campaign_status"){
+    var cat = new Date(req.body.created_at);
+    var uat = new Date(req.body.updated_at);
+    cat.toDateString;
+    uat.toDateString;
       client.index({  
       index: 'ivr',
       type: req.params.type,
       body: {
         "campaign_id": req.body.campaign_id,
-        "created_at": req.body.created_at,
-        "updated_at": req.body.updated_at,
+        "created_at": cat,
+        "updated_at": uat,
         "success_count" : req.body.success_count
       }
     },function(err,resp,status) {
@@ -115,12 +127,17 @@ router.post('/elasticsearch/:type/create', function(req, res, next){
   }
 });
 
+//crd wherre unigue id == campaign_id and billsec > 25
+
 
 /*Number of campaign over a certain period*/
-router.get('/no_of_campaign/:start_date/:end_date', function(req, res, next) {
-  if (req.params.start_date == "" || req.params.end_date == ""){
+router.get('/no_of_campaign', function(req, res, next) {
 
-  }else{
+  var sevenDays = new Date(new Date().getTime()-(7*24*60*60*1000));
+  var today = new Date()
+  sevenDays.toDateString
+  today.toDateString
+    //Add javacript check date
     client.search({
     index: "ivr",
           type: "campaign",
@@ -130,8 +147,8 @@ router.get('/no_of_campaign/:start_date/:end_date', function(req, res, next) {
                     "filter": {
                         "range" : {
                             "created_at" : {
-                                "gte": req.params.start_date, 
-                                "lte": req.params.end_date
+                                "gte": sevenDays, 
+                                "lte": today.
                             }
                         }
                     }
@@ -139,13 +156,77 @@ router.get('/no_of_campaign/:start_date/:end_date', function(req, res, next) {
             }
           }
         }).then(function (resp) {
-             res = resp.hits.hits;
+           var result = resp.hits.hits;
+
+              var ar = groupBy(result, "created_at");
+
+              var cat = Object.keys(ar);
+
+            var data = {"series": res, "text": 'Campaign Impressions', "subtitle": "ivr", "categories": cat}
+            return data
         }, function (err) {
           console.trace(err.message);
       });
-  }
 });
 
+
+//Campign impressions
+router.get('/impressions/:campaign_id', function(req, res, next){
+    var sevenDays = new Date(new Date().getTime()-(7*24*60*60*1000));
+    var today = new Date()
+    sevenDays.toDateString
+    today.toDateString
+
+    client.search({
+      index: "ivr",
+      type: "cdr",
+      body: {
+              "query": {
+                "constant_score": {
+                   "filter": {
+                       "bool": {
+                           "must": [
+                              {
+                                  "term": {
+                                     "uniqueid": body.params.campaign_id
+                                  }
+                              }
+                           ],
+                           "should": [
+                              {
+                                 "range": {
+                                    "start": {
+                                       "from": sevenDays,
+                                       "to": today
+                                    }
+                                  }
+                              }
+                           ]
+                       }
+                   }
+                }
+        }
+      }
+    }).then(function(resp){
+        var result = resp.hits.hits;
+
+        var ar = groupBy(result, "created_at");
+
+        var cat = Object.keys(ar);
+    })
+
+});
+ 
+
+var groupBy = function(xs, key) {
+    return xs.reduce(function(rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x); 
+        return rv; 
+    }, {
+        
+    }
+    ); 
+}; 
 
 
 /* GET elastic listing. */
