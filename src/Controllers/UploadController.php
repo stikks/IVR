@@ -50,7 +50,9 @@ class UploadController extends BaseController
                 {
                     move_uploaded_file($_FILES["advert"]["tmp_name"],
                         realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_' . $_FILES["advert"]["name"]);
-                    Converter::convert(realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_'. $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"])[0], realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/');
+//                    Converter::convert(realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_'. $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"])[0], realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/');
+
+                    shell_exec('ffmpeg -y -i'. realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_'. $_FILES["advert"]["name"] .'-acodec adpcm_ms'. realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/'. explode(".", $_FILES["advert"]["name"])[0] . '.wav');
 
                     $file_path = realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . explode(".", $_FILES["advert"]["name"])[0]. '.wav';
 

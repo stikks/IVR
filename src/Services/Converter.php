@@ -22,6 +22,7 @@ class Converter
         $audio = $ffmpeg->open($file_path);
 
         $format = new ADPCM();
+        $format ->setAudioCodec('adpcm_ms');
 //        $format = new Wav();
 
 //        $format-> setAudioChannels(2)-> setAudioKiloBitrate(256);
