@@ -49,8 +49,8 @@ class UploadController extends BaseController
                 else
                 {
                     move_uploaded_file($_FILES["advert"]["tmp_name"],
-                        realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . $_FILES["advert"]["name"]);
-                    Converter::convert(realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/'. $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"])[0], "files/" . $user->username . '/');
+                        realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_' . $_FILES["advert"]["name"]);
+                    Converter::convert(realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_'. $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"])[0], realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/');
 
                     $file_path = realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . explode(".", $_FILES["advert"]["name"])[0]. '.wav';
 

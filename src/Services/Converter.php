@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use FFMpeg;
+use FFMpeg\Format\Audio\Wav;
 
 class Converter
 {
@@ -20,8 +21,9 @@ class Converter
 
         $audio = $ffmpeg->open($file_path);
 
-        $format = new ADPCM();
-        
+//        $format = new ADPCM();
+        $format = new Wav();
+
         $format-> setAudioChannels(2)-> setAudioKiloBitrate(256);
 
         $audio->save($format, $directory. $filename. '.wav');
