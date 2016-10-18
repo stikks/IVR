@@ -45,9 +45,15 @@ client.exists({
 
 //Indexing into a type
 router.post('/elasticsearch/:type/create', function (req, res, next) {
-    res.render('index', {title: req.params.type});
 
-    // check or create index type
+    if(req.body.name == null && req.body.created_at == null && 
+          req.body.updated_at == null && req.body.start_date == null && 
+          req.body.end_date == null && req.body.file_path == null && req.body.scheduled_time == null){
+          res.setHeader('Content-Type', 'application/json');
+           res.send(JSON.stringify({message: 'Missing parameters'}));
+           return 
+    }else{ 
+     // check or create index type
     if (req.params.type == "campaign") {
         var cat = new Date(req.body.created_at);
         var uat = new Date(req.body.updated_at);
@@ -57,6 +63,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
         uat.toDateString
         sd.toDateString
         ed.toDateString
+
         client.index({
             index: 'ivr',
             type: req.params.type,
@@ -64,13 +71,12 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "name": req.body.name,
                 "created_at": cat,
                 "updated_at": uat,
-                "scheduled_time": req.body.scheduled_time,
                 "file_path": req.body.file_path,
                 "start_date": sd,
                 "end_date": ed
             }
         }, function (err, resp, status) {
-            return resp;
+            res.render('index', {title: resp});
         });
     } else if (req.params.type == "campaign_status") {
         var cat = new Date(req.body.created_at);
@@ -123,6 +129,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
     } else {
         res.render('index', {title: 'Wrong type, please provide a valid type'});
     }
+  }
 });
 
 //crd wherre unigue id == campaign_id and billsec > 25
