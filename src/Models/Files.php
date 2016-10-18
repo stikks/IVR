@@ -22,7 +22,8 @@ class Files extends Model
         "duration",
         "name",
         "file_type",
-        "size"
+        "size",
+        "description"
     ];
     
 }

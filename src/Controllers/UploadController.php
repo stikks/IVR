@@ -76,7 +76,8 @@ class UploadController extends BaseController
                         "size" => (float)($_FILES["advert"]["size"] / 1024),
                         "name" => explode(".", $_FILES["advert"]["name"])[0] . '.wav',
                         "file_type" => "audio/x-wav",
-                        "duration" => $play_time
+                        "duration" => $play_time,
+                        "description" => $request->getParam('description')
                     ]);
                     return $this->view->render($response, 'templates/upload.twig', [
                         "message" => $file->name . " was successfully uploaded"

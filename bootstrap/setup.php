@@ -54,6 +54,7 @@ array_push($list, $actions);
 $files = "CREATE TABLE IF NOT EXISTS files(
   id serial PRIMARY KEY,
   name VARCHAR (255) NOT NULL,
+  description VARCHAR (255) NOT NULL,
   size FLOAT NOT NULL,
   username varchar REFERENCES users(username) NOT NULL,
   file_path VARCHAR (255) NOT NULL,
