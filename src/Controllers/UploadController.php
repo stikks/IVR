@@ -9,6 +9,8 @@
 namespace App\Controllers;
 use App\Models\Files;
 use App\Services\Converter;
+require_once(__DIR__. '/../../vendor/getID3/getid3/getid3.php');
+use getID3;
 
 class UploadController extends BaseController
 {
@@ -49,13 +51,32 @@ class UploadController extends BaseController
                     move_uploaded_file($_FILES["advert"]["tmp_name"],
                         "files/" . $user->username . '/' . $_FILES["advert"]["name"]);
                     Converter::convert(realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/'. $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"])[0], "files/" . $user->username . '/');
+
+                    $file_path = realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . explode(".", $_FILES["advert"]["name"])[0]. '.wav';
+
+                    $getID3 = new getID3;
+                    $info = $getID3->analyze( $file_path );
+                    $play_time = $info['playtime_string'];
+
+                    list($mins , $secs) = explode(':' , $play_time);
+
+                    $hours = 0;
+
+                    if($mins > 60)
+                    {
+                        $hours = intval($mins / 60);
+                        $mins = $mins - $hours*60;
+                    }
+
+                    $play_time = sprintf("%02d:%02d:%02d" , $hours , $mins , $secs);
+
                     $file = Files::create([
                         "username" => $user->username,
-                        "file_path" => realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . explode(".", $_FILES["advert"]["name"])[0]. '.wav',
+                        "file_path" => $file_path,
                         "size" => (float)($_FILES["advert"]["size"] / 1024),
                         "name" => explode(".", $_FILES["advert"]["name"])[0] . '.wav',
-                        "file_type" => "audio/wav",
-                        "duration" => null
+                        "file_type" => "audio/x-wav",
+                        "duration" => $play_time
                     ]);
                     return $this->view->render($response, 'templates/upload.twig', [
                         "message" => $file->name . " was successfully uploaded"

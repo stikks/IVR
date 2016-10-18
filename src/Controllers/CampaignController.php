@@ -32,8 +32,17 @@ class CampaignController extends BaseController
 
         $files = Files::where('username', $user->username)->get();
 
+        $options = [
+            array("name" => "Send Url", "value" => "send_url"),
+            array("name" => "Send Message", "value" => "send_message"),
+            array("name" => "Send Image", "value" => "send_image"),
+            array("name" => "Transfer Call", "value" => "transfer_call"),
+            array("name" => "Play File", "value" => "play_file")
+        ];
+
         return $this->view->render($response, 'templates/forms/campaign.twig', [
-            'files' => $files
+            'files' => $files,
+            'options' => $options
         ]);
     }
 
