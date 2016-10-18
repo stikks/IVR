@@ -258,7 +258,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2"><strong>Select Uploaded File</strong></label>
                                     <div class="col-lg-10">
-                                        <select name="file" class="form-control" id="file" {% if campaign %}disabled{% endif %}>
+                                        <select name="file" class="form-control" id="file" {% if campaign %}disabled{% endif %} required>
                                          {% for file in files  %}
                                             <option value="{{ file.name }}">{{ file.name }}</option>
                                          {% endfor %}
@@ -278,7 +278,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2"><strong>Action</strong></label>
                                     <div class="col-lg-10">
-                                        <select name="action" class="form-control" id="action">
+                                        <select name="action" class="form-control" id="action" required>
                                             {% for option in options  %}
                                                 <option value="{{ option.value }}">{{ option.name }}</option>
                                             {% endfor %}
@@ -288,7 +288,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2"><strong>Extension/Text/Url</strong></label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="text" id="text" class="form-control" placeholder="Enter url, text or extension here" required>
+                                        <input type="text" name="body" id="body" class="form-control" placeholder="Enter url, text or extension here" required>
                                     </div>
                                 </div>
                             </fieldset>

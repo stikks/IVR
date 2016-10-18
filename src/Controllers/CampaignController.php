@@ -11,6 +11,7 @@ use App\Models\Campaign;
 use App\Models\Files;
 use DateTime;
 use Respect\Validation\Validator as Val;
+use App\Models\Action;
 
 class CampaignController extends BaseController
 {
@@ -62,15 +63,21 @@ class CampaignController extends BaseController
         }
 
         $file = Files::where('name', $request->getParam('file'))->first();
-
-
-        Campaign::create([
+        
+        $campaign = Campaign::create([
             'username' => $user->username,
             'start_date' => $start_date,
             'end_date' => $end_date,
             'name' => $request->getParam('name'),
             'file_path' => $file->file_path,
             'description' => $request->getParam('description')
+        ]);
+        
+        Action::create([
+            'number' => $request->getParam('number'),
+            'value' => $request->getParam('action'),
+            'body' => $request->getParam('body'),
+            'campaign_id' => $campaign->id
         ]);
         
         return $response->withRedirect($this->router->pathFor('campaigns'));
