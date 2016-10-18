@@ -88,10 +88,6 @@ $container["CampaignController"] = function ($c) {
     return new \App\Controllers\CampaignController($c);
 };
 
-$container["CreateCampaignController"] = function ($c) {
-    return new \App\Controllers\CreateCampaignController($c);
-};
-
 $container["SettingsController"] = function ($c) {
     return new \App\Controllers\SettingsController($c);
 };

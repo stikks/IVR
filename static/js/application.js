@@ -1,5 +1,120 @@
 var app = angular.module('mainApp', []);
 
+app.config(function($interpolateProvider){
+    $interpolateProvider.startSymbol('[[').endSymbol(']]');
+});
+
+app.directive('ngFileModel', ['$parse', function ($parse) {
+	return {
+		restrict: 'A',
+		link: function (scope, element, attrs) {
+			var model = $parse(attrs.ngFileModel);
+			var isMultiple = attrs.multiple;
+			var modelSetter = model.assign;
+			element.bind('change', function () {
+				var values = [];
+				angular.forEach(element[0].files, function (item) {
+					var value = {
+						// File Name
+						name: item.name,
+						//File Size
+						size: item.size,
+						//File URL to view
+						url: URL.createObjectURL(item),
+						// File Input Value
+						_file: item
+					};
+					values.push(value);
+				});
+				scope.$apply(function () {
+					if (isMultiple) {
+						modelSetter(scope, values);
+					} else {
+						modelSetter(scope, values[0]);
+					}
+				});
+			});
+		}
+	};
+}]);
+
+app.controller('UploadController', function($scope, $location) {
+	$scope.files = [];
+	$scope.upload=function(){
+        $.post($location.$$absUrl,
+            $scope.files,function (data, status) {
+                console.log(data);
+                console.log(status);
+            });
+
+	};
+});
+
+app.controller('FileCtrl', function ($scope) {
+
+    function filterAttr(value) {
+        return value.username == $scope.username;
+    }
+
+    $scope.init = function (data, username) {
+
+        $scope.username = username;
+        $scope.etisalat = false;
+        $scope.tm30 = false;
+        $scope.all = false;
+
+        if (username == 'etisalat') {
+            $scope.etisalat = true;
+        }
+        else if (username == 'tm30') {
+            $scope.tm30 = true;
+        }
+        else {
+            $scope.all = true
+        }
+
+        $scope.data_bank = data;
+
+        if (username != 'all') {
+            $scope.data = $scope.data_bank.filter(function (value) {
+                return value.username == $scope.username;
+            });
+        }
+        else {
+            $scope.data = data;
+        }
+	};
+
+
+    $scope.changeActive = function (value) {
+        $scope.username = value;
+        $scope.etisalat = false;
+        $scope.tm30 = false;
+        $scope.all = false;
+
+        if (value == 'etisalat') {
+            $scope.etisalat = true;
+        }
+        else if (value == 'tm30') {
+            $scope.tm30 = true;
+        }
+        else {
+            $scope.all = true
+        }
+
+        if (value != 'all') {
+            $scope.data = $scope.data_bank.filter(function (value) {
+                return value.username == $scope.username;
+            });
+        }
+        else {
+            $scope.data = $scope.data_bank;
+        }
+        $scope.$apply();
+    }
+
+});
+
 app.controller("ReportController", function($scope){
 
 	$scope.buildData(data) {

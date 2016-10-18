@@ -7,12 +7,15 @@
  */
 
 namespace App\Controllers;
+use App\Services\Converter;
 
 
 class IndexController extends BaseController
 {
     public function index($request, $response){
-
+        
+        new Converter("lose.mp3");
+            
         return $this->view->render($response, 'templates/home.twig');
     }
 

@@ -15,20 +15,20 @@ $(function() {
     $(".file-uploader").pluploadQueue({
         runtimes: 'html5, html4, Flash, Silverlight',
         url: '/upload',
-        chunk_size: '300Kb',
+        chunk_size: '7000Kb',
         unique_names: true,
         filters: {
-            max_file_size: '300Kb',
+            max_file_size: '7000Kb',
             mime_types: [{
                 title: "Image files",
-                extensions: "jpg,gif,png"
+                extensions: "mp3,wav,wma, sln"
             }]
-        },
-        resize: {
-            width: 320,
-            height: 240,
-            quality: 90
         }
+        // resize: {
+        //     width: 320,
+        //     height: 240,
+        //     quality: 90
+        // }
     });
 
 

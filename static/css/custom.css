@@ -1,0 +1,4 @@
+.selected {
+    border: 2px dashed green;
+    background-color: ghostwhite;
+}

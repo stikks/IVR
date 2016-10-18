@@ -25,7 +25,7 @@ class Auth
 
     public function user() {
         $user = User::where('id', $_SESSION['user'])->first();
-        return UserDetail::where('username', $user->username)->first();
+        return User::where('username', $user->username)->first();
     }
 
     public function attempt($username, $password) {
