@@ -151,7 +151,7 @@ app.controller("ReportController", function($scope) {
 	        },
 	        series: data.series
 	    }
-	}
+	};
 
 	$scope.init = function() {
 		$('#camp').highcharts({
