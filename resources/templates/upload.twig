@@ -186,7 +186,7 @@
                 <!-- All runtimes -->
                 <div class="panel panel-flat">
                     <div class="panel-heading">
-                        <h5 class="panel-title">Upload Files</h5>
+                        <h5 class="panel-title">Upload Campaign Audio Files</h5>
                         <div class="heading-elements">
                             <ul class="icons-list">
                                 <li><a data-action="reload"></a></li>
@@ -195,19 +195,36 @@
                     </div>
 
                     {#<div class="panel-body">#}
-                    {#<p class="content-group">Upload audio advert files to be used for different campaigns<strong>#}
-                    {#(max. size of 7MB)</strong></p>#}
                     {#<form method="post" action="{{ path_for('upload') }}">#}
                     {#<div class="file-uploader"><p>Your browser doesn't have Flash installed.</p></div>#}
                     {#</form>#}
                     {#</div>#}
                     <!-- Standard Form -->
                     <div class="panel-body">
-                        <form action="{{ path_for('upload') }}" method="post" enctype="multipart/form-data">
-                            <span style="color: red;">{{ error }}</span>
-                            <span style="color: green;">{{ message }}</span>
-                            <input type="file" name="advert" accept="audio/*" required>
-                            <button type="submit" class="btn btn-primary pull-right">Upload</button>
+                        <p class="content-group">Upload audio advert files to be used for different campaigns</p>
+                        <form class="form-horizontal" action="{{ path_for('upload') }}" method="post" enctype="multipart/form-data">
+                            <fieldset class="content-group">
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Name</strong></label>
+                                    <div class="col-lg-10">
+                                        <span style="color: red;">{{ error }}</span>
+                                        <span style="color: green;">{{ message }}</span>
+                                        <input type="file" name="advert"  class="form-control" accept="audio/*" required>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Description</strong></label>
+                                    <div class="col-lg-10">
+                                        <textarea rows="5" cols="5" class="form-control" placeholder="Enter description here" name="description" id="description"></textarea>
+                                    </div>
+                                </div>  
+                            </fieldset>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Upload <i class="icon-arrow-right14 position-right"></i></button>
+                            </div>
                         </form>
                     </div>
                 </div>
