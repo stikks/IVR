@@ -24,7 +24,9 @@ class Converter
         $format = new ADPCM();
 //        $format = new Wav();
 
-        $format-> setAudioChannels(2)-> setAudioKiloBitrate(256);
+//        $format-> setAudioChannels(2)-> setAudioKiloBitrate(256);
+
+        $format->setAudioKiloBitrate(256);
 
         $audio->save($format, $directory. $filename. '.wav');
         
