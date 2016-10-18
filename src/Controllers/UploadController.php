@@ -9,7 +9,7 @@
 namespace App\Controllers;
 use App\Models\Files;
 use App\Services\Converter;
-require_once(__DIR__. '/../../vendor/getID3/getid3/getid3.php');
+require_once(__DIR__. '/../../getID3/getid3/getid3.php');
 use getID3;
 
 class UploadController extends BaseController
