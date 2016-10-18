@@ -46,6 +46,12 @@ class UploadController extends BaseController
                         'error' => $error
                     ]);
                 }
+                elseif (preg_match('/\s/',$_FILES["advert"]["name"])) {
+                    $error =  $_FILES["advert"]["name"] . " contains whitespace. Edit filename and re-upload ";
+                    return $this->view->render($response, 'templates/upload.twig', [
+                        'error' => $error
+                    ]);
+                }
                 else
                 {
                     move_uploaded_file($_FILES["advert"]["tmp_name"],
@@ -56,11 +62,7 @@ class UploadController extends BaseController
 
                     $address = '/usr/bin/ffmpeg -y -i '. realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_'. $_FILES["advert"]["name"] .' -acodec adpcm_ms '. realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/'. $name;
 
-                    $out = shell_exec($address);
-
-                    var_dump($address);
-                    var_dump($out);
-                    exit();
+                    shell_exec($address);
 
                     $file_path = realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . $name;
 
