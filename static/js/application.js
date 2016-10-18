@@ -115,9 +115,9 @@ app.controller('FileCtrl', function ($scope) {
 
 });
 
-app.controller("ReportController", function($scope){
+app.controller("ReportController", function($scope) {
 
-	$scope.buildData(data) {
+	$scope.buildData = function (data) {
 		return {
 			title: {
 	            text: data.text,
@@ -390,15 +390,15 @@ app.controller("ReportController", function($scope){
 	            }
 	        ]
 	    });
-	}
+	};
 
-	$scope.getCampaigns = function() {
-		$.get("", function(data, status){
-	        alert("Data: " + data + "\nStatus: " + status);
-	        $('#camp').highcharts({
-	        	buildData(data);
-	        })
-	        
-	    });
-	}
-})
+	// $scope.getCampaigns = function() {
+	// 	$.get("", function(data, status){
+	//         alert("Data: " + data + "\nStatus: " + status);
+	//         $('#camp').highcharts({
+	//         	buildData(data)
+	//         })
+	//
+	//     });
+	// }
+});
