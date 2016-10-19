@@ -63,7 +63,9 @@ class UploadController extends BaseController
 
                     $name =''. preg_replace('/\s+/', '', explode(".", $_FILES["advert"]["name"])[0]) . '.wav';
 
-                    $address = '/usr/bin/ffmpeg -y -i '. $temp_file .' -acodec adpcm_ms '. realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/'. $name;
+//                    $address = '/usr/bin/ffmpeg -y -i '. $temp_file .' -acodec adpcm_ms '. realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/'. $name;
+
+                    $address = '/usr/bin/ffmpeg -y -i '. $temp_file . '-ar 8000 -ac 1 '. realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/'. $name. '.wav';
 
                     shell_exec($address);
 
