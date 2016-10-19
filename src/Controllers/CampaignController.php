@@ -50,19 +50,27 @@ class CampaignController extends BaseController
 
     public function postData($request, $response){
 
+        $user = $this->auth->user();
+
         $file = Files::where('name', $request->getParam('file'))->first();
         
         $campaign = Campaign::where('file_path', $file->file_path)->first();
 
         if ($campaign)
         {
+            $files = Files::where('username', $user->username)->get();
+            $options = [
+                array("name" => "Send Url", "value" => "send_url"),
+                array("name" => "Send Message", "value" => "send_message"),
+            ];
             $error =  "A campaign using this audio file already exists";
             return $this->view->render($response, 'templates/forms/campaign.twig', [
+                'files' => $files,
+                'options' => $options,
+                'user' => $user,
                 'error' => $error
             ]);
         }
-        
-        $user = $this->auth->user();
 
         $start_date = DateTime::createFromFormat('d/m/Y', $request->getParam('start_date'))->format('Y-m-d');
         $end_date = DateTime::createFromFormat('d/m/Y', $request->getParam('end_date'))->format('Y-m-d');
