@@ -236,7 +236,7 @@ router.get('/impressions/:campaign_id', function (req, res, next) {
 
 });
 
-router.post('/elasticsearch/:type/:id/update', function(req, res, next){
+router.post('/elasticsearch/:type/:id/update', function (req, res, next){
 
     if (req.body.name == null && req.body.created_at == null &&
         req.body.updated_at == null && req.body.start_date == null &&
@@ -335,8 +335,95 @@ router.post('/elasticsearch/:type/:id/update', function(req, res, next){
     }
 });
 
+router.get('/elasticsearch/:type/all' function(req, res, next){
+  //All index object for a type
+});
 
-router.post('/elasticsearch/:type/:id/delete', function(req, res, next){
+router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
+    var yesterday = new Date(new Date().getTime() - (1 * 24 * 60 * 60 * 1000));
+    var today = new Date()
+    yesterday.toDateString
+    today.toDateString
+
+    var ivrDataFilterToday = new IvrDataFilter(req.params.campaign_id, today);
+    var ivrDataFilterYesterday = new IvrDataFilter(req.params.campaign_id, yesterday);
+
+    var impression_count_today = ivrDataFilterToday.getImpressionCount();
+    var success_count_today = ivrDataFilterToday.getSuccessCount();
+
+    var impression_count_yesterday = ivrDataFilterYesterday.getImpressionCount();
+    var success_count_yesterday = ivrDataFilterYesterday.getSuccessCount();
+
+    var cdr_count_today = ivrDataFilterToday.getCdrCount;
+    var cdr_count_yesterday = ivrDataFilterYesterday.getCdrCount;
+
+
+    //A json encoded response 
+    //B two arrays 
+    //  1. key: today, value = arrayOf
+        /*{
+            {
+              "today": {"impressions_count": integer, "success_count": integer, "cdr_count": integer}
+            },
+            {
+              "yesterday": {"impressions_count": integer, "success_count": integer, "cdr_count": integer}
+            }
+          }
+            
+          */
+    //  2. key: yesterday, value = arrayOf
+          /*
+            
+          */
+})
+
+
+router.get('/elasticsearch/:campaign_id/filter', function (req, res, next) {
+  //impression_count =sum all imression_count in campign_status that matchs campaign_id 
+  ////success_count =sum all imression_count in campign_status that matchs campaign_id 
+  //cdr_count = (all cdrs whos uniqueid matches campaign_id).count
+    //Expected parameters start_date and end_date
+    //A json encoded response 
+    //B two arrays 
+    // groupby date
+    //  1. key: today, value = arrayOf
+        /*{
+            {
+              "start_date": {"impressions_count": integer, "success_count": integer, "cdr_count": integer}
+            },
+            {
+              "end_date": {"impressions_count": integer, "success_count": integer, "cdr_count": integer}
+            }
+          }
+            
+          */
+    //  2. key: yesterday, value = arrayOf
+          /*
+            
+          */
+
+
+
+    
+            var startDate = new Date(req.body.start_date);
+            var endDate = new Date(req.body.end_date);
+            startDate.toDateString
+            endDate.toDateString
+
+    var ivrDataFilterStartSate = new IvrDataFilter(req.params.campaign_id, today);
+    var ivrDataFilterEndDate = new IvrDataFilter(req.params.campaign_id, yesterday);
+
+    var impression_count_start_date = ivrDataFilterStartSate.getImpressionCount();
+    var success_count_start_date = ivrDataFilterStartSate.getSuccessCount();
+
+    var impression_count_end_date = ivrDataFilterEndDate.getImpressionCount();
+    var success_count_end_date = ivrDataFilterEndDate.getSuccessCount();
+
+    var cdr_count_start_date = ivrDataFilterStartSate.getCdrCount;
+    var cdr_count_end_date = ivrDataFilterEndDate.getCdrCount;
+})
+
+router.post('/elasticsearch/:type/:id/delete', function (req, res, next){
 
     res.setHeader('Content-Type', 'application/json');
 
@@ -367,5 +454,72 @@ var groupBy = function (xs, key) {
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
+
+function IvrDataFilter(campaign_id, search_date){
+   this.campaign_id = campaign_id;
+
+   function searchWithId(id_field, date_field, type){
+      client.search({
+          index: 'ivr',
+          type: type,
+          body : {
+              "query": {
+                "constant_score": {
+                    "filter": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "term": {
+                                        id_field : this.campaign_id
+                                    }
+                                }
+                            ],
+                            "should": [
+                                {
+                                    "term": {
+                                            date_field: this.search_date
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+          }
+        }).then(function (resp){
+          return resp.hits.hits;
+        });
+   }
+
+   this.getImpressionCount = function(){
+        
+        var campaignResult = searchWithId("campaign_id", "created_at", "statuses");
+
+          var imp = campaignResult.map(function (val){
+               return val.impressions_count;
+          })
+          var sum = imp.reduce(function (prev, current){
+            return prev + current;
+          });
+
+          return sum;
+    }
+
+    this.getSuccessCount = function(){
+
+        var campaignResult = searchWithId("campaign_id", "created_at", "statuses");
+
+          var imp = campaignResult.map(function (val){
+               return val.success_count;
+          })
+          var sum = imp.reduce(function (prev, current){
+            return prev + current;
+          });
+
+          return sum;
+    }
+
+    this.getCdrCount = searchWithId("uniqueid", "start", "cdr").length;
+}
 
 module.exports = router;
