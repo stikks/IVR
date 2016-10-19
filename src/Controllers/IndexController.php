@@ -13,10 +13,12 @@ use App\Services\Converter;
 class IndexController extends BaseController
 {
     public function index($request, $response){
-        
-        new Converter("lose.mp3");
+
+        $user = $this->auth->user();
             
-        return $this->view->render($response, 'templates/home.twig');
+        return $this->view->render($response, 'templates/home.twig', [
+            'user' => $user
+        ]);
     }
 
     public function logOut($request, $response) {

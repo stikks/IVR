@@ -18,8 +18,11 @@ class UploadController extends BaseController
 
         $error = null;
 
+        $user = $this->auth->user();
+
         return $this->view->render($response, 'templates/upload.twig', [
-            'error' => $error
+            'error' => $error,
+            'user' => $user
         ]);
     }
 

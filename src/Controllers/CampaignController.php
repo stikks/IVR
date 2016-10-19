@@ -43,7 +43,8 @@ class CampaignController extends BaseController
 
         return $this->view->render($response, 'templates/forms/campaign.twig', [
             'files' => $files,
-            'options' => $options
+            'options' => $options,
+            'user' => $user
         ]);
     }
 
