@@ -15,6 +15,7 @@
     <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
     <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
@@ -23,6 +24,9 @@
     <script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
     <!-- /core JS files -->
+
+    <script src="../../static/js/angular.min.js"></script>
+    <script src="../../static/js/application.js"></script>
 
     <!-- Theme JS files -->
     <script type="text/javascript" src="../../static/js/plugins/visualization/d3/d3.min.js"></script>
@@ -51,7 +55,7 @@
 
 </head>
 
-<body>
+<body ng-app="mainApp">
 
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-green">

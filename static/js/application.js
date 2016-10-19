@@ -114,6 +114,76 @@ app.controller('FileCtrl', function ($scope) {
     };
 });
 
+app.controller('HomeController', function ($scope) {
+
+	function filterAttr(value) {
+		return value.username == $scope.username;
+	}
+
+	$scope.init = function (data, username) {
+
+		$scope.username = username;
+		$scope.etisalat = false;
+		$scope.tm30 = false;
+		$scope.all = false;
+
+		if (username == 'etisalat') {
+			$scope.etisalat = true;
+		}
+		else if (username == 'tm30') {
+			$scope.tm30 = true;
+		}
+		else {
+			$scope.all = true
+		}
+
+		$scope.campaigns_bank = data;
+
+		if (username != 'all') {
+			$scope.campaigns = $scope.campaigns_bank.filter(function (value) {
+				return value.username == $scope.username;
+			});
+		}
+		else {
+			$scope.campaigns = data;
+		}
+
+        $scope.active_campaigns = $scope.campaigns.filter(function (val) {
+            return val.is_active = true
+        });
+
+        console.log($scope.active_campaigns);
+	};
+
+
+	$scope.changeActive = function (value) {
+		$scope.username = value;
+		$scope.etisalat = false;
+		$scope.tm30 = false;
+		$scope.all = false;
+
+		if (value == 'etisalat') {
+			$scope.etisalat = true;
+		}
+		else if (value == 'tm30') {
+			$scope.tm30 = true;
+		}
+		else {
+			$scope.all = true
+		}
+
+		if (value != 'all') {
+			$scope.data = $scope.data_bank.filter(function (value) {
+				return value.username == $scope.username;
+			});
+		}
+		else {
+			$scope.data = $scope.data_bank;
+		}
+		$scope.$apply();
+	};
+});
+
 app.controller("ReportController", function($scope) {
 
 	$scope.buildData = function (data) {

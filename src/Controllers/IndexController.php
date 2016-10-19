@@ -8,6 +8,7 @@
 
 namespace App\Controllers;
 use App\Services\Converter;
+use App\Models\Campaign;
 
 
 class IndexController extends BaseController
@@ -15,9 +16,13 @@ class IndexController extends BaseController
     public function index($request, $response){
 
         $user = $this->auth->user();
+        
+        $campaigns = Campaign::all();
             
         return $this->view->render($response, 'templates/home.twig', [
-            'user' => $user
+            'user' => $user,
+            'data' => $campaigns,
+            'username' => 'all'
         ]);
     }
 

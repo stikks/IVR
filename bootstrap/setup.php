@@ -53,6 +53,18 @@ $actions = "CREATE TABLE IF NOT EXISTS actions(
 
 array_push($list, $actions);
 
+
+$status = "CREATE TABLE IF NOT EXISTS statuses(
+  id serial,
+  campaign_id INTEGER REFERENCES campaigns(id) NOT NULL,
+  impressions_count INTEGER NOT NULL,
+  success_count INTEGER NOT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at date DEFAULT NULL
+);";
+
+array_push($list, $actions);
+
 $files = "CREATE TABLE IF NOT EXISTS files(
   id serial PRIMARY KEY,
   name VARCHAR (255) NOT NULL,

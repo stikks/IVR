@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 var elasticsearch = require('elasticsearch');
 
 //connect to elastic search
@@ -46,90 +45,101 @@ client.exists({
 //Indexing into a type
 router.post('/elasticsearch/:type/create', function (req, res, next) {
 
-    if(req.body.name == null && req.body.created_at == null && 
-          req.body.updated_at == null && req.body.start_date == null && 
-          req.body.end_date == null && req.body.file_path == null && req.body.scheduled_time == null){
-          res.setHeader('Content-Type', 'application/json');
-           res.send(JSON.stringify({message: 'Missing parameters'}));
-           return 
-    }else{ 
-     // check or create index type
-    if (req.params.type == "campaign") {
-        var cat = new Date(req.body.created_at);
-        var uat = new Date(req.body.updated_at);
-        var sd = new Date(req.body.start_date);
-        var ed = new Date(req.body.end_date);
-        cat.toDateString
-        uat.toDateString
-        sd.toDateString
-        ed.toDateString
-
-        client.index({
-            index: 'ivr',
-            type: req.params.type,
-            body: {
-                "name": req.body.name,
-                "created_at": cat,
-                "updated_at": uat,
-                "file_path": req.body.file_path,
-                "start_date": sd,
-                "end_date": ed
-            }
-        }, function (err, resp, status) {
-            res.render('index', {title: resp});
-        });
-    } else if (req.params.type == "campaign_status") {
-        var cat = new Date(req.body.created_at);
-        var uat = new Date(req.body.updated_at);
-        cat.toDateString;
-        uat.toDateString;
-        client.index({
-            index: 'ivr',
-            type: req.params.type,
-            body: {
-                "campaign_id": req.body.campaign_id,
-                "created_at": cat,
-                "updated_at": uat,
-                "success_count": req.body.success_count
-            }
-        }, function (err, resp, status) {
-            return resp;
-        });
-    } else if (req.params.type == "cdr") {
-
-        client.index({
-            index: 'cdr',
-            //id: req.body.id,
-            type: req.params.type,
-            body: {
-                "accountcwode": req.body.accountcode,
-                "src": req.body.src,
-                "dst": req.body.dst,
-                "dcontext": req.body.dcontext,
-                "clid": req.body.clid,
-                "channel": req.body.channel,
-                "dstchannel": req.body.dstchannel,
-                "lastapp": req.body.lastapp,
-                "lastdata": req.body.lastdata,
-                "start": req.body.start,
-                "answer": req.body.answer,
-                "end": req.body.end,
-                "duration": req.body.duration,
-                "billsec": req.body.billsec,
-                "disposition": req.body.disposition,
-                "amaflags": req.body.amaflags,
-                "userfield": req.body.userfield,
-                "uniqueid": req.body.campaign_id,
-                "is_successful": req.body.is_successful,
-                "is_clicked": req.body.is_clicked
-            }
-        }, function (err, resp, status) {
-            return resp;
-        });
+    if (req.body.name == null && req.body.created_at == null &&
+        req.body.updated_at == null && req.body.start_date == null &&
+        req.body.end_date == null && req.body.file_path == null && req.body.scheduled_time == null) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({message: 'Missing parameters'}));
     } else {
-        res.render('index', {title: 'Wrong type, please provide a valid type'});
+        // check or create index type
+        if (req.params.type == "campaign") {
+            var cat = new Date(req.body.created_at);
+            var uat = new Date(req.body.updated_at);
+            var sd = new Date(req.body.start_date);
+            var ed = new Date(req.body.end_date);
+            cat.toDateString
+            uat.toDateString
+            sd.toDateString
+            ed.toDateString
+
+            client.index({
+                index: 'ivr',
+                type: req.params.type,
+                id: req.body.id,
+                body: {
+                    "name": req.body.name,
+                    "description": req.body.description,
+                    "username": req.body.username,
+                    "is_active": req.body.is_active,
+                    "file_path": req.body.file_path,
+                    "created_at": cat,
+                    "updated_at": uat,
+                    "start_date": sd,
+                    "end_date": ed
+                }
+            }, function (err, resp, status) {
+                res.render('index', {title: resp});
+            });
+        } else if (req.params.type == "statuses") {
+            var cat = new Date(req.body.created_at);
+            var uat = new Date(req.body.updated_at);
+            cat.toDateString;
+            uat.toDateString;
+            client.index({
+                index: 'ivr',
+                type: req.params.type,
+                id: req.body.id,
+                body: {
+                    "campaign_id": req.body.campaign_id,
+                    "impressions_count": req.body.impressions_count,
+                    "success_count": req.body.success_count,
+                    "created_at": cat,
+                    "updated_at": uat
+                }
+            }, function (err, resp, status) {
+                return resp;
+            });
+        } else if (req.params.type == "cdr") {
+            var cat = new Date(req.body.created_at);
+            var uat = new Date(req.body.updated_at);
+            cat.toDateString;
+            uat.toDateString;
+            client.index({
+                index: 'cdr',
+                id: req.body.id,
+                type: req.params.type,
+                body: {
+                    "accountcode": req.body.accountcode,
+                    "src": req.body.src,
+                    "dst": req.body.dst,
+                    "dcontext": req.body.dcontext,
+                    "clid": req.body.clid,
+                    "channel": req.body.channel,
+                    "dstchannel": req.body.dstchannel,
+                    "lastapp": req.body.lastapp,
+                    "lastdata": req.body.lastdata,
+                    "start": req.body.start,
+                    "answer": req.body.answer,
+                    "end": req.body.end,
+                    "duration": req.body.duration,
+                    "billsec": req.body.billsec,
+                    "disposition": req.body.disposition,
+                    "amaflags": req.body.amaflags,
+                    "userfield": req.body.userfield,
+                    "uniqueid": req.body.uniqueid,
+                    //custom fields that need to be updated in db
+                    "impression": req.body.impression,
+                    "is_clicked": req.body.is_clicked,
+                    "created_at": cat,
+                    "updated_at": uat
+                }
+            }, function (err, resp, status) {
+                return resp;
+            });
+        } else {
+            res.render('index', {title: 'Wrong type, please provide a valid type'});
+        }
     }
-  }
 });
 
 //crd wherre unigue id == campaign_id and billsec > 25
