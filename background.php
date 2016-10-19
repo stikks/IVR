@@ -18,7 +18,7 @@ foreach ($campaigns as $value) {
     $_date = date($value->end_date);
     if ($_date < $now) {
         $value->deactivate();
-        $file = Files::where('file_path', $value->file_path);
+        $file = Files::where('file_path', $value->file_path)->first();
         unlink("/var/lib/asterisk/sounds/files/" . $value->username . '/' . $file->name);
     }
 }
