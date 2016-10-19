@@ -44,6 +44,7 @@ $actions = "CREATE TABLE IF NOT EXISTS actions(
   campaign_id INTEGER REFERENCES campaigns(id) NOT NULL,
   number INTEGER NOT NULL,
   body VARCHAR (255) NOT NULL,
+  script VARCHAR (255) NOT NULL,
   value VARCHAR (255) NOT NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_at date DEFAULT NULL
