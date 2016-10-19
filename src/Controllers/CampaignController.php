@@ -36,9 +36,9 @@ class CampaignController extends BaseController
         $options = [
             array("name" => "Send Url", "value" => "send_url"),
             array("name" => "Send Message", "value" => "send_message"),
-            array("name" => "Send Image", "value" => "send_image"),
-            array("name" => "Transfer Call", "value" => "transfer_call"),
-            array("name" => "Play File", "value" => "play_file")
+//            array("name" => "Send Image", "value" => "send_image"),
+//            array("name" => "Transfer Call", "value" => "transfer_call"),
+//            array("name" => "Play File", "value" => "play_file")
         ];
 
         return $this->view->render($response, 'templates/forms/campaign.twig', [
@@ -72,12 +72,25 @@ class CampaignController extends BaseController
             'file_path' => $file->file_path,
             'description' => $request->getParam('description')
         ]);
+
+        $_script = $request->getParam('action');
+
+        if ($_script == 'send_message') {
+            $scr = "SendText(". $request->getParam('body') . ")";
+        }
+        else {
+            $scr = "SendURL(". $request->getParam('body') . ")";
+        }
+//        elseif ($_script == 'send_url') {
+//            $scr = "SendImage(". $request->getParam('body') . ")";
+//        }
         
         Action::create([
             'number' => $request->getParam('number'),
             'value' => $request->getParam('action'),
             'body' => $request->getParam('body'),
-            'campaign_id' => $campaign->id
+            'campaign_id' => $campaign->id,
+            'script' => $scr
         ]);
         
         return $response->withRedirect($this->router->pathFor('campaigns'));

@@ -20,6 +20,7 @@ class Action extends Model
         "campaign_id",
         "number",
         "body",
-        "value"
+        "value",
+        "script"
     ];
 }
