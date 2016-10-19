@@ -78,7 +78,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                     "end_date": ed
                 }
             }, function (err, resp, status) {
-                res.render('index', {title: resp});
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({response: resp, error: err, status: status}));
             });
         } else if (req.params.type == "statuses") {
             var cat = new Date(req.body.created_at);
@@ -97,7 +98,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                     "updated_at": uat
                 }
             }, function (err, resp, status) {
-                return resp;
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({response: resp, error: err, status: status}));
             });
         } else if (req.params.type == "cdr") {
             var cat = new Date(req.body.created_at);
@@ -134,10 +136,12 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                     "updated_at": uat
                 }
             }, function (err, resp, status) {
-                return resp;
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({response: resp, error: err}));
             });
         } else {
-            res.render('index', {title: 'Wrong type, please provide a valid type'});
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({error: 'Wrong type, please provide a valid type'}));
         }
     }
 });
