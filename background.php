@@ -5,6 +5,7 @@
  * Date: 10/19/16
  * Time: 10:54 AM
  */
+date_default_timezone_set('Africa/Lagos');
 require __DIR__ . '/bootstrap/app.php';
 use App\Models\Campaign;
 use App\Models\Files;
