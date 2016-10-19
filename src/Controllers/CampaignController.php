@@ -9,6 +9,7 @@
 namespace App\Controllers;
 use App\Models\Campaign;
 use App\Models\Files;
+use App\Services\Index;
 use DateTime;
 use Respect\Validation\Validator as Val;
 use App\Models\Action;
@@ -120,6 +121,16 @@ class CampaignController extends BaseController
         $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $user->username . '/' . $file->name;;
 
         shell_exec($command);
+
+        Index::index('campaign', [
+            'username' => $campaign->username,
+            'start_date' => $campaign->start_date,
+            'end_date' => $campaign->end_date,
+            'name' => $campaign->name,
+            'file_path' => $campaign->file_path,
+            'description' => $campaign->description,
+            'id' => $campaign->id
+        ]);
 
         return $response->withRedirect($this->router->pathFor('campaigns'));
 

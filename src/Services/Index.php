@@ -11,13 +11,14 @@ namespace App\Services;
 
 class Index
 {
-    public function index() {
-        $ch = curl_init();
+    static public function index($type, $params=array()) {
 
-        curl_setopt($ch, CURLOPT_URL,"http://localhost:4043/tester.phtml");
+        $ch = curl_init();
+        $url = 'http://localhost:4043/api/elasticsearch/'. $type.'/create';
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
-         curl_setopt($ch, CURLOPT_POSTFIELDS, 
-                  http_build_query(array('postvar1' => 'value1')));
+        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                  http_build_query($params));
         
         // receive server response ...
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -26,8 +27,7 @@ class Index
 
         curl_close ($ch);
 
-    // further processing ....
-        if ($server_output == "OK") { ... } else { ... }
+        return $server_output;
     }
 
 }
