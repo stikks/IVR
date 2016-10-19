@@ -14,7 +14,11 @@ class ReportController extends BaseController
 
     public function getPage($request, $response){
 
-        return $this->view->render($response, 'templates/reports.twig');
+        $user = $this->auth->user();
+
+        return $this->view->render($response, 'templates/reports.twig',[
+            'user' => $user
+        ]);
     }
 
     public function getCampaign($request, $response, $args){
