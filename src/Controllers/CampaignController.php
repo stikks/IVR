@@ -54,7 +54,8 @@ class CampaignController extends BaseController
 
         $match = ['name' => $request->getParam('file'), 'username' => $user->username];
 
-        $file = Files::where()->first($match);
+
+        $file = Files::where($match)->first();
         
         $match = ['file_path' => $file->file_path, 'username' => $user->username];
         
