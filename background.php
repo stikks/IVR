@@ -20,6 +20,6 @@ foreach ($campaigns as $value) {
     if ($value->created_at < $now) {
         $value->deactivate();
         $file = Files::where('file_path', $value->file_path);
-        unlink(realpath(__DIR__ . '/../..'). "/campaign_files/" . $value->username . '/' . $file->name);
+        unlink("/var/lib/asterisk/sounds/files/" . $value->username . '/' . $file->name);
     }
 }

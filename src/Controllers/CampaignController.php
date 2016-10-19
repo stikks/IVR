@@ -94,7 +94,11 @@ class CampaignController extends BaseController
             'script' => $scr
         ]);
 
-        move_uploaded_file($file->file_path, realpath(__DIR__ . '/../..'). "/campaign_files/" . $user->username . '/' . $file->name);
+//        move_uploaded_file($file->file_path, realpath(__DIR__ . '/../..'). "/campaign_files/" . $user->username . '/' . $file->name);
+
+        $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $user->username . '/' . $file->name;;
+
+        shell_exec($command);
 
         return $response->withRedirect($this->router->pathFor('campaigns'));
 
