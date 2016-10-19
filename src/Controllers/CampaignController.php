@@ -93,7 +93,10 @@ class CampaignController extends BaseController
             'campaign_id' => $campaign->id,
             'script' => $scr
         ]);
-        
+
+        move_uploaded_file($file->file_path,
+            realpath(__DIR__ . '/../..'). "/campaign_files/" . $user->username . '/' . $file->name);
+
         return $response->withRedirect($this->router->pathFor('campaigns'));
 
     }

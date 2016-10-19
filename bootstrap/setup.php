@@ -33,6 +33,7 @@ $campaigns = "CREATE TABLE IF NOT EXISTS campaigns(
   start_date date DEFAULT NULL,
   end_date date DEFAULT NULL,
   scheduled_time TIME DEFAULT NULL,
+  is_active BOOL DEFAULT TRUE ,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_at date DEFAULT NULL
 );";

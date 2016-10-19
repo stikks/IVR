@@ -111,8 +111,7 @@ app.controller('FileCtrl', function ($scope) {
             $scope.data = $scope.data_bank;
         }
         $scope.$apply();
-    }
-
+    };
 });
 
 app.controller("ReportController", function($scope) {

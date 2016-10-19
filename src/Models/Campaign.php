@@ -19,16 +19,15 @@ class Campaign extends Model
         "start_date",
         "name",
         "end_date",
-        "description"
+        "description",
+        "is_active"
     ];
 
-//    public function updateData($name, $description, $start_date, $end_date) {
-//
-//        $this->update([
-//            'name' => $name
-//        ]);
-//        echo $this;
-//        exit();
-//    }
+    public function deactivate() {
+
+        $this->update([
+            'is_active' => false
+        ]);
+    }
 
 }
