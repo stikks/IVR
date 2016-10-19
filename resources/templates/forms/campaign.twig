@@ -172,21 +172,21 @@
                     </div>
 
                     <div class="panel-body">
-                        {% if campaign or files|length > 0 %}
+                        {% if error or campaign or files|length > 0 %}
                         <form class="form-horizontal" action="{{ path_for('post_campaign') }}" method="post">
                             <fieldset class="content-group">
-
                                 <div class="form-group">
                                     <label class="control-label col-lg-2"><strong>Name</strong></label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name here" required>
+                                        <span style="color: red;">{{ error }}</span>
+                                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name here" value="{{ old.name }}" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="control-label col-lg-2"><strong>Description</strong></label>
                                     <div class="col-lg-10">
-                                        <textarea rows="5" cols="5" class="form-control" placeholder="Enter description here" name="description" id="description"></textarea>
+                                        <textarea rows="5" cols="5" class="form-control" placeholder="Enter description here" name="description" id="description">{{ old.description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -272,7 +272,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2"><strong>Number (between 2 and 9)</strong></label>
                                     <div class="col-lg-10">
-                                        <input type="number" name="number" id="number" class="form-control" min="2" max="9" placeholder="Enter Call to action number here" required>
+                                        <input type="number" name="number" id="number" class="form-control" min="2" max="9" placeholder="Enter Call to action number here" value="{{ old.number }}" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -288,7 +288,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-2"><strong>Extension/Text/Url</strong></label>
                                     <div class="col-lg-10">
-                                        <input type="text" name="body" id="body" class="form-control" placeholder="Enter url, text or extension here" required>
+                                        <input type="text" name="body" id="body" class="form-control" value="{{ old.body }}" placeholder="Enter url, text or extension here" required>
                                     </div>
                                 </div>
                             </fieldset>

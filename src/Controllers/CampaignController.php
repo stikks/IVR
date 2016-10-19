@@ -50,6 +50,18 @@ class CampaignController extends BaseController
 
     public function postData($request, $response){
 
+        $file = Files::where('name', $request->getParam('file'))->first();
+        
+        $campaign = Campaign::where('file_path', $file->file_path)->first();
+
+        if ($campaign)
+        {
+            $error =  "A campaign using this audio file already exists";
+            return $this->view->render($response, 'templates/forms/campaign.twig', [
+                'error' => $error
+            ]);
+        }
+        
         $user = $this->auth->user();
 
         $start_date = DateTime::createFromFormat('d/m/Y', $request->getParam('start_date'))->format('Y-m-d');
@@ -62,8 +74,6 @@ class CampaignController extends BaseController
         if ($validation->failed()) {
             return $response->withRedirect($this->router->pathFor('register'));
         }
-
-        $file = Files::where('name', $request->getParam('file'))->first();
         
         $campaign = Campaign::create([
             'username' => $user->username,
@@ -94,8 +104,6 @@ class CampaignController extends BaseController
             'script' => $scr
         ]);
 
-//        move_uploaded_file($file->file_path, realpath(__DIR__ . '/../..'). "/campaign_files/" . $user->username . '/' . $file->name);
-
         $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $user->username . '/' . $file->name;;
 
         shell_exec($command);
@@ -121,16 +129,27 @@ class CampaignController extends BaseController
         $start_date = new DateTime($campaign->start_date);
         $start = $start_date->format('d/m/Y');
 
-
         $end_date = new DateTime($campaign->end_date);
         $end = $end_date->format('d/m/Y');
-        
+
+        $action = Action::where('campaign_id', $campaign->id)->first();
+
+        $options = [
+            array("name" => "Send Url", "value" => "send_url"),
+            array("name" => "Send Message", "value" => "send_message"),
+//            array("name" => "Send Image", "value" => "send_image"),
+//            array("name" => "Transfer Call", "value" => "transfer_call"),
+//            array("name" => "Play File", "value" => "play_file")
+        ];
+
         return $this->view->render($response, 'templates/forms/update_campaign.twig', [
             'campaign' => $campaign,
             'user' => $user,
             'files' => $files,
             'start' => $start,
-            'end' => $end
+            'end' => $end,
+            'action' => $action,
+            'options' => $options
         ]);
     }
 
@@ -152,6 +171,24 @@ class CampaignController extends BaseController
             'description' => $request->getParam('description'),
             'start_date' => $start_date,
             'end_date' => $end_date
+        ]);
+
+        $action = Action::where('campaign_id', $campaign->id)->first();
+
+        $_script = $request->getParam('action');
+
+        if ($_script == 'send_message') {
+            $scr = "SendText(". $request->getParam('body') . ")";
+        }
+        else {
+            $scr = "SendURL(". $request->getParam('body') . ")";
+        }
+
+        $action->update([
+            'number' => $request->getParam('number'),
+            'value' => $request->getParam('action'),
+            'body' => $request->getParam('body'),
+            'script' => $scr
         ]);
         
         return $response->withRedirect($this->router->pathFor('campaigns'));

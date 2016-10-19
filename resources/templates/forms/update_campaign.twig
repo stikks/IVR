@@ -277,6 +277,34 @@
                                 </div>
                             </fieldset>
 
+                            <fieldset class="content-group">
+                                <legend class="text-bold">CONFIGURE CALL TO ACTION</legend>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Number (between 2 and 9)</strong></label>
+                                    <div class="col-lg-10">
+                                        <input type="number" name="number" id="number" class="form-control" min="2" max="9" placeholder="Enter Call to action number here" value="{{ action.number }}" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Action</strong></label>
+                                    <div class="col-lg-10">
+                                        <select name="action" class="form-control" id="action" required>
+                                            {% for option in options  %}
+                                                <option {% if action.value == option.value %}selected{% endif %}
+                                                        value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Extension/Text/Url</strong></label>
+                                    <div class="col-lg-10">
+                                        <input type="text" name="body" id="body" class="form-control" value="{{ action.body }}" placeholder="Enter url, text or extension here" required>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
                             <div class="text-right">
                                 <button type="submit" class="btn btn-success">Submit <i
                                             class="icon-arrow-right14 position-right"></i></button>
