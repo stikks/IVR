@@ -14,10 +14,9 @@ $now = date('Y-m-d');
 
 $campaigns = Campaign::all();
 
-//print_r($campaigns);
-
 foreach ($campaigns as $value) {
-    if ($value->created_at < $now) {
+    $_date = date($value->end_date);
+    if ($_date < $now) {
         $value->deactivate();
         $file = Files::where('file_path', $value->file_path);
         unlink("/var/lib/asterisk/sounds/files/" . $value->username . '/' . $file->name);
