@@ -57,15 +57,17 @@ class UploadController extends BaseController
                 }
                 else
                 {
-                    move_uploaded_file($_FILES["advert"]["tmp_name"],
-                        realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_' . $_FILES["advert"]["name"]);
+                    $temp_file = realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_' . $_FILES["advert"]["name"];
+                    move_uploaded_file($_FILES["advert"]["tmp_name"], $temp_file);
 //                    Converter::convert(realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_'. $_FILES["advert"]["name"], explode(".", $_FILES["advert"]["name"])[0], realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/');
 
                     $name =''. preg_replace('/\s+/', '', explode(".", $_FILES["advert"]["name"])[0]) . '.wav';
 
-                    $address = '/usr/bin/ffmpeg -y -i '. realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/temp_'. $_FILES["advert"]["name"] .' -acodec adpcm_ms '. realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/'. $name;
+                    $address = '/usr/bin/ffmpeg -y -i '. $temp_file .' -acodec adpcm_ms '. realpath(__DIR__ . '/../..'). "/files/"  . $user->username . '/'. $name;
 
                     shell_exec($address);
+
+                    unlink($temp_file);
 
                     $file_path = realpath(__DIR__ . '/../..'). "/files/" . $user->username . '/' . $name;
 
