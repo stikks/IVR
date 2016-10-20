@@ -9,6 +9,13 @@
 use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
 
+$app->post('/cdr', function($request, $response){
+    $file = '/var/www/html/messages.log';
+    file_put_contents($file, $request->getParams(), FILE_APPEND);
+    var_dump($request->getParams());
+    exit();
+});
+
 $app->group('', function (){
     
     $this->get('/login', 'LoginController:getPage')->setName('login');
@@ -36,8 +43,6 @@ $app->group('', function (){
     $this->post('/upload', 'UploadController:postData');
 
     $this->get('/file', 'FileController:getPage')->setName('files');
-
-//    $this->get('/files', 'FileController:getPage')->setName('files');
 
     $this->post('/settings', 'SettingsController:postData');
 
