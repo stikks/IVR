@@ -43,7 +43,7 @@ $app->group('', function (){
 
     $this->get('/logout', 'IndexController:logOut')->setName('logout');
 
-    $this->get('/campaigns/{campaign_id}/report', 'ReportController:getCampaign')->setName('report');
+    $this->get('/campaigns/{campaign_id}/report', 'ReportController:getCampaign')->setName('campaign_report');
 
     $this->get('/reports', 'ReportController:getPage')->setName('reports');
     
