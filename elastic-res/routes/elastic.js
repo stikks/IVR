@@ -104,7 +104,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
         }
 
         client.index({
-            index: 'cdr',
+            index: 'ivr',
             id: req.body.uniqueid,
             type: req.params.type,
             body: {
