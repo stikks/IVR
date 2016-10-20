@@ -17,12 +17,12 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, 1);
 
 $body = array(
-    "clid" => $agi->get_variable('CDR(clid)'),
-    "src" => $agi->get_variable('CDR(src)'),
-    "duration" => $agi->get_variable('CDR(duration)'),
-    "billsec" => $agi->get_variable('CDR(billsec)'),
-    "uniqueid" => $agi->get_variable('CDR(uniqueid)'),
-    "userfield" => $agi->get_variable('CDR(userfield)')
+    "clid" => $agi->get_variable('CDR(clid)')['data'],
+    "src" => $agi->get_variable('CDR(src)')['data'],
+    "duration" => $agi->get_variable('CDR(duration)')['data'],
+    "billsec" => $agi->get_variable('CDR(billsec)')['data'],
+    "uniqueid" => $agi->get_variable('CDR(uniqueid)')['data'],
+    "userfield" => $agi->get_variable('CDR(userfield)')['data']
 );
 
 curl_setopt($ch, CURLOPT_POSTFIELDS,

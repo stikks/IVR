@@ -133,8 +133,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             res.send(JSON.stringify({response: resp, error: err}));
         });
     } else {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({error: 'Wrong type, please provide a valid type'}));
+        // res.setHeader('Content-Type', 'application/json');
+        // res.send(JSON.stringify({error: 'Wrong type, please provide a valid type'}));
     }
 
     // if (req.body.id == null || req.body.uniqueid == null) {
