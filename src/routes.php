@@ -10,7 +10,7 @@ use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
 
 $app->post('/cdr', function($request, $response){
-    $file = '/var/www/html/messages.log';
+    $file = '/var/www/html/marketing/messages.log';
     file_put_contents($file, $request->getParams(), FILE_APPEND);
     var_dump($request->getParams());
     exit();

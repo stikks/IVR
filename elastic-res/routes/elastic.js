@@ -118,22 +118,17 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                     "clid": req.body.clid,
                     "channel": req.body.channel,
                     "dstchannel": req.body.dstchannel,
-                    "lastapp": req.body.lastapp,
-                    "lastdata": req.body.lastdata,
                     "start": req.body.start,
                     "answer": req.body.answer,
                     "end": req.body.end,
                     "duration": req.body.duration,
-                    "billsec": req.body.billsec,
                     "disposition": req.body.disposition,
-                    "amaflags": req.body.amaflags,
-                    "userfield": req.body.userfield,
+                    "userfield": req.body.campaign_id,
                     "uniqueid": req.body.uniqueid,
                     //custom fields that need to be updated in db
                     "impression": req.body.impression,
-                    "is_clicked": req.body.is_clicked,
+                    "is_successful": req.body.is_successful,
                     "created_at": cat,
-                    "updated_at": uat
                 }
             }, function (err, resp, status) {
                 res.setHeader('Content-Type', 'application/json');
