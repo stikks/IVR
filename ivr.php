@@ -12,7 +12,7 @@ require('phpagi.php');
 $agi = new AGI();
 $ch = curl_init();
 
-$url = 'http://localhost/marketing/cdr';
+$url = 'http://localhost:4043/api/elasticsearch/cdr/create';
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, 1);
 
@@ -23,11 +23,6 @@ $body = array(
     "billsec" => $agi->get_variable('CDR(billsec)'),
     "uniqueid" => $agi->get_variable('CDR(uniqueid)'),
     "userfield" => $agi->get_variable('CDR(userfield)')
-//    "start" => $agi->get_variable('CDR(start)'),
-//    "answer" => $agi->get_variable('CDR(answer)'),
-//    "end" => $agi->get_variable('CDR(end)'),
-//    "disposition" => $agi->get_variable('CDR(disposition)'),
-//    "accountcode" => $agi->get_variable('CDR(accountcode)'),
 );
 
 curl_setopt($ch, CURLOPT_POSTFIELDS,

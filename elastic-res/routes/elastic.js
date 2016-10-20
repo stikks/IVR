@@ -45,9 +45,7 @@ client.exists({
 //Indexing into a type
 router.post('/elasticsearch/:type/create', function (req, res, next) {
 
-    if (req.body.name == null && req.body.created_at == null &&
-        req.body.updated_at == null && req.body.start_date == null &&
-        req.body.end_date == null && req.body.file_path == null && req.body.scheduled_time == null) {
+    if (req.body.id == null || req.body.uniqueid == null) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({message: 'Missing parameters'}));
     } else {
@@ -112,7 +110,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
 
             client.index({
                 index: 'cdr',
-                id: req.body.id,
+                id: req.body.uniqueid,
                 type: req.params.type,
                 body: {
                     "src": req.body.src,
