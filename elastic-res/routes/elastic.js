@@ -103,32 +103,37 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             });
         } else if (req.params.type == "cdr") {
             var cat = new Date(req.body.created_at);
-            var uat = new Date(req.body.updated_at);
             cat.toDateString;
-            uat.toDateString;
+            var impression = false;
+
+            if (req.body.billsec > 25) {
+                impression = true;
+            }
+
             client.index({
                 index: 'cdr',
                 id: req.body.id,
                 type: req.params.type,
                 body: {
-                    "accountcode": req.body.accountcode,
                     "src": req.body.src,
-                    "dst": req.body.dst,
-                    "dcontext": req.body.dcontext,
                     "clid": req.body.clid,
-                    "channel": req.body.channel,
-                    "dstchannel": req.body.dstchannel,
-                    "start": req.body.start,
-                    "answer": req.body.answer,
-                    "end": req.body.end,
                     "duration": req.body.duration,
-                    "disposition": req.body.disposition,
                     "userfield": req.body.campaign_id,
                     "uniqueid": req.body.uniqueid,
+                    "impression": impression,
+                    "billsec": req.body.billsec,
+                    "is_successful": false,
+                    "created_at": cat
+                    // "accountcode": req.body.accountcode,
+                    // "dst": req.body.dst,
+                    // "dcontext": req.body.dcontext,
+                    // "channel": req.body.channel,
+                    // "dstchannel": req.body.dstchannel,
+                    // "start": req.body.start,
+                    // "answer": req.body.answer,
+                    // "end": req.body.end,
+                    // "disposition": req.body.disposition,
                     //custom fields that need to be updated in db
-                    "impression": req.body.impression,
-                    "is_successful": req.body.is_successful,
-                    "created_at": cat,
                 }
             }, function (err, resp, status) {
                 res.setHeader('Content-Type', 'application/json');

@@ -19,19 +19,15 @@ curl_setopt($ch, CURLOPT_POST, 1);
 $body = array(
     "clid" => $agi->get_variable('CDR(clid)'),
     "src" => $agi->get_variable('CDR(src)'),
-    "dst" => $agi->get_variable('CDR(dst)'),
-    "dcontext" => $agi->get_variable('CDR(dcontext)'),
-    "channel" => $agi->get_variable('CDR(channel)'),
-    "dstchannel" => $agi->get_variable('CDR(dstchannel)'),
-    "start" => $agi->get_variable('CDR(start)'),
-    "answer" => $agi->get_variable('CDR(answer)'),
-    "end" => $agi->get_variable('CDR(end)'),
     "duration" => $agi->get_variable('CDR(duration)'),
     "billsec" => $agi->get_variable('CDR(billsec)'),
-    "disposition" => $agi->get_variable('CDR(disposition)'),
-    "accountcode" => $agi->get_variable('CDR(accountcode)'),
     "uniqueid" => $agi->get_variable('CDR(uniqueid)'),
     "userfield" => $agi->get_variable('CDR(userfield)')
+//    "start" => $agi->get_variable('CDR(start)'),
+//    "answer" => $agi->get_variable('CDR(answer)'),
+//    "end" => $agi->get_variable('CDR(end)'),
+//    "disposition" => $agi->get_variable('CDR(disposition)'),
+//    "accountcode" => $agi->get_variable('CDR(accountcode)'),
 );
 
 curl_setopt($ch, CURLOPT_POSTFIELDS,
