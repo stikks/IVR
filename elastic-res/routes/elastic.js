@@ -394,6 +394,23 @@ router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
 
 router.get('/elasticsearch/:type/all', function (req, res, next) {
     //All index object for a type
+    res.setHeader('Content-Type', 'application/json');
+    client.search({
+        index: 'ivr',
+        type: req.params.type,
+        body: {
+            "query": {
+                "constant_score": {
+                   "filter": {
+                       "match_all": {}
+                   }
+                }
+            }
+        }
+    }).then(function (resp) {
+        result =  resp.hits.hits;
+        return res.send(JSON.stringify({message: result}));
+    });
 });
 
 router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
@@ -413,6 +430,22 @@ router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
 
     var cdr_count_today = ivrDataFilterToday.getCdrCount;
     var cdr_count_yesterday = ivrDataFilterYesterday.getCdrCount;
+
+    var result = [
+         {
+            impression_count : impression_count_today,
+            success_count : success_count_today,
+            cdr_count : cdr_count_today
+        },
+
+        {
+            impression_count: impression_count_yesterday,
+            success_count: success_count_yesterday,
+            cdr_count: cdr_count_yesterday
+        }
+    ] 
+
+    return next(res.send(JSON.stringify({message: result})));
 
 
     //A json encoded response 
