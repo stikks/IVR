@@ -88,15 +88,10 @@ class CampaignController extends BaseController
         if ($validation->failed()) {
             return $response->withRedirect($this->router->pathFor('register'));
         }
-        
-        $campaign = Campaign::create([
-            'username' => $user->username,
-            'start_date' => $start_date,
-            'end_date' => $end_date,
-            'name' => $request->getParam('name'),
-            'file_path' => $file->file_path,
-            'description' => $request->getParam('description')
-        ]);
+
+        $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $campaign->username . '/'. $file->name;
+
+        shell_exec($command);
 
         $_script = $request->getParam('action');
 
@@ -106,21 +101,30 @@ class CampaignController extends BaseController
         else {
             $scr = "SendURL(". $request->getParam('body') . ")";
         }
+        
+        $campaign = Campaign::create([
+            'username' => $user->username,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'name' => $request->getParam('name'),
+            'file_path' => $file->file_path,
+            'description' => $request->getParam('description'),
+            'value' => $request->getParam('action'),
+            'body' => $request->getParam('body'),
+            'script' => $scr,
+            'play_path' => "/var/lib/asterisk/sounds/files/" . $campaign->username . '/'. $file->name
+        ]);
 //        elseif ($_script == 'send_url') {
 //            $scr = "SendImage(". $request->getParam('body') . ")";
 //        }
         
-        Action::create([
-            'number' => $request->getParam('number'),
-            'value' => $request->getParam('action'),
-            'body' => $request->getParam('body'),
-            'campaign_id' => $campaign->id,
-            'script' => $scr
-        ]);
-
-        $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $user->username . '/' . $file->name;;
-
-        shell_exec($command);
+//        Action::create([
+//            'number' => $request->getParam('number'),
+//            'value' => $request->getParam('action'),
+//            'body' => $request->getParam('body'),
+//            'campaign_id' => $campaign->id,
+//            'script' => $scr
+//        ]);
 
         Index::index('campaign', [
             'username' => $campaign->username,
@@ -129,7 +133,12 @@ class CampaignController extends BaseController
             'name' => $campaign->name,
             'file_path' => $campaign->file_path,
             'description' => $campaign->description,
-            'id' => $campaign->id
+            'id' => $campaign->id,
+            'created_at' => $campaign->created_at,
+            'updated_at' => $campaign->updated_at,
+            'value' => $campaign->action,
+            'body' => $campaign->body,
+            'script' => $campaign->script,
         ]);
 
         return $response->withRedirect($this->router->pathFor('campaigns'));

@@ -8,6 +8,27 @@ var client = elasticsearch.Client({
     log: 'trace'
 });
 
+//Search for campaign where this file_path matches
+var findCampaign = function (file_path) {
+    client.search({
+        index: 'ivr',
+        type: 'campagin',
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "term":{
+                            "file_path" : file_path
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function (resp) {
+        return resp.hits.hits;
+    });
+};
+
 client.ping({
     // ping usually has a 3000ms timeout
     requestTimeout: Infinity,
@@ -42,6 +63,41 @@ client.exists({
     }
 });
 
+client.indices.putMapping({
+    index: 'ivr',
+    type: 'campaign',
+    body: {
+        "properties": {
+            "file_path": {
+                "type": "string",
+                "index": "not_analyzed"
+            }
+        }
+    }
+});
+
+router.post('/campaign/retrieve', function (req, res, next) {
+    var variable = req.body.file_path || null;
+    client.search({
+        index: 'ivr',
+        type: 'campaign',
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "term": {
+                            "file_path" : variable
+                        }
+                    }
+                }
+            }
+        }
+    }), function (err, resp, status) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({response: resp, error: err, status: status}));
+    };
+});
+
 //Indexing into a type
 router.post('/elasticsearch/:type/create', function (req, res, next) {
 
@@ -61,7 +117,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             id: req.body.id,
             body: {
                 "name": req.body.name,
-                "description": req.body.description,
+                    "description": req.body.description,
                 "username": req.body.username,
                 "is_active": req.body.is_active,
                 "file_path": req.body.file_path,
@@ -95,6 +151,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             res.send(JSON.stringify({response: resp, error: err, status: status}));
         });
     } else if (req.params.type == "cdr") {
+
+        var campaign = findCampaign(req.body.file_path);
         var cat = new Date(req.body.created_at);
         cat.toDateString;
         var impression = false;
@@ -111,7 +169,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "src": req.body.src,
                 "clid": req.body.clid,
                 "duration": req.body.duration,
-                "userfield": req.body.campaign_id,
+                "userfield": campaign.id,
                 "uniqueid": req.body.uniqueid,
                 "impression": impression,
                 "billsec": req.body.billsec,
@@ -445,7 +503,6 @@ var groupBy = function (xs, key) {
         }, {}
     );
 };
-
 
 /* GET elastic listing. */
 router.get('/', function (req, res, next) {

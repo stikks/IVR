@@ -30,10 +30,14 @@ $campaigns = "CREATE TABLE IF NOT EXISTS campaigns(
   name VARCHAR (255) NOT NULL,
   description VARCHAR (255) NULL,
   file_path VARCHAR (255) NOT NULL,
+  play_path VARCHAR (255) NULL,
   start_date date DEFAULT NULL,
   end_date date DEFAULT NULL,
   scheduled_time TIME DEFAULT NULL,
-  is_active BOOL DEFAULT TRUE ,
+  is_active BOOL DEFAULT TRUE,
+  body VARCHAR (255) NULL,
+  script VARCHAR (255) NULL,
+  value VARCHAR (255) NULL,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_at date DEFAULT NULL
 );";
