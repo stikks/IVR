@@ -408,7 +408,7 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
                 }
             }
         }
-    }).then(function (resp)){
+    }).then(function (resp) {
         result =  resp.hits.hits;
         return res.send(JSON.stringify({message: result}));
     });
