@@ -408,8 +408,8 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
             }
         }
     }, function (resp){
-        return resp.hits.hits;
-        // return res.send(JSON.stringify({message: response}));
+        result =  resp.hits.hits;
+        return res.send(JSON.stringify({message: result}));
     });
 });
 
