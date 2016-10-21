@@ -102,12 +102,12 @@ router.post('/campaign/retrieve', function (req, res, next) {
 router.post('/elasticsearch/:type/create', function (req, res, next) {
 
     if (req.params.type == "campaign") {
-        var cat = new Date(req.body.created_at);
-        var uat = new Date(req.body.updated_at);
+        var created = new Date(req.body.created_at);
+        var updated = new Date(req.body.updated_at);
         var sd = new Date(req.body.start_date);
         var ed = new Date(req.body.end_date);
-        cat.toDateString
-        uat.toDateString
+        created.toDateString
+        updated.toDateString
         sd.toDateString
         ed.toDateString
 
@@ -121,8 +121,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "username": req.body.username,
                 "is_active": req.body.is_active,
                 "file_path": req.body.file_path,
-                "created_at": cat,
-                "updated_at": uat,
+                "created_at": created,
+                "updated_at": updated,
                 "start_date": sd,
                 "end_date": ed
             }
@@ -232,7 +232,7 @@ router.get('/no_of_campaign', function (req, res, next) {
                 }
             }
         }
-    }).then(function (resp) {
+    }, function (resp, err, status) {
         var result = resp.hits.hits;
 
         var ar = groupBy(result, "created_at");
@@ -240,9 +240,8 @@ router.get('/no_of_campaign', function (req, res, next) {
         var cat = Object.keys(ar);
 
         var data = {"series": res, "text": 'Campaign Impressions', "subtitle": "ivr", "categories": cat}
-        return data
-    }, function (err) {
-        console.trace(err.message);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({response: data, error: err, status: status}));
     });
 });
 
@@ -265,7 +264,7 @@ router.get('/impressions/:campaign_id', function (req, res, next) {
                             "must": [
                                 {
                                     "term": {
-                                        "uniqueid": body.params.campaign_id
+                                        "userfield": body.params.campaign_id
                                     }
                                 }
                             ],

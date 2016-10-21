@@ -89,7 +89,7 @@ class CampaignController extends BaseController
             return $response->withRedirect($this->router->pathFor('register'));
         }
 
-        $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $campaign->username . '/'. $file->name;
+        $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $user->username . '/'. $file->name;
 
         shell_exec($command);
 
@@ -112,7 +112,7 @@ class CampaignController extends BaseController
             'value' => $request->getParam('action'),
             'body' => $request->getParam('body'),
             'script' => $scr,
-            'play_path' => "/var/lib/asterisk/sounds/files/" . $campaign->username . '/'. $file->name
+            'play_path' => "/var/lib/asterisk/sounds/files/" . $user->username . '/'. $file->name
         ]);
 //        elseif ($_script == 'send_url') {
 //            $scr = "SendImage(". $request->getParam('body') . ")";
@@ -126,6 +126,9 @@ class CampaignController extends BaseController
 //            'script' => $scr
 //        ]);
 
+        $created_date = DateTime::createFromFormat('Y-m-d', $campaign->created_at)->format('Y-m-d');
+        $updated_date = DateTime::createFromFormat('Y-m-d', $campaign->updated_at)->format('Y-m-d');
+
         Index::index('campaign', [
             'username' => $campaign->username,
             'start_date' => $campaign->start_date,
@@ -134,8 +137,8 @@ class CampaignController extends BaseController
             'file_path' => $campaign->file_path,
             'description' => $campaign->description,
             'id' => $campaign->id,
-            'created_at' => $campaign->created_at,
-            'updated_at' => $campaign->updated_at,
+            'created_at' => $created_date,
+            'updated_at' => $updated_date,
             'value' => $campaign->action,
             'body' => $campaign->body,
             'script' => $campaign->script,
