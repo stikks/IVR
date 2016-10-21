@@ -407,7 +407,9 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
                 }
             }
         }
-    })
+    }).then(function (resp){
+        return resp.hits.hits;
+    });
 });
 
 router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
