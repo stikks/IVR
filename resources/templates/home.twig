@@ -310,22 +310,23 @@
                     <!-- Marketing campaigns -->
                     <div class="panel panel-flat">
                         <div class="panel-heading">
-                            <h6 class="panel-title"><a href="{{ path_for('campaigns') }}">{{ username| title }} campaigns</a></h6>
+                            <h6 class="panel-title"><a href="{{ path_for('campaigns') }}"><strong>{{ username| title }} campaigns Activity</strong></a></h6>
+                            <small>Total Number of Calls on all campaigns</small>
                             <div class="heading-elements">
                                 <span class="label bg-success heading-text">[[ active_campaigns.length ]] active</span>
-                                <ul class="icons-list">
-                                    <li class="dropdown">
-                                        <a href="{{ path_for('campaigns') }}" class="dropdown-toggle" data-toggle="dropdown"><i
-                                                    class="icon-menu7"></i></a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="#"><i class="icon-sync"></i> Update data</a></li>
-                                            <li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>
-                                            <li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                {#<ul class="icons-list">#}
+                                    {#<li class="dropdown">#}
+                                        {#<a href="{{ path_for('campaigns') }}" class="dropdown-toggle" data-toggle="dropdown"><i#}
+                                                    {#class="icon-menu7"></i></a>#}
+                                        {#<ul class="dropdown-menu dropdown-menu-right">#}
+                                            {#<li><a href="#"><i class="icon-sync"></i> Update data</a></li>#}
+                                            {#<li><a href="#"><i class="icon-list-unordered"></i> Detailed log</a></li>#}
+                                            {#<li><a href="#"><i class="icon-pie5"></i> Statistics</a></li>#}
+                                            {#<li class="divider"></li>#}
+                                            {#<li><a href="#"><i class="icon-cross3"></i> Clear list</a></li>#}
+                                        {#</ul>#}
+                                    {#</li>#}
+                                {#</ul>#}
                             </div>
                         </div>
 
@@ -349,7 +350,7 @@
                                                     <span class="status-mark border-success"></span>
                                                 </li>
                                                 <li>
-                                                    <span class="text-muted">May 12, 12:30 am</span>
+                                                    <span class="text-muted">Today</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -362,16 +363,16 @@
 
                                         <div class="media-left">
                                             <h5 class="text-semibold no-margin">2,458
-                                                <small class="text-danger text-size-base"><i
-                                                            class="icon-arrow-down12"></i> (- 4.9%)
-                                                </small>
+                                                {#<small class="text-danger text-size-base"><i#}
+                                                            {#class="icon-arrow-down12"></i> (- 4.9%)#}
+                                                {#</small>#}
                                             </h5>
                                             <ul class="list-inline list-inline-condensed no-margin">
                                                 <li>
                                                     <span class="status-mark border-danger"></span>
                                                 </li>
                                                 <li>
-                                                    <span class="text-muted">Jun 4, 4:00 am</span>
+                                                    <span class="text-muted">Yesterday</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -391,9 +392,9 @@
                                 <thead>
                                 <tr>
                                     <th>Campaign</th>
-                                    <th class="col-md-2">Client</th>
-                                    <th class="col-md-2">Changes</th>
-                                    <th class="col-md-2">Budget</th>
+                                    <th class="col-md-2">Calls Count</th>
+                                    <th class="col-md-2">Impressions Count</th>
+                                    <th class="col-md-2">Success Count</th>
                                     <th class="col-md-2">Status</th>
                                     <th class="text-center" style="width: 20px;"><i class="icon-arrow-down12"></i></th>
                                 </tr>
@@ -431,14 +432,14 @@
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
                                                             class="icon-menu7"></i></a>
                                                 <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li><a href="#"><i class="icon-file-stats"></i> View statement</a>
+                                                    <li><a href="{{ path_for('campaign_report', {'campaign_id': '[[ campaign.id ]]'}) }}"><i class="icon-file-stats"></i> View Report</a>
                                                     </li>
-                                                    <li><a href="#"><i class="icon-file-text2"></i> Edit campaign</a>
+                                                    <li><a href="{{ path_for('campaign', {'campaign_id': '[[ campaign.id ]]'}) }}"><i class="icon-file-text2"></i> Edit campaign</a>
                                                     </li>
-                                                    <li><a href="#"><i class="icon-file-locked"></i> Disable
-                                                            campaign</a></li>
-                                                    <li class="divider"></li>
-                                                    <li><a href="#"><i class="icon-gear"></i> Settings</a></li>
+                                                    {#<li><a href="#"><i class="icon-file-locked"></i> Disable#}
+                                                            {#campaign</a></li>#}
+                                                    {#<li class="divider"></li>#}
+                                                    {#<li><a href="#"><i class="icon-gear"></i> Settings</a></li>#}
                                                 </ul>
                                             </li>
                                         </ul>

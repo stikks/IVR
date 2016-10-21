@@ -229,7 +229,7 @@
                                 <span ng-hide="campaign.is_active" class="label label-danger">Expired</span>
                             </td>
                             <td class="text-center">
-                                <span><a href="{{ path_for('report', {'campaign_id': '[[ campaign.id ]]'}) }}">View Reports</a></span>
+                                <span><a href="{{ path_for('campaign_report', {'campaign_id': '[[ campaign.id ]]'}) }}">View Reports</a></span>
                                 {#<ul class="icons-list">#}
                                 {#<li class="dropdown">#}
                                 {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
