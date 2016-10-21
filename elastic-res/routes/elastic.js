@@ -407,8 +407,9 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
                 }
             }
         }
-    }).then(function (resp){
+    }, function (resp){
         return resp.hits.hits;
+        // return res.send(JSON.stringify({message: response}));
     });
 });
 
