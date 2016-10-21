@@ -395,6 +395,7 @@ router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
 
 router.get('/elasticsearch/:type/all', function (req, res, next) {
     //All index object for a type
+    res.setHeader('Content-Type', 'application/json');
     client.search({
         index: 'ivr',
         type: req.params.type,
