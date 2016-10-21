@@ -357,6 +357,22 @@ router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
     var cdr_count_today = ivrDataFilterToday.getCdrCount;
     var cdr_count_yesterday = ivrDataFilterYesterday.getCdrCount;
 
+    var result = [
+        var rert = {
+            impression_count : impression_count_today,
+            success_count : success_count_today,
+            cdr_count : cdr_count_today
+        },
+
+        var retY = {
+            impression_count: impression_count_yesterday,
+            success_count: success_count_yesterday,
+            cdr_count: cdr_count_yesterday
+        }
+    ] 
+
+    return next(res.send(JSON.stringify({message: result})));
+
 
     //A json encoded response 
     //B two arrays 
