@@ -395,6 +395,19 @@ router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
 
 router.get('/elasticsearch/:type/all', function (req, res, next) {
     //All index object for a type
+    client.search({
+        index: 'ivr',
+        type: req.params.type,
+        body: {
+            "query": {
+                "constant_score": {
+                   "filter": {
+                       "match_all": {}
+                   }
+                }
+            }
+        }
+    })
 });
 
 router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
