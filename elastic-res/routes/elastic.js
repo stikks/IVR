@@ -541,10 +541,9 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-function IvrDataFilter(campaign_id, search_date) {
-    this.campaign_id = campaign_id;
+function IvrDataFilter(search_date) {
 
-    function searchWithId(id_field, date_field, type) {
+    function searchWithId(date_field, type) {
         client.search({
             index: 'ivr',
             type: type,
@@ -554,13 +553,6 @@ function IvrDataFilter(campaign_id, search_date) {
                         "filter": {
                             "bool": {
                                 "must": [
-                                    {
-                                        "term": {
-                                            id_field: this.campaign_id
-                                        }
-                                    }
-                                ],
-                                "should": [
                                     {
                                         "term": {
                                             date_field: this.search_date
@@ -579,7 +571,7 @@ function IvrDataFilter(campaign_id, search_date) {
 
     this.getImpressionCount = function () {
 
-        var campaignResult = searchWithId("campaign_id", "created_at", "statuses");
+        var campaignResult = searchWithId("created_at", "statuses");
 
         var imp = campaignResult.map(function (val) {
             return val.impressions_count;
@@ -593,7 +585,7 @@ function IvrDataFilter(campaign_id, search_date) {
 
     this.getSuccessCount = function () {
 
-        var campaignResult = searchWithId("campaign_id", "created_at", "statuses");
+        var campaignResult = searchWithId("created_at", "statuses");
 
         var imp = campaignResult.map(function (val) {
             return val.success_count;
@@ -605,7 +597,7 @@ function IvrDataFilter(campaign_id, search_date) {
         return sum;
     }
 
-    this.getCdrCount = searchWithId("uniqueid", "start", "cdr").length;
+    this.getCdrCount = searchWithId("start", "cdr").length;
 }
 
 
