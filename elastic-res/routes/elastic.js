@@ -476,6 +476,39 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 //     });
 // }
 
+function queryFilter(_type, start_date, end_date, key) {
+    this.response = {};
+    client.search({
+        index: 'ivr',
+        type: _type,
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "range": {
+                            "created_at": {
+                                "gte": start_date,
+                                "lte": end_date
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+        var data = result.map(function (_obj) {
+            return _obj._source
+        });
+        return groupBy(_data, key);
+    }).bind(this);
+
+    console.log(this);
+
+    return this.response
+}
+
 
 router.get('/elasticsearch/data', function (req, res, next) {
     // var ivrDataFilterToday = new IvrDataFilter(today);
@@ -490,73 +523,48 @@ router.get('/elasticsearch/data', function (req, res, next) {
     var day = new Date();
     day.setHours(0, 0, 0, 0);
     var right_now = new Date();
-    client.search({
-        index: 'ivr',
-        type: 'cdr',
-        body: {
-            "query": {
-                "constant_score": {
-                    "filter": {
-                        "range": {
-                            "created_at": {
-                                "gte": day,
-                                "lte": right_now
-                            }
-                        }
-                    }
 
-                }
-            }
-        }
-    }).then(function (resp) {
-        var result = resp.hits.hits;
-        var _data = result.map(function (_obj) {
-            return _obj._source
-        });
-        if (_data.length > 0) {
-            var today_group = groupBy(_data, key);
-        }
-
-        else {
-            today_group = {}
-        }
-
-        console.log(today_group);
-
-        // yesterday's cdr records
-        var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-        yesterday.setHours(0, 0, 0, 0);
-
-        client.search({
-            index: 'ivr',
-            type: 'cdr',
-            body: {
-                "query": {
-                    "constant_score": {
-                        "filter": {
-                            "range": {
-                                "created_at": {
-                                    "gte": yesterday,
-                                    "lte": day
-                                }
-                            }
-                        }
-
-                    }
-                }
-            }
-        }).then(function (resp) {
-            var yer_result = resp.hits.hits;
-            var yer_data = result.map(function (_obj) {
-                return _obj._source
-            });
-            var yesterday_group = groupBy(_data, key);
-
-            console.log(yesterday_group);
-
-        });
-    });
-});
+    var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+    yesterday.setHours(0, 0, 0, 0);
+    var yer_group = queryFilter('cdr', yesterday, day, "userfield");
+    console.log(yer_group);
+//     client.search({
+//         index: 'ivr',
+//         type: 'cdr',
+//         body: {
+//             "query": {
+//                 "constant_score": {
+//                     "filter": {
+//                         "range": {
+//                             "created_at": {
+//                                 "gte": day,
+//                                 "lte": right_now
+//                             }
+//                         }
+//                     }
+//
+//                 }
+//             }
+//         }
+//     }).then(function (resp) {
+//         var result = resp.hits.hits;
+//         var _data = result.map(function (_obj) {
+//             return _obj._source
+//         });
+//         if (_data.length > 0) {
+//             var today_group = groupBy(_data, key);
+//         }
+//
+//         else {
+//             today_group = {}
+//         }
+//
+//         console.log(today_group);
+//
+//         // yesterday's cdr records
+//
+//     });
+// });
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
 //     var yesterday = new Date(new Date().getTime() - (1 * 24 * 60 * 60 * 1000));
