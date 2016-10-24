@@ -469,8 +469,6 @@ router.get('/elasticsearch/data', function (req, res, next){
     for (var i = 0; i < todayCDRGroupBy.count; i++){
         arr[i] = todayCDRGroupBy[i].length
     }
-
-    var cdr_count_today = 
 });
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
