@@ -504,7 +504,7 @@ function queryFilter(_type, start_date, end_date, key) {
         return groupBy(_data, key);
     }).bind(this);
 
-    console.log(this);
+    console.log(this.response);
 
     return this.response
 }
@@ -564,7 +564,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
 //         // yesterday's cdr records
 //
 //     });
-// });
+});
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
 //     var yesterday = new Date(new Date().getTime() - (1 * 24 * 60 * 60 * 1000));
