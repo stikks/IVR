@@ -12,8 +12,6 @@ use App\Middleware\GuestMiddleware;
 
 
 $app->get('/cdr', function($request, $response){
-    $file = '/var/www/html/marketing/messages.log';
-    file_put_contents($file, $request->getParams(), FILE_APPEND);
     var_dump($request->getParams());
     exit();
 
