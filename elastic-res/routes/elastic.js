@@ -498,7 +498,8 @@ function queryFilter(_type, start_date, end_date, key) {
         }
     }, function (error, response) {
         // ...
-        resp = response;
+        console.log(error);
+        console.log(response);
     });
     return resp;
 }
