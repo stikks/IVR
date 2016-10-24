@@ -144,6 +144,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "is_active": req.body.is_active,
                 "file_path": req.body.file_path,
                 "play_path": req.body.play_path,
+                "value": req.body.value,
+                "body": req.body.body,
                 "created_at": created,
                 "updated_at": updated,
                 "start_date": sd,
