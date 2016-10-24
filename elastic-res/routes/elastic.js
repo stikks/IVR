@@ -448,7 +448,7 @@ router.get('/groupby', function (req, res, next) {
 });
 
 function queryFilter(_type, start_date, end_date, key) {
-    var promiseResolve, promiseReject;
+    var response = {};
     client.search({
         index: 'ivr',
         type: _type,
@@ -467,18 +467,14 @@ function queryFilter(_type, start_date, end_date, key) {
                 }
             }
         }
-    }).then(function(resolve, reject) {
-        promiseResolve = function (resolve) {
-            var result = resolve.hits.hits;
-            var _data = result.map(function (_obj) {
-                return _obj._source
-            });
-            return groupBy(_data, key);
-        };
-        promiseReject = reject;
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+        var _data = result.map(function (_obj) {
+            return _obj._source
+        });
+        response.result = groupBy(_data, key);
     });
-
-    return promiseResolve();
+    return response;
 }
 
 
