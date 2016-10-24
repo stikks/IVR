@@ -165,7 +165,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                     "constant_score": {
                         "filter": {
                             "term":{
-                                "play_path" : req.body.path
+                                "play_path" : req.body.file_path
                             }
                         }
                     }
