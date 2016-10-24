@@ -468,7 +468,10 @@ router.get('/groupby', function (req, res, next) {
         }
     }).then(function (resp) {
         var result = resp.hits.hits;
-        var data =  groupBy(result, "userfield");
+        var _data = result.map(function (_obj) {
+           return _obj._source
+        });
+        var data =  groupBy(_data, "userfield");
         console.log(data);
         console.log(data.length);
         console.log('data');
