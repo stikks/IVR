@@ -550,48 +550,10 @@ router.get('/elasticsearch/data', function (req, res, next) {
             else {
                 yesterdayCDR = []
             }
-
-            console.log(todayCDR);
-            console.log(yesterdayCDR);
+            return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
         });
     });
 
-//     client.search({
-//         index: 'ivr',
-//         type: 'cdr',
-//         body: {
-//             "query": {
-//                 "constant_score": {
-//                     "filter": {
-//                         "range": {
-//                             "created_at": {
-//                                 "gte": day,
-//                                 "lte": right_now
-//                             }
-//                         }
-//                     }
-//
-//                 }
-//             }
-//         }
-//     }).then(function (resp) {
-//         var result = resp.hits.hits;
-//         var _data = result.map(function (_obj) {
-//             return _obj._source
-//         });
-//         if (_data.length > 0) {
-//             var today_group = groupBy(_data, key);
-//         }
-//
-//         else {
-//             today_group = {}
-//         }
-//
-//         console.log(today_group);
-//
-//         // yesterday's cdr records
-//
-//     });
 });
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
