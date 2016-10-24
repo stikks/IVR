@@ -444,7 +444,11 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 */
 
  router.get('/groupby', function (req, res, next) {
-     function campaignStausPerday(date_start, date_end) {
+
+     var d = new Date();
+     date_start = d.setHours(0,0,0,0);
+     date_end = new Date();
+
          client.search({
              index: 'ivr',
              type: "cdr",
@@ -462,16 +466,9 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
                  }
              }
          }).then(function (resp) {
-             return resp.hits.hits;
+             var result =  resp.hits.hits;
+             return groupBy(result, "userfield");
          });
-     }
-
-     var d = new Date();
-     d.setHours(0,0,0,0);
-
-     var gb = campaignStausPerday(d, new Date());
-
-     console.log(groupBy(gb, "userfield"));
  });
 
 
