@@ -8,13 +8,11 @@
 
 use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
-//use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 
-$app->get('/cdr', function($request, $response){
-    var_dump($request->getParams());
-    exit();
-
+//$app->get('/cdr/success', function($request, $response){
+//
 //    $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
 //    $channel = $connection->channel();
 //    $channel->exchange_declare('ivr', 'headers', false, true, false);
@@ -33,7 +31,7 @@ $app->get('/cdr', function($request, $response){
 //
 //    $msg = new AMQPMessage($_data);
 //    $channel->basic_publish($msg, '', $que);
-});
+//});
 
 $app->group('', function (){
     
