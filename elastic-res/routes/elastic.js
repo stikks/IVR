@@ -47,7 +47,7 @@ client.exists({
                 "mappings": {
                     "campaign": {
                         "properties": {
-                                "play_path": {
+                            "play_path": {
                                 "type": "string",
                                 "index": "not_analyzed"
                             }
@@ -89,7 +89,7 @@ router.post('/campaign/retrieve', function (req, res, next) {
                 "constant_score": {
                     "filter": {
                         "term": {
-                            "file_path" : variable
+                            "file_path": variable
                         }
                     }
                 }
@@ -165,15 +165,15 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "query": {
                     "constant_score": {
                         "filter": {
-                            "term":{
-                                "play_path" : req.body.file_path
+                            "term": {
+                                "play_path": req.body.file_path
                             }
                         }
                     }
                 }
             }
         }).then(function (resp) {
-            if(resp.hits.hits.length > 0){
+            if (resp.hits.hits.length > 0) {
                 var campaign = resp.hits.hits[0]._source;
                 var created = new Date();
                 created.toDateString;
@@ -313,7 +313,7 @@ router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
             id: req.body.id,
             body: {
                 "name": req.body.name,
-                    "description": req.body.description,
+                "description": req.body.description,
                 "username": req.body.username,
                 "is_active": req.body.is_active,
                 "file_path": req.body.file_path,
@@ -411,70 +411,69 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
         body: {
             "query": {
                 "constant_score": {
-                   "filter": {
-                       "match_all": {}
-                   }
+                    "filter": {
+                        "match_all": {}
+                    }
                 }
             }
         }
     }).then(function (resp) {
-        result =  resp.hits.hits;
+        result = resp.hits.hits;
         return res.send(JSON.stringify({message: result}));
     });
 });
 
 
-
 /*
-    All capaign status for today and group by campaign_id
-    calculate impression count and success count
+ All capaign status for today and group by campaign_id
+ calculate impression count and success count
 
-    All cdr for today group by campaign_id
-    ccdr
+ All cdr for today group by campaign_id
+ ccdr
 
-    Response - {
-        "campaign_a" : {'today':
-                            { cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
-                        },
-                        {'yesterday':
-                            { cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
+ Response - {
+ "campaign_a" : {'today':
+ { cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
+ },
+ {'yesterday':
+ { cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
+ }
+ "campaign_b": {'cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
+ }
+ */
+
+router.get('/groupby', function (req, res, next) {
+
+    var d = new Date();
+    d.setHours(0, 0, 0, 0);
+    date_end = new Date();
+
+    client.search({
+        index: 'ivr',
+        type: "cdr",
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "range": {
+                            "created_at": {
+                                "gte": d,
+                                "lte": date_end
+                            }
                         }
-        "campaign_b": {'cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
-    }
-*/
+                    }
 
- router.get('/groupby', function (req, res, next) {
-
-     var d = new Date();
-     date_start = d.setHours(0,0,0,0);
-     date_end = new Date();
-
-         client.search({
-             index: 'ivr',
-             type: "cdr",
-             body: {
-                 "constant_score": {
-                     "filter": {
-                         "range": {
-                             "created_at": {
-                                 "gte": date_start,
-                                 "lte": date_end
-                             }
-                         }
-                     }
-
-                 }
-             }
-         }).then(function (resp) {
-             var result =  resp.hits.hits;
-             return groupBy(result, "userfield");
-         });
- });
+                }
+            }
+        }
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+        return groupBy(result, "userfield");
+    });
+});
 
 
-
-
-router.get('/elasticsearch/data', function (req, res, next){
+router.get('/elasticsearch/data', function (req, res, next) {
     var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
     var today = new Date()
     yesterday.toDateString
@@ -545,7 +544,7 @@ router.get('/elasticsearch/data', function (req, res, next){
 //      */
 // });
 
-router.post('/elasticsearch/campaign/path', function (req, res, next){
+router.post('/elasticsearch/campaign/path', function (req, res, next) {
     client.search({
         index: 'ivr',
         type: 'campaign',
@@ -553,15 +552,15 @@ router.post('/elasticsearch/campaign/path', function (req, res, next){
             "query": {
                 "constant_score": {
                     "filter": {
-                        "term":{
-                            "play_path" : req.body.path
+                        "term": {
+                            "play_path": req.body.path
                         }
                     }
                 }
             }
         }
     }).then(function (resp) {
-        if(resp.hits.hits.length > 0){
+        if (resp.hits.hits.length > 0) {
             var result = resp.hits.hits[0]._source;
             return res.send(JSON.stringify({message: result}));
         }
@@ -683,14 +682,14 @@ function IvrDataFilter(search_date) {
         });
     }
 
-    function searchIvrTypePerDate(which_date, which_type){
+    function searchIvrTypePerDate(which_date, which_type) {
 
         client.search({
             index: 'ivr',
             type: which_type,
             body: {
                 "query": {
-                    "constant_score" : {
+                    "constant_score": {
                         "filter": {
                             "term": {
                                 created_at: which_type
@@ -699,7 +698,7 @@ function IvrDataFilter(search_date) {
                     }
                 }
             }
-        }).then(function(resp){
+        }).then(function (resp) {
             return resp.hits.hits;
         })
     }
