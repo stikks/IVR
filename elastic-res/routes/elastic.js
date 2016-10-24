@@ -510,11 +510,17 @@ router.get('/elasticsearch/data', function (req, res, next) {
         }
     }).then(function (resp) {
         var result = resp.hits.hits;
-        var data = result.map(function (_obj) {
-            return _obj._source
-        });
-        var res =  groupBy(_data, "userfield");
-        console.log(res);
+        if (result.length > 0) {
+            var data = result.map(function (_obj) {
+                return _obj._source
+            });
+            var todayCDR =  groupBy(_data, "userfield");
+        }
+        else {
+            todayCDR = []
+        }
+        
+        console.log(todayCDR);
     });
 
 //     client.search({
