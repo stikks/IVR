@@ -534,7 +534,7 @@ router.get('/elasticsearch/data', function (req, res, next){
 //      */
 // });
 
-router.get('/elasticsearch/campaign/path', function (req, res, next){
+router.post('/elasticsearch/campaign/path', function (req, res, next){
     client.search({
         index: 'ivr',
         type: 'campaign',
@@ -543,7 +543,7 @@ router.get('/elasticsearch/campaign/path', function (req, res, next){
                 "constant_score": {
                     "filter": {
                         "term":{
-                            "play_path" : req.params.path
+                            "play_path" : req.body.path
                         }
                     }
                 }
@@ -552,7 +552,7 @@ router.get('/elasticsearch/campaign/path', function (req, res, next){
     }).then(function (resp) {
         if(resp.hits.hits.length > 0){
             var result = resp.hits.hits[0]._source;
-            return res.send(JSON.stringify({message: result}));;
+            return res.send(JSON.stringify({message: result}));
         }
     });
 });
