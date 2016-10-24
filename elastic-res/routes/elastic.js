@@ -544,7 +544,7 @@ router.get('elasticsearch/campaign/path', function (req, res, next){
                 "constant_score": {
                     "filter": {
                         "term":{
-                            "play_path" : req.body.path
+                            "play_path" : req.params.path
                         }
                     }
                 }
