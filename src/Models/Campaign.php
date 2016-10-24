@@ -23,7 +23,9 @@ class Campaign extends Model
         "description",
         "is_active",
         'created_at',
-        'updated_at'
+        'updated_at',
+        'action',
+        'body'
     ];
 
     public function deactivate() {
