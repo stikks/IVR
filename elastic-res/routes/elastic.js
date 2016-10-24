@@ -476,42 +476,6 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 //     });
 // }
 
-function queryFilter(_type, start_date, end_date, key) {
-    var response = {'data': []};
-    client.search({
-        index: 'ivr',
-        type: _type,
-        body: {
-            "query": {
-                "constant_score": {
-                    "filter": {
-                        "range": {
-                            "created_at": {
-                                "gte": start_date,
-                                "lte": end_date
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-    }).then(function (resp) {
-        var result = resp.hits.hits;
-        var data = result.map(function (_obj) {
-            return _obj._source
-        });
-        var res =  groupBy(_data, key);
-        console.log(res);
-        response.data.push(res);
-    });
-
-    console.log(response);
-
-    return response
-}
-
-
 router.get('/elasticsearch/data', function (req, res, next) {
     // var ivrDataFilterToday = new IvrDataFilter(today);
     // var ivrDataFilterYesterday = new IvrDataFilter(yesterday);
@@ -526,10 +490,33 @@ router.get('/elasticsearch/data', function (req, res, next) {
     day.setHours(0, 0, 0, 0);
     var right_now = new Date();
 
-    var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-    yesterday.setHours(0, 0, 0, 0);
-    var yer_group = queryFilter('cdr', yesterday, day, "userfield");
-    console.log(yer_group);
+    client.search({
+        index: 'ivr',
+        type: 'cdr',
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "range": {
+                            "created_at": {
+                                "gte": day,
+                                "lte": right_now
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+        var data = result.map(function (_obj) {
+            return _obj._source
+        });
+        var res =  groupBy(_data, "userfield");
+        console.log(res);
+    });
+
 //     client.search({
 //         index: 'ivr',
 //         type: 'cdr',
