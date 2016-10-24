@@ -448,7 +448,7 @@ router.get('/groupby', function (req, res, next) {
 });
 
 function queryFilter(_type, start_date, end_date, key) {
-    var response = [];
+    var promiseResolve, promiseReject;
     client.search({
         index: 'ivr',
         type: _type,
@@ -467,14 +467,18 @@ function queryFilter(_type, start_date, end_date, key) {
                 }
             }
         }
-    }, function (resp) {
-        var result = resp.hits.hits;
-        var _data = result.map(function (_obj) {
-            return _obj._source
-        });
-        response.push(groupBy(_data, key));
+    }).then(function(resolve, reject) {
+        promiseResolve = function (resolve) {
+            var result = resolve.hits.hits;
+            var _data = result.map(function (_obj) {
+                return _obj._source
+            });
+            return groupBy(_data, key);
+        };
+        promiseReject = reject;
     });
-    return response;
+
+    return promiseResolve();
 }
 
 
@@ -492,7 +496,6 @@ router.get('/elasticsearch/data', function (req, res, next) {
     day.setHours(0, 0, 0, 0);
     right_now = new Date();
     var todayCDRgroup = queryFilter('cdr', day, right_now, "userfield");
-    console.log('result');
     console.log(todayCDRgroup);
 
     // var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
