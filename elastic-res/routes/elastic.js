@@ -232,9 +232,7 @@ router.get('/no_of_campaign', function (req, res, next) {
         index: "ivr",
         type: "campaign",
         body: {
-            "query": {
-                f
-            }
+            "query": {}
         }
     }, function (resp, err, status) {
         var result = resp.hits.hits;
