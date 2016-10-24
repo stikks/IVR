@@ -12,7 +12,7 @@ var client = elasticsearch.Client({
 var findCampaignID = function (file_path) {
     client.search({
         index: 'ivr',
-        type: 'campagin',
+        type: 'campaign',
         body: {
             "query": {
                 "constant_score": {
@@ -114,17 +114,17 @@ router.post('/campaign/retrieve', function (req, res, next) {
                 }
             }
         }
-    }), function (err, resp, status) {
+    }, function (err, resp, status) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({response: resp, error: err, status: status}));
-    };
+    });
 });
 
 //Indexing into a type
 router.post('/elasticsearch/:type/create', function (req, res, next) {
 
     if (req.params.type == "campaign") {
-        var created = new Date(req.body.created_at);
+        var created = new Date('2016-10-20');
         var updated = new Date(req.body.updated_at);
         var sd = new Date(req.body.start_date);
         var ed = new Date(req.body.end_date);
@@ -139,7 +139,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             id: req.body.id,
             body: {
                 "name": req.body.name,
-                    "description": req.body.description,
+                "description": req.body.description,
                 "username": req.body.username,
                 "is_active": req.body.is_active,
                 "file_path": req.body.file_path,
