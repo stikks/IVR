@@ -61,7 +61,19 @@ client.exists({
         console.log("This exists")
     } else {
         client.indices.create({
-            index: 'ivr'
+            index: 'ivr',
+            body: {
+                "mappings": {
+                    "campaign": {
+                        "properties": {
+                                "play_path": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    }
+                }
+            }
         }, function (err, resp, status) {
             if (err) {
                 console.log("This works");
@@ -73,18 +85,18 @@ client.exists({
     }
 });
 
-client.indices.putMapping({
-    index: 'ivr',
-    type: 'campaign',
-    body: {
-        "properties": {
-            "file_path": {
-                "type": "string",
-                "index": "not_analyzed"
-            }
-        }
-    }
-});
+// client.indices.putMapping({
+//     index: 'ivr',
+//     type: 'campaign',
+//     body: {
+//         "properties": {
+//             "file_path": {
+//                 "type": "string",
+//                 "index": "not_analyzed"
+//             }
+//         }
+//     }
+// });
 
 router.post('/campaign/retrieve', function (req, res, next) {
     var variable = req.body.file_path || null;
@@ -432,6 +444,8 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
     });
 });
 
+
+
 /*
     All capaign status for today and group by campaign_id
     calculate impression count and success count
@@ -465,10 +479,6 @@ router.get('/elasticsearch/data', function (req, res, next){
     var todayCDRGroupBy = groupBy(ivrDataFilterToday.searchCDRByDate(), "userfield");
     var yesterdayCDRGroupBy = groupBy(ivrDataFilterYesterday.searchCDRByDate(), "userfield");
 
-    var arr = [];
-    for (var i = 0; i < todayCDRGroupBy.count; i++){
-        arr[i] = todayCDRGroupBy[i].length
-    }
 });
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
@@ -524,6 +534,8 @@ router.get('/elasticsearch/data', function (req, res, next){
 
 //      */
 // });
+
+router.get('elasticsearch')
 
 
 router.get('/elasticsearch/:campaign_id/filter', function (req, res, next) {
