@@ -447,36 +447,8 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 //
 // });
 //
-// function queryFilter(_type, start_date, end_date, key) {
-//     client.search({
-//         index: 'ivr',
-//         type: _type,
-//         body: {
-//             "query": {
-//                 "constant_score": {
-//                     "filter": {
-//                         "range": {
-//                             "created_at": {
-//                                 "gte": start_date,
-//                                 "lte": end_date
-//                             }
-//                         }
-//                     }
-//
-//                 }
-//             }
-//         }
-//     }).then(function (resp) {
-//         var result = resp.hits.hits;
-//         var _data = result.map(function (_obj) {
-//             return _obj._source
-//         });
-//         groupBy(_data, key);
-//     });
-// }
-
 function queryFilter(_type, start_date, end_date, key) {
-    return client.search({
+    client.search({
         index: 'ivr',
         type: _type,
         body: {
@@ -494,11 +466,40 @@ function queryFilter(_type, start_date, end_date, key) {
                 }
             }
         }
-    }, function (error, response) {
-        // ...
-        return response;
+    }, function (error, resp) {
+        return resp;
+        // var result = resp.hits.hits;
+        // var _data = result.map(function (_obj) {
+        //     return _obj._source
+        // });
+        // groupBy(_data, key);
     });
 }
+
+// function queryFilter(_type, start_date, end_date, key) {
+//     return client.search({
+//         index: 'ivr',
+//         type: _type,
+//         body: {
+//             "query": {
+//                 "constant_score": {
+//                     "filter": {
+//                         "range": {
+//                             "created_at": {
+//                                 "gte": start_date,
+//                                 "lte": end_date
+//                             }
+//                         }
+//                     }
+//
+//                 }
+//             }
+//         }
+//     }, function (error, response) {
+//         // ...
+//         return response;
+//     });
+// }
 
 
 router.get('/elasticsearch/data', function (req, res, next) {
