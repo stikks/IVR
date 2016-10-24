@@ -444,21 +444,21 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 
 router.get('/groupby', function (req, res, next) {
 
-    var d = new Date();
-    d.setHours(0, 0, 0, 0);
-    date_end = new Date();
 
+});
+
+function queryFilter(_type, start_date, end_date, key) {
     client.search({
         index: 'ivr',
-        type: "cdr",
+        type: _type,
         body: {
             "query": {
                 "constant_score": {
                     "filter": {
                         "range": {
                             "created_at": {
-                                "gte": d,
-                                "lte": date_end
+                                "gte": start_date,
+                                "lte": end_date
                             }
                         }
                     }
@@ -469,31 +469,34 @@ router.get('/groupby', function (req, res, next) {
     }).then(function (resp) {
         var result = resp.hits.hits;
         var _data = result.map(function (_obj) {
-           return _obj._source
+            return _obj._source
         });
-        var data =  groupBy(_data, "userfield");
-        console.log(data);
-        console.log(data.length);
-        console.log('data');
-        return res.send(JSON.stringify({message: data}));
+        var response =  groupBy(_data, key);
+        return response
     });
-});
+}
 
 
 router.get('/elasticsearch/data', function (req, res, next) {
+    // var ivrDataFilterToday = new IvrDataFilter(today);
+    // var ivrDataFilterYesterday = new IvrDataFilter(yesterday);
+    //
+    // var todayStatusesGroupBy = groupBy(ivrDataFilterToday.searchCampaignStatusByDate(), "campaign_id");
+    // var yesterdayStatusesGroupBy = groupBy(ivrDataFilterYesterday.searchCampaignStatusByDate(), "campaign_id");
+
+    // var todayCDRgroup = groupBy(ivrDataFilterToday.searchCDRByDate(), "userfield");
+    // var yesterdayCDRGroupBy = groupBy(ivrDataFilterYesterday.searchCDRByDate(), "userfield");
+
+    var day = new Date();
+    day.setHours(0, 0, 0, 0);
+    right_now = new Date();
+    var todayCDRgroup = queryFilter('cdr', day, right_now, "userfield");
+    console.log(todayCDRgroup);
+
     var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-    var today = new Date()
-    yesterday.toDateString
-    today.toDateString
-
-    var ivrDataFilterToday = new IvrDataFilter(today);
-    var ivrDataFilterYesterday = new IvrDataFilter(yesterday);
-
-    var todayStatusesGroupBy = groupBy(ivrDataFilterToday.searchCampaignStatusByDate(), "campaign_id");
-    var yesterdayStatusesGroupBy = groupBy(ivrDataFilterYesterday.searchCampaignStatusByDate(), "campaign_id");
-
-    var todayCDRGroupBy = groupBy(ivrDataFilterToday.searchCDRByDate(), "userfield");
-    var yesterdayCDRGroupBy = groupBy(ivrDataFilterYesterday.searchCDRByDate(), "userfield");
+    yesterday.setHours(0, 0, 0, 0);
+    var yestCDRgroup = queryFilter('cdr', yesterday, day, "userfield");
+    console.log(yestCDRgroup);
 
 });
 
