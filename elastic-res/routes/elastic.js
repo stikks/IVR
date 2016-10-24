@@ -450,15 +450,6 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
     }
 */
 
-var x = {
-    { a: [1,2,3]},
-    { b: [1,2,3,4,5] } 
-}
-
-{
-    {a : [].length}
-}
-
 router.get('/elasticsearch/data', function (req, res, next){
     var yesterday = new Date(new Date().getTime() - (1 * 24 * 60 * 60 * 1000));
     var today = new Date()
