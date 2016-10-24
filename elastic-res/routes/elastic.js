@@ -471,8 +471,7 @@ function queryFilter(_type, start_date, end_date, key) {
         var _data = result.map(function (_obj) {
             return _obj._source
         });
-        var response =  groupBy(_data, key);
-        return response
+        return groupBy(_data, key);
     });
 }
 
@@ -493,10 +492,10 @@ router.get('/elasticsearch/data', function (req, res, next) {
     var todayCDRgroup = queryFilter('cdr', day, right_now, "userfield");
     console.log(todayCDRgroup);
 
-    var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-    yesterday.setHours(0, 0, 0, 0);
-    var yestCDRgroup = queryFilter('cdr', yesterday, day, "userfield");
-    console.log(yestCDRgroup);
+    // var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+    // yesterday.setHours(0, 0, 0, 0);
+    // var yestCDRgroup = queryFilter('cdr', yesterday, day, "userfield");
+    // console.log(yestCDRgroup);
 
 });
 
