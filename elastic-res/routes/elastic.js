@@ -520,8 +520,6 @@ router.get('/elasticsearch/data', function (req, res, next) {
             todayCDR = []
         }
 
-        console.log(todayCDR);
-
         var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
         client.search({
             index: 'ivr',
@@ -532,8 +530,8 @@ router.get('/elasticsearch/data', function (req, res, next) {
                         "filter": {
                             "range": {
                                 "created_at": {
-                                    "gte": day,
-                                    "lte": right_now
+                                    "gte": yesterday,
+                                    "lte": day
                                 }
                             }
                         }
@@ -553,6 +551,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
                 yesterdayCDR = []
             }
 
+            console.log(todayCDR);
             console.log(yesterdayCDR);
         });
     });
