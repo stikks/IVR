@@ -468,7 +468,8 @@ router.get('/groupby', function (req, res, next) {
         }
     }).then(function (resp) {
         var result = resp.hits.hits;
-        return groupBy(result, "userfield");
+        var data =  groupBy(result, "userfield");
+        return res.send(JSON.stringify({message: data}));
     });
 });
 
