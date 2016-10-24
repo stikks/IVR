@@ -514,7 +514,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
     var day = new Date();
     day.setHours(0, 0, 0, 0);
     var right_now = new Date();
-    var todayCDR = queryFilter('cdr', day, now, "userfield");
+    var todayCDR = queryFilter('cdr', day, right_now, "userfield");
     console.log(todayCDR);
     // client.search({
     //     index: 'ivr',
