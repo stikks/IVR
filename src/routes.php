@@ -11,7 +11,7 @@ use App\Middleware\GuestMiddleware;
 //use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 
-$app->post('/cdr', function($request, $response){
+$app->get('/cdr', function($request, $response){
     $file = '/var/www/html/marketing/messages.log';
     file_put_contents($file, $request->getParams(), FILE_APPEND);
     var_dump($request->getParams());
