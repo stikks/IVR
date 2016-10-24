@@ -9,25 +9,6 @@ var client = elasticsearch.Client({
 });
 
 //Search for campaign where this file_path matches
-var findCampaignID = function (file_path) {
-    client.search({
-        index: 'ivr',
-        type: 'campaign',
-        body: {
-            "query": {
-                "constant_score": {
-                    "filter": {
-                        "term":{
-                            "play_path" : file_path
-                        }
-                    }
-                }
-            }
-        }
-    }).then(function (resp) {
-        return resp.hits.hits[0]._source._id;
-    });
-};
 
 // var findByID = function (campaign_id) {
 //     client.get({
@@ -176,44 +157,62 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
         });
     } else if (req.params.type == "cdr") {
 
-        var campaign_id = findCampaignID(req.body.file_path);
-        var created = new Date();
-        created.toDateString;
-        var impression = false;
-
-        if (req.body.billsec > 25) {
-            impression = true;
-        }
-
-        client.index({
+        client.search({
             index: 'ivr',
-            id: req.body.uniqueid,
-            type: req.params.type,
+            type: 'campaign',
             body: {
-                "src": req.body.src,
-                "clid": req.body.clid,
-                "duration": req.body.duration,
-                "userfield": campaign_id,
-                "uniqueid": req.body.uniqueid,
-                "impression": impression,
-                "billsec": req.body.billsec,
-                "is_successful": false,
-                "created_at": created,
-                "file_path": req.body.file_path
-                // "accountcode": req.body.accountcode,
-                // "dst": req.body.dst,
-                // "dcontext": req.body.dcontext,
-                // "channel": req.body.channel,
-                // "dstchannel": req.body.dstchannel,
-                // "start": req.body.start,
-                // "answer": req.body.answer,
-                // "end": req.body.end,
-                // "disposition": req.body.disposition,
-                //custom fields that need to be updated in db
+                "query": {
+                    "constant_score": {
+                        "filter": {
+                            "term":{
+                                "play_path" : req.body.path
+                            }
+                        }
+                    }
+                }
             }
-        }, function (err, resp, status) {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({response: resp, error: err}));
+        }).then(function (resp) {
+            if(resp.hits.hits.length > 0){
+                var campaign = resp.hits.hits[0]._source;
+                var created = new Date();
+                created.toDateString;
+                var impression = false;
+
+                if (parseInt(req.body.duration) == parseInt(req.body.billsec)) {
+                    impression = true;
+                }
+
+                client.index({
+                    index: 'ivr',
+                    id: req.body.uniqueid,
+                    type: req.params.type,
+                    body: {
+                        "src": req.body.src,
+                        "clid": req.body.clid,
+                        "duration": req.body.duration,
+                        "userfield": campaign.id,
+                        "uniqueid": req.body.uniqueid,
+                        "impression": impression,
+                        "billsec": req.body.billsec,
+                        "is_successful": false,
+                        "created_at": created,
+                        "file_path": req.body.file_path
+                        // "accountcode": req.body.accountcode,
+                        // "dst": req.body.dst,
+                        // "dcontext": req.body.dcontext,
+                        // "channel": req.body.channel,
+                        // "dstchannel": req.body.dstchannel,
+                        // "start": req.body.start,
+                        // "answer": req.body.answer,
+                        // "end": req.body.end,
+                        // "disposition": req.body.disposition,
+                        //custom fields that need to be updated in db
+                    }
+                }, function (err, resp, status) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify({response: resp, error: err}));
+                });
+            }
         });
     } else {
         // res.setHeader('Content-Type', 'application/json');
