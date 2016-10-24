@@ -535,7 +535,7 @@ router.get('/elasticsearch/data', function (req, res, next){
 //      */
 // });
 
-router.get('elasticsearch/campaign/path', function (req, res, next){
+router.get('/elasticsearch/campaign/path', function (req, res, next){
     client.search({
         index: 'ivr',
         type: 'campaign',
