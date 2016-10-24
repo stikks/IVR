@@ -535,7 +535,26 @@ router.get('/elasticsearch/data', function (req, res, next){
 //      */
 // });
 
-router.get('elasticsearch')
+router.get('elasticsearch/campaign/path', function (req, res, next){
+    client.search({
+        index: 'ivr',
+        type: 'campaign',
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "term":{
+                            "play_path" : file_path
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+        return res.send(JSON.stringify({message: result}));;
+    });
+});
 
 
 router.get('/elasticsearch/:campaign_id/filter', function (req, res, next) {
