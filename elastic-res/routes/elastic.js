@@ -482,7 +482,7 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 
      var today = new Date();
 
-     var gb = groupByCampaignStatusPerDay(today);
+     var gb = campaignStausPerday(today);
 
      console.log(groupBy(gb, "userfield"));
  });
