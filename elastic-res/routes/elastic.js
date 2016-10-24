@@ -25,7 +25,7 @@ var findCampaignID = function (file_path) {
             }
         }
     }).then(function (resp) {
-        return resp.hits.hits[0]._id;
+        return resp.hits.hits[0]._source._id;
     });
 };
 
