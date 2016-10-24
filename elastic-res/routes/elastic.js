@@ -216,17 +216,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             }
         });
     } else {
-        // res.setHeader('Content-Type', 'application/json');
-        // res.send(JSON.stringify({error: 'Wrong type, please provide a valid type'}));
     }
 
-    // if (req.body.id == null || req.body.uniqueid == null) {
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send(JSON.stringify({message: 'Missing parameters'}));
-    // } else {
-    //     // check or create index type
-    //
-    // }
 });
 
 /*Number of campaign over a certain period*/
@@ -462,9 +453,45 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
         "campaign_b": {'cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
     }
 */
+ router.get('/groupby', function (req, res, next) {
+     function campaignStausPerday(date_guy) {
+         client.search({
+             index: 'ivr',
+             type: "cdr",
+             body: {
+                 "query": {
+                     "constant_score": {
+                         "filter": {
+                             "bool": {
+                                 "must": [
+                                     {
+                                         "term": {
+                                             date_field: date_guy
+                                         }
+                                     }
+                                 ]
+                             }
+                         }
+                     }
+                 }
+             }
+         }).then(function (resp) {
+             return resp.hits.hits;
+         });
+     }
+
+     var today = new Date();
+
+     var gb = groupByCampaignStatusPerDay(today);
+
+     console.log(groupBy(gb, "userfield"));
+ });
+
+
+
 
 router.get('/elasticsearch/data', function (req, res, next){
-    var yesterday = new Date(new Date().getTime() - (1 * 24 * 60 * 60 * 1000));
+    var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
     var today = new Date()
     yesterday.toDateString
     today.toDateString
@@ -630,6 +657,11 @@ var groupBy = function (xs, key) {
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
+
+
+var ivrSearch = {
+
+}
 
 function IvrDataFilter(search_date) {
     this.search_date = search_date;
