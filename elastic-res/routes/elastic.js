@@ -124,7 +124,7 @@ router.post('/campaign/retrieve', function (req, res, next) {
 router.post('/elasticsearch/:type/create', function (req, res, next) {
 
     if (req.params.type == "campaign") {
-        var created = new Date('2016-10-20');
+        var created = new Date(req.body.created_at);
         var updated = new Date(req.body.updated_at);
         var sd = new Date(req.body.start_date);
         var ed = new Date(req.body.end_date);
@@ -177,7 +177,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
     } else if (req.params.type == "cdr") {
 
         var campaign_id = findCampaignID(req.body.file_path);
-        var created = new Date(req.body.created_at);
+        var created = new Date();
         created.toDateString;
         var impression = false;
 
