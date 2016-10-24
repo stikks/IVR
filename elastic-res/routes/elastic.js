@@ -120,12 +120,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
         updated.toDateString
         sd.toDateString
         ed.toDateString
-
-        console.log('created');
-        console.log(created);
-        console.log('updated');
-        console.log(updated);
-
+        
         client.index({
             index: 'ivr',
             type: req.params.type,
