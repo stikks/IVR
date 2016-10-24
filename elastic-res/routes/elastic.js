@@ -492,7 +492,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
     var right_now = new Date();
     client.search({
         index: 'ivr',
-        type: _type,
+        type: 'cdr',
         body: {
             "query": {
                 "constant_score": {
@@ -529,7 +529,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
 
         client.search({
             index: 'ivr',
-            type: _type,
+            type: 'cdr',
             body: {
                 "query": {
                     "constant_score": {
