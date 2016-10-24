@@ -519,8 +519,42 @@ router.get('/elasticsearch/data', function (req, res, next) {
         else {
             todayCDR = []
         }
-        
+
         console.log(todayCDR);
+
+        var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+        client.search({
+            index: 'ivr',
+            type: 'cdr',
+            body: {
+                "query": {
+                    "constant_score": {
+                        "filter": {
+                            "range": {
+                                "created_at": {
+                                    "gte": day,
+                                    "lte": right_now
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }).then(function (resp) {
+            var yer_result = resp.hits.hits;
+            if (yer_result.length > 0) {
+                var yer_data = yer_result.map(function (__obj) {
+                    return __obj._source
+                });
+                var yesterdayCDR =  groupBy(yer_data, "userfield");
+            }
+            else {
+                yesterdayCDR = []
+            }
+
+            console.log(yesterdayCDR);
+        });
     });
 
 //     client.search({
