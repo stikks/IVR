@@ -544,14 +544,14 @@ router.get('elasticsearch/campaign/path', function (req, res, next){
                 "constant_score": {
                     "filter": {
                         "term":{
-                            "play_path" : file_path
+                            "play_path" : req.body.path
                         }
                     }
                 }
             }
         }
     }).then(function (resp) {
-        var result = resp.hits.hits;
+        var result = resp.hits.hits[0];
         return res.send(JSON.stringify({message: result}));;
     });
 });
