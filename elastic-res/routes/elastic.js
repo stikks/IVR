@@ -466,7 +466,7 @@ function queryFilter(_type, start_date, end_date, key) {
                 }
             }
         }
-    }).then(function (resp) {
+    }, function (resp) {
         var result = resp.hits.hits;
         var _data = result.map(function (_obj) {
             return _obj._source
@@ -490,6 +490,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
     day.setHours(0, 0, 0, 0);
     right_now = new Date();
     var todayCDRgroup = queryFilter('cdr', day, right_now, "userfield");
+    console.log('result');
     console.log(todayCDRgroup);
 
     // var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
