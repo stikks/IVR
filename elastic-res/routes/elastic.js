@@ -119,6 +119,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             type: req.params.type,
             id: req.body.id,
             body: {
+                "id": req.body.id,
                 "name": req.body.name,
                 "description": req.body.description,
                 "username": req.body.username,
