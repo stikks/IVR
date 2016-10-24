@@ -34,7 +34,7 @@ client.ping({
     }
 });
 
-//Check if index exist or create it 
+//Check if index exist or create it
 client.exists({
     index: 'ivr'
 }, function (error, exists) {
@@ -233,16 +233,7 @@ router.get('/no_of_campaign', function (req, res, next) {
         type: "campaign",
         body: {
             "query": {
-                "constant_score": {
-                    "filter": {
-                        "range": {
-                            "created_at": {
-                                "gte": sevenDays,
-                                "lte": today
-                            }
-                        }
-                    }
-                }
+                f
             }
         }
     }, function (resp, err, status) {
@@ -444,35 +435,32 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
     ccdr
 
     Response - {
-        "campaign_a" : {'today': 
+        "campaign_a" : {'today':
                             { cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
-                        }, 
-                        {'yesterday': 
-                            { cdr_count': 100, 'impressions_count': 10, 'success_count': 20}  
+                        },
+                        {'yesterday':
+                            { cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
                         }
         "campaign_b": {'cdr_count': 100, 'impressions_count': 10, 'success_count': 20}
     }
 */
+
  router.get('/groupby', function (req, res, next) {
-     function campaignStausPerday(date_guy) {
+     function campaignStausPerday(date_start, date_end) {
          client.search({
              index: 'ivr',
              type: "cdr",
              body: {
-                 "query": {
-                     "constant_score": {
-                         "filter": {
-                             "bool": {
-                                 "must": [
-                                     {
-                                         "term": {
-                                             date_field: date_guy
-                                         }
-                                     }
-                                 ]
+                 "constant_score": {
+                     "filter": {
+                         "range": {
+                             "created_at": {
+                                 "gte": date_start,
+                                 "lte": date_end
                              }
                          }
                      }
+
                  }
              }
          }).then(function (resp) {
@@ -480,9 +468,10 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
          });
      }
 
-     var today = new Date();
+     var d = new Date();
+     d.setHours(0,0,0,0);
 
-     var gb = campaignStausPerday(today);
+     var gb = campaignStausPerday(d, new Date());
 
      console.log(groupBy(gb, "userfield"));
  });
@@ -537,13 +526,13 @@ router.get('/elasticsearch/data', function (req, res, next){
 //             success_count: success_count_yesterday,
 //             cdr_count: cdr_count_yesterday
 //         }
-//     ] 
+//     ]
 
 //     return next(res.send(JSON.stringify({message: result})));
 
 
-//     //A json encoded response 
-//     //B two arrays 
+//     //A json encoded response
+//     //B two arrays
 //     //  1. key: today, value = arrayOf
 //     /*{
 //      {
@@ -590,8 +579,8 @@ router.get('/elasticsearch/:campaign_id/filter', function (req, res, next) {
     ////success_count =sum all imression_count in campign_status that matchs campaign_id
     //cdr_count = (all cdrs whos uniqueid matches campaign_id).count
     //Expected parameters start_date and end_date
-    //A json encoded response 
-    //B two arrays 
+    //A json encoded response
+    //B two arrays
     // groupby date
     //  1. key: today, value = arrayOf
     /*{
@@ -659,9 +648,9 @@ router.get('/', function (req, res, next) {
 });
 
 
-var ivrSearch = {
-
-}
+// var ivrSearch = {
+//
+// }
 
 function IvrDataFilter(search_date) {
     this.search_date = search_date;
