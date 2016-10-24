@@ -448,6 +448,7 @@ router.get('/groupby', function (req, res, next) {
 });
 
 function queryFilter(_type, start_date, end_date, key) {
+    var response = [];
     client.search({
         index: 'ivr',
         type: _type,
@@ -471,8 +472,9 @@ function queryFilter(_type, start_date, end_date, key) {
         var _data = result.map(function (_obj) {
             return _obj._source
         });
-        return groupBy(_data, key);
+        response.push(groupBy(_data, key));
     });
+    return response;
 }
 
 
