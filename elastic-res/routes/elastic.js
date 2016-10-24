@@ -476,34 +476,6 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 //     });
 // }
 
-function queryFilter(_type, start_date, end_date, key) {
-    var resp;
-    client.search({
-        index: 'ivr',
-        type: _type,
-        body: {
-            "query": {
-                "constant_score": {
-                    "filter": {
-                        "range": {
-                            "created_at": {
-                                "gte": start_date,
-                                "lte": end_date
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-    }, function (error, response) {
-        // ...
-        console.log(error);
-        console.log(response);
-    });
-    return resp;
-}
-
 
 router.get('/elasticsearch/data', function (req, res, next) {
     // var ivrDataFilterToday = new IvrDataFilter(today);
@@ -517,43 +489,73 @@ router.get('/elasticsearch/data', function (req, res, next) {
 
     var day = new Date();
     day.setHours(0, 0, 0, 0);
-    var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-    yesterday.setHours(0, 0, 0, 0);
-    var yestCDRgroup = queryFilter('cdr', yesterday, day, "userfield");
-    console.log(yestCDRgroup);
-    // var right_now = new Date();
-    // var todayCDR = queryFilter('cdr', day, right_now, "userfield");
-    // console.log(todayCDR);
-    // client.search({
-    //     index: 'ivr',
-    //     type: _type,
-    //     body: {
-    //         "query": {
-    //             "constant_score": {
-    //                 "filter": {
-    //                     "range": {
-    //                         "created_at": {
-    //                             "gte": day,
-    //                             "lte": right_now
-    //                         }
-    //                     }
-    //                 }
-    //
-    //             }
-    //         }
-    //     }
-    // }).then(function (resp) {
-    //     var result = resp.hits.hits;
-    //     var _data = result.map(function (_obj) {
-    //         return _obj._source
-    //     });
-    //     var todayCDRgroup = groupBy(_data, key);
-    // });
-    // var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
-    // yesterday.setHours(0, 0, 0, 0);
-    // var yestCDRgroup = queryFilter('cdr', yesterday, day, "userfield");
-    // console.log(yestCDRgroup);
+    var right_now = new Date();
+    client.search({
+        index: 'ivr',
+        type: _type,
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "range": {
+                            "created_at": {
+                                "gte": day,
+                                "lte": right_now
+                            }
+                        }
+                    }
 
+                }
+            }
+        }
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+        var _data = result.map(function (_obj) {
+            return _obj._source
+        });
+        if (_data.length > 0) {
+            var today_group = groupBy(_data, key);
+        }
+
+        else {
+            today_group = {}
+        }
+
+        console.log(today_group);
+
+        // yesterday's cdr records
+        var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+        yesterday.setHours(0, 0, 0, 0);
+
+        client.search({
+            index: 'ivr',
+            type: _type,
+            body: {
+                "query": {
+                    "constant_score": {
+                        "filter": {
+                            "range": {
+                                "created_at": {
+                                    "gte": yesterday,
+                                    "lte": day
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }).then(function (resp) {
+            var yer_result = resp.hits.hits;
+            var yer_data = result.map(function (_obj) {
+                return _obj._source
+            });
+            var yesterday_group = groupBy(_data, key);
+
+            console.log(yesterday_group);
+
+        });
+    });
 });
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
