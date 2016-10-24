@@ -131,10 +131,10 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             res.send(JSON.stringify({response: resp, error: err, status: status}));
         });
     } else if (req.params.type == "statuses") {
-        var cat = new Date(req.body.created_at);
-        var uat = new Date(req.body.updated_at);
-        cat.toDateString;
-        uat.toDateString;
+        var created = new Date(req.body.created_at);
+        var update = new Date(req.body.updated_at);
+        created.toDateString;
+        update.toDateString;
         client.index({
             index: 'ivr',
             type: req.params.type,
@@ -143,8 +143,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "campaign_id": req.body.campaign_id,
                 "impressions_count": req.body.impressions_count,
                 "success_count": req.body.success_count,
-                "created_at": cat,
-                "updated_at": uat
+                "created_at": created,
+                "updated_at": update
             }
         }, function (err, resp, status) {
             res.setHeader('Content-Type', 'application/json');
@@ -153,8 +153,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
     } else if (req.params.type == "cdr") {
 
         var campaign = findCampaign(req.body.file_path);
-        var cat = new Date(req.body.created_at);
-        cat.toDateString;
+        var created = new Date(req.body.created_at);
+        created.toDateString;
         var impression = false;
 
         if (req.body.billsec > 25) {
@@ -174,7 +174,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "impression": impression,
                 "billsec": req.body.billsec,
                 "is_successful": false,
-                "created_at": cat
+                "created_at": created
                 // "accountcode": req.body.accountcode,
                 // "dst": req.body.dst,
                 // "dcontext": req.body.dcontext,
@@ -303,12 +303,12 @@ router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
     } else {
         // check or create index type
         if (req.params.type == "campaign") {
-            var cat = new Date(req.body.created_at);
-            var uat = new Date(req.body.updated_at);
+            var created = new Date(req.body.created_at);
+            var update = new Date(req.body.updated_at);
             var sd = new Date(req.body.start_date);
             var ed = new Date(req.body.end_date);
-            cat.toDateString
-            uat.toDateString
+            created.toDateString
+            update.toDateString
             sd.toDateString
             ed.toDateString
 
@@ -322,8 +322,8 @@ router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
                     "username": req.body.username,
                     "is_active": req.body.is_active,
                     "file_path": req.body.file_path,
-                    "created_at": cat,
-                    "updated_at": uat,
+                    "created_at": created,
+                    "updated_at": update,
                     "start_date": sd,
                     "end_date": ed
                 }
@@ -541,10 +541,9 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-function IvrDataFilter(campaign_id, search_date) {
-    this.campaign_id = campaign_id;
+function IvrDataFilter(search_date) {
 
-    function searchWithId(id_field, date_field, type) {
+    function searchWithId(date_field, type) {
         client.search({
             index: 'ivr',
             type: type,
@@ -554,13 +553,6 @@ function IvrDataFilter(campaign_id, search_date) {
                         "filter": {
                             "bool": {
                                 "must": [
-                                    {
-                                        "term": {
-                                            id_field: this.campaign_id
-                                        }
-                                    }
-                                ],
-                                "should": [
                                     {
                                         "term": {
                                             date_field: this.search_date
@@ -579,7 +571,7 @@ function IvrDataFilter(campaign_id, search_date) {
 
     this.getImpressionCount = function () {
 
-        var campaignResult = searchWithId("campaign_id", "created_at", "statuses");
+        var campaignResult = searchWithId("created_at", "statuses");
 
         var imp = campaignResult.map(function (val) {
             return val.impressions_count;
@@ -593,7 +585,7 @@ function IvrDataFilter(campaign_id, search_date) {
 
     this.getSuccessCount = function () {
 
-        var campaignResult = searchWithId("campaign_id", "created_at", "statuses");
+        var campaignResult = searchWithId("created_at", "statuses");
 
         var imp = campaignResult.map(function (val) {
             return val.success_count;
@@ -605,7 +597,8 @@ function IvrDataFilter(campaign_id, search_date) {
         return sum;
     }
 
-    this.getCdrCount = searchWithId("uniqueid", "start", "cdr").length;
+    this.getCdrCount = searchWithId("start", "cdr").length;
 }
+
 
 module.exports = router;
