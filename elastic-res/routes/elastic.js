@@ -501,8 +501,8 @@ function queryFilter(_type, start_date, end_date, key) {
         var data = result.map(function (_obj) {
             return _obj._source
         });
-        return groupBy(_data, key);
-    }).bind(this);
+        this.response =  groupBy(_data, key);
+    });
 
     console.log(this.response);
 
