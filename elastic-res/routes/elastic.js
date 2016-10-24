@@ -12,7 +12,7 @@ var client = elasticsearch.Client({
 var findCampaignID = function (file_path) {
     client.search({
         index: 'ivr',
-        type: 'campagin',
+        type: 'campaign',
         body: {
             "query": {
                 "constant_score": {
@@ -120,7 +120,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
         updated.toDateString
         sd.toDateString
         ed.toDateString
-        
+
         client.index({
             index: 'ivr',
             type: req.params.type,
