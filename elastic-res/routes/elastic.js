@@ -176,7 +176,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
         });
     } else if (req.params.type == "cdr") {
 
-        var campaign = findCampaignID(req.body.file_path);
+        var campaign_id = findCampaignID(req.body.file_path);
         var created = new Date(req.body.created_at);
         created.toDateString;
         var impression = false;
@@ -193,13 +193,13 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "src": req.body.src,
                 "clid": req.body.clid,
                 "duration": req.body.duration,
-                "userfield": campaign.id,
+                "userfield": campaign_id,
                 "uniqueid": req.body.uniqueid,
                 "impression": impression,
                 "billsec": req.body.billsec,
                 "is_successful": false,
                 "created_at": created,
-                "file_path": findCampaignID
+                "file_path": req.body.file_path
                 // "accountcode": req.body.accountcode,
                 // "dst": req.body.dst,
                 // "dcontext": req.body.dcontext,
@@ -228,9 +228,6 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
     //
     // }
 });
-
-//crd where unigue id == campaign_id and billsec > 25
-
 
 /*Number of campaign over a certain period*/
 router.get('/no_of_campaign', function (req, res, next) {
