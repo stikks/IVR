@@ -477,7 +477,7 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 // }
 
 function queryFilter(_type, start_date, end_date, key) {
-    this.response = {};
+    var response = {'data': []};
     client.search({
         index: 'ivr',
         type: _type,
@@ -501,12 +501,14 @@ function queryFilter(_type, start_date, end_date, key) {
         var data = result.map(function (_obj) {
             return _obj._source
         });
-        this.response =  groupBy(_data, key);
+        var res =  groupBy(_data, key);
+        console.log(res);
+        response.data.push(res);
     });
 
-    console.log(this.response);
+    console.log(response);
 
-    return this.response
+    return response
 }
 
 
