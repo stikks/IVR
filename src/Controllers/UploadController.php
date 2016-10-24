@@ -37,7 +37,8 @@ class UploadController extends BaseController
             {
                 $error =  $_FILES["advert"]["name"] . " is an invalid file, No audio codec provided";
                 return $this->view->render($response, 'templates/upload.twig', [
-                    'error' => $error
+                    'error' => $error,
+                    'user' => $user
                 ]);
             }
             else
@@ -46,13 +47,15 @@ class UploadController extends BaseController
                 {
                     $error =  $_FILES["advert"]["name"] . " already exists. ";
                     return $this->view->render($response, 'templates/upload.twig', [
-                        'error' => $error
+                        'error' => $error,
+                        'user' => $user
                     ]);
                 }
                 elseif (preg_match('/\s/',$_FILES["advert"]["name"])) {
                     $error =  $_FILES["advert"]["name"] . " contains whitespace. Edit filename and re-upload ";
                     return $this->view->render($response, 'templates/upload.twig', [
-                        'error' => $error
+                        'error' => $error,
+                        'user' => $user
                     ]);
                 }
                 else

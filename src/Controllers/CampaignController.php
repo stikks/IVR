@@ -126,8 +126,12 @@ class CampaignController extends BaseController
 //            'script' => $scr
 //        ]);
 
-        $created_date = DateTime::createFromFormat('Y-m-d', $campaign->created_at)->format('Y-m-d');
-        $updated_date = DateTime::createFromFormat('Y-m-d', $campaign->updated_at)->format('Y-m-d');
+//        $created_date = DateTime::createFromFormat('Y-m-d', $campaign->created_at)->format('Y-m-d');
+//        $updated_date = DateTime::createFromFormat('Y-m-d', $campaign->updated_at)->format('Y-m-d');
+
+        var_dump($campaign->created_at->date);
+        var_dump($campaign->updated_at->date);
+        exit();
 
         Index::index('campaign', [
             'username' => $campaign->username,
@@ -135,10 +139,11 @@ class CampaignController extends BaseController
             'end_date' => $campaign->end_date,
             'name' => $campaign->name,
             'file_path' => $campaign->file_path,
+            'play_path' => $campaign->play_path,
             'description' => $campaign->description,
             'id' => $campaign->id,
-            'created_at' => $created_date,
-            'updated_at' => $updated_date,
+            'created_at' => $campaign->created_at,
+            'updated_at' => $campaign->updated_at,
             'value' => $campaign->action,
             'body' => $campaign->body,
             'script' => $campaign->script,

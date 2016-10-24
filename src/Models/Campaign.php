@@ -16,11 +16,14 @@ class Campaign extends Model
     protected $fillable = [
         "username",
         "file_path",
+        "play_path",
         "start_date",
         "name",
         "end_date",
         "description",
-        "is_active"
+        "is_active",
+        'created_at',
+        'updated_at'
     ];
 
     public function deactivate() {

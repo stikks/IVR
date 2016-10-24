@@ -18,8 +18,8 @@ $list = array();
         id serial,
 	username varchar (50) PRIMARY KEY,
 	password varchar (255) NOT NULL,
-	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	created_at date
+	updated_at date DEFAULT NULL,
+	created_at date DEFAULT NULL
 	);";
 
 array_push($list, $users);
@@ -38,7 +38,7 @@ $campaigns = "CREATE TABLE IF NOT EXISTS campaigns(
   body VARCHAR (255) NULL,
   script VARCHAR (255) NULL,
   value VARCHAR (255) NULL,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at date DEFAULT NULL,
   created_at date DEFAULT NULL
 );";
 
@@ -51,7 +51,7 @@ $actions = "CREATE TABLE IF NOT EXISTS actions(
   body VARCHAR (255) NOT NULL,
   script VARCHAR (255) NOT NULL,
   value VARCHAR (255) NOT NULL,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at date DEFAULT NULL,
   created_at date DEFAULT NULL
 );";
 
@@ -63,7 +63,7 @@ $status = "CREATE TABLE IF NOT EXISTS statuses(
   campaign_id INTEGER REFERENCES campaigns(id) NOT NULL,
   impressions_count INTEGER NOT NULL,
   success_count INTEGER NOT NULL,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at date DEFAULT NULL,
   created_at date DEFAULT NULL
 );";
 
@@ -78,7 +78,7 @@ $files = "CREATE TABLE IF NOT EXISTS files(
   file_path VARCHAR (255) NOT NULL,
   file_type VARCHAR (255) NOT NULL,
   duration VARCHAR (255) NULL,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at date DEFAULT NULL,
   created_at date DEFAULT NULL
 );";
 
