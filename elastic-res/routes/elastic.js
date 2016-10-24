@@ -477,7 +477,8 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
 // }
 
 function queryFilter(_type, start_date, end_date, key) {
-    return client.search({
+    var resp;
+    client.search({
         index: 'ivr',
         type: _type,
         body: {
@@ -497,8 +498,9 @@ function queryFilter(_type, start_date, end_date, key) {
         }
     }, function (error, response) {
         // ...
-        return response;
+        resp = response;
     });
+    return resp;
 }
 
 
