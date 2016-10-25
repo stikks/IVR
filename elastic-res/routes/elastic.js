@@ -230,18 +230,38 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                             count++;
                         }
                         if (exists == true) {
-                            client.bulk({
-                                body: [
-                                    {update: {_index: 'ivr', _type: 'statuses', _id: status_id}},
-                                    {script: 'ctx._source.cdr_count += 1'},
-
-                                    {update: {_index: 'ivr', _type: 'statuses', _id: status_id}},
-                                    {script: 'ctx._source.impressions_count += count'}
-                                ]
+                            // client.bulk({
+                            //     body: [
+                            //         {update: {_index: 'ivr', _type: 'statuses', _id: status_id}},
+                            //         {script: 'ctx._source.cdr_count += 1'},
+                            //
+                            //         {update: {_index: 'ivr', _type: 'statuses', _id: status_id}},
+                            //         {script: 'ctx._source.impressions_count += count'}
+                            //     ]
+                            // }, function (error, response) {
+                            //     res.setHeader('Content-Type', 'application/json');
+                            //     res.send(JSON.stringify({response: response, error: error}));
+                            // })
+                            client.get({
+                                index: 'ivr',
+                                type: 'statuses',
+                                id: status_id
                             }, function (error, response) {
-                                res.setHeader('Content-Type', 'application/json');
-                                res.send(JSON.stringify({response: response, error: error}));
-                            })
+                                client.update({
+                                    index: 'ivr',
+                                    type: 'statuses',
+                                    id: status_id,
+                                    body: {
+                                        doc: {
+                                            cdr_count: response._source.cdr_count + 1,
+                                            impressions_count: response._source.impressions_count + 1
+                                        }
+                                    }
+                                }, function (error, response) {
+                                    res.setHeader('Content-Type', 'application/json');
+                                    res.send(JSON.stringify({response: response, error: error}));
+                                })
+                            });
                         } else {
                             client.index({
                                 index: 'ivr',
