@@ -152,7 +152,20 @@ app.controller('HomeController', function ($scope) {
             return val.is_active = true
         });
 
-        console.log($scope.active_campaigns);
+        $.get("http://voice.atp-sevas.com:4043/api/elasticsearch/data", function(data, status){
+            console.log("Data: " + data + "\nStatus: " + status);
+        });
+        $.ajax({
+            type: 'GET',
+            url: 'http://voice.atp-sevas.com:4043/api/elasticsearch/data',
+            dataType: 'application/json',
+            success: function(data, status) {
+                console.log(data, status);
+            },
+            error: function(err, status) {
+                console.log(err, status);
+            }
+        });
 	};
 
 
