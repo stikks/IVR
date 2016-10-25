@@ -597,7 +597,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
 
     client.search({
         index: 'ivr',
-        type: 'cdr',
+        type: 'statuses',
         body: {
             "query": {
                 "constant_score": {
@@ -628,7 +628,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
         var yesterday = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
         client.search({
             index: 'ivr',
-            type: 'cdr',
+            type: 'statuses',
             body: {
                 "query": {
                     "constant_score": {
@@ -650,7 +650,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
                 var yer_data = yer_result.map(function (__obj) {
                     return __obj._source
                 });
-                var yesterdayCDR = groupBy(yer_data, "userfield");
+                var yesterdayCDR = groupBy(yer_data, "campaign_name");
             }
             else {
                 yesterdayCDR = []
