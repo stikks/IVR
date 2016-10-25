@@ -58,6 +58,10 @@ client.exists({
                             "play_path": {
                                 "type": "string",
                                 "index": "not_analyzed"
+                            },
+                            "name": {
+                                "type": "string",
+                                "index": "not_analyzed"
                             }
                         }
                     }
@@ -145,25 +149,6 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({response: resp, error: err, status: status}));
         });
-        // } else if (req.params.type == "statuses") {
-        //     var created = new Date(req.body.created_at);
-        //     var update = new Date(req.body.updated_at);
-        //     created.toDateString;
-        //     update.toDateString;
-        //     client.index({
-        //         index: 'ivr',
-        //         type: req.params.type,
-        //         id: req.body.id,
-        //         body: {
-        //             "campaign_id": req.body.campaign_id,
-        //             "respond_type": req.body.response_type,
-        //             "created_at": created,
-        //             "updated_at": update
-        //         }
-        //     }, function (err, resp, status) {
-        //         res.setHeader('Content-Type', 'application/json');
-        //         res.send(JSON.stringify({response: resp, error: err, status: status}));
-        //     });
     }
     else if (req.params.type == "cdr") {
 
@@ -206,7 +191,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         "billsec": req.body.billsec,
                         "is_successful": false,
                         "created_at": created,
-                        "file_path": req.body.file_path
+                        "file_path": req.body.file_path,
+                        "campaign_name": campaign.name
                         // "accountcode": req.body.accountcode,
                         // "dst": req.body.dst,
                         // "dcontext": req.body.dcontext,
@@ -219,16 +205,12 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         //custom fields that need to be updated in db
                     }
                 }, function (err, resp, status) {
-                    var status_id = new Date().toDateString().replace(/ /g,'') +  '-' + campaign.id;
+                    var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
                     client.exists({
                         index: 'ivr',
                         type: 'statuses',
                         id: status_id
                     }, function (error, exists) {
-                        var count = 0;
-                        if (impression) {
-                            count++;
-                        }
                         if (exists == true) {
                             // client.bulk({
                             //     body: [
@@ -269,9 +251,10 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                 id: status_id,
                                 body: {
                                     "campaign_id": campaign.id,
-                                    "impression_count": parseInt(count),
+                                    "impression_count": impression ? 1: 0,
                                     "success_count": 1,
                                     "cdr_count": 1,
+                                    "campaign_name": campaign.name,
                                     "created_at": created
                                 }
                             })
@@ -323,7 +306,11 @@ router.get('/no_of_campaign', function (req, res, next) {
     }).then(function (resp) {
         var result = resp.hits.hits;
 
-        var ar = groupBy(result, "campaign_id");
+        var data = result.map(function (_obj) {
+            return _obj._source
+        });
+
+        var ar = groupBy(data, "campaign_name");
 
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({response: resp, result: ar}));
@@ -396,7 +383,7 @@ router.post('/elasticsearch/cdr/success', function (req, res, next) {
             id: req.body.uniqueid
         }, function (error, response) {
             var campaign_id = response._source.userfield;
-            var status_id = new Date().toDateString().replace(/ /g,'') +  '-' + campaign.id;
+            var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
             client.update({
                 index: 'ivr',
                 type: 'statuses',
@@ -632,7 +619,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
             var data = result.map(function (_obj) {
                 return _obj._source
             });
-            var todayCDR = groupBy(_data, "userfield");
+            var todayCDR = groupBy(data, "campaign_name");
         }
         else {
             todayCDR = []
@@ -668,12 +655,12 @@ router.get('/elasticsearch/data', function (req, res, next) {
             else {
                 yesterdayCDR = []
             }
-            console.log(yesterdayCDR);
-            console.log(todayCDR);
+            res.setHeader('Content-Type', 'application/json');
             return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
         });
+        res.setHeader('Content-Type', 'application/json');
+        return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
     });
-
 });
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
