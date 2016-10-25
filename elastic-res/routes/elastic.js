@@ -654,6 +654,8 @@ router.get('/elasticsearch/data', function (req, res, next) {
             else {
                 yesterdayCDR = []
             }
+            console.log(yesterdayCDR);
+            console.log(todayCDR);
             return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
         });
     });
