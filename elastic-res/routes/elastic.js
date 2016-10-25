@@ -1,5 +1,23 @@
 var express = require('express');
 var router = express.Router();
+
+var redis = require("redis");
+redis_client = redis.createClient();
+
+console.log(redis);
+
+redis_client.on("error", function (err) {
+    console.log("Error " + err);
+});
+
+
+redis_client.set("key", "string val", redis.print);
+
+redis_client.get("key", function(err, reply) {
+    // reply is null when the key is missing
+    console.log(reply);
+});
+
 var elasticsearch = require('elasticsearch');
 
 //connect to elastic search
