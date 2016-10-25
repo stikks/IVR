@@ -223,6 +223,7 @@ app.controller("ReportController", function($scope) {
 	};
 
 	$scope.init = function() {
+		getCampaigns();
 		$('#camp').highcharts({
 	        title: {
 	            text: 'No of Campaigns over a period',
@@ -462,7 +463,7 @@ app.controller("ReportController", function($scope) {
 	};
 
 	$scope.getCampaigns = function() {
-		$.get("localhost:4043/api/no_campaign", function(data, status){
+		$.get("http://voice.atp-sevas.com:4043/api/no_campaign", function(data, status){
 	        alert("Data: " + data + "\nStatus: " + status);
 	        // $('#camp').highcharts({
 	        // 	//buildData(data)
