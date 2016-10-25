@@ -157,7 +157,7 @@ app.controller('HomeController', function ($scope) {
         });
         $.ajax({
             type: 'GET',
-            url: 'http://voice.atp-sevas.com:4043/api/elasticsearch/data',
+            url: 'http://localhost:4043/api/elasticsearch/data',
             dataType: 'jsonp',
             success: function(data, status) {
                 console.log(data, status);
