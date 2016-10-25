@@ -8,13 +8,6 @@ redis_client.on("error", function (err) {
     console.log("Error " + err);
 });
 
-redis_client.set("key", "string val", redis.print);
-
-redis_client.get("key", function(err, reply) {
-    // reply is null when the key is missing
-    console.log(reply);
-});
-
 var elasticsearch = require('elasticsearch');
 
 //connect to elastic search
@@ -225,6 +218,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         //custom fields that need to be updated in db
                     }
                 }, function (err, resp, status) {
+                    redis_client.set("body", campaign.body);
+                    redis_client.set("value", campaign.value);
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({response: resp, error: err}));
                 });
