@@ -308,7 +308,7 @@ router.get('/no_of_campaign', function (req, res, next) {
                             "should": [
                                 {
                                     "range": {
-                                        "start": {
+                                        "created_at": {
                                             "from": sevenDays,
                                             "to": today
                                         }
