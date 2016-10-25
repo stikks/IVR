@@ -211,10 +211,6 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         type: 'statuses',
                         id: status_id
                     }, function (error, exists) {
-                        var count = 0;
-                        if (impression) {
-                            count++;
-                        }
                         if (exists == true) {
                             // client.bulk({
                             //     body: [
@@ -255,7 +251,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                 id: status_id,
                                 body: {
                                     "campaign_id": campaign.id,
-                                    "impression_count": parseInt(count),
+                                    "impression_count": impression ? 1: 0,
                                     "success_count": 1,
                                     "cdr_count": 1,
                                     "campaign_name": campaign.name,
