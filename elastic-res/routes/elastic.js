@@ -219,7 +219,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         //custom fields that need to be updated in db
                     }
                 }, function (err, resp, status) {
-                    var status_id = new Date().toDateString() +  '-' + campaign.id;
+                    var status_id = new Date().toDateString().replace(/ /g,'') +  '-' + campaign.id;
                     client.exists({
                         index: 'ivr',
                         type: 'statuses',
@@ -269,7 +269,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                 id: status_id,
                                 body: {
                                     "campaign_id": campaign.id,
-                                    "impression_count": count,
+                                    "impression_count": parseInt(count),
                                     "success_count": 1,
                                     "cdr_count": 1,
                                     "created_at": created
@@ -379,7 +379,7 @@ router.post('/elasticsearch/cdr/success', function (req, res, next) {
             id: req.body.uniqueid
         }, function (error, response) {
             var campaign_id = response._source.userfield;
-            var status_id = new Date().toDateString() +  '-' + campaign_id;
+            var status_id = new Date().toDateString().replace(/ /g,'') +  '-' + campaign.id;
             client.update({
                 index: 'ivr',
                 type: 'statuses',
