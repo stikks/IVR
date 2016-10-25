@@ -31,7 +31,7 @@ class ReportController extends BaseController
 
         $campaign_id = $args['campaign_id'];
 
-        $campaign = Campaign::where('id', $campaign_id);
+        $campaign = Campaign::where('id', $campaign_id)->first();
 
         return $this->view->render($response, 'templates/campaign_report.twig', [
             'campaign_id' => $campaign->id
