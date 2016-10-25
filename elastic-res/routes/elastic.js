@@ -4,7 +4,7 @@ var router = express.Router();
 var redis = require("redis");
 redis_client = redis.createClient();
 
-console.log(redis);
+console.log(redis_client);
 
 redis_client.on("error", function (err) {
     console.log("Error " + err);
