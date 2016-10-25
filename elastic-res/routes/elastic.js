@@ -219,7 +219,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         //custom fields that need to be updated in db
                     }
                 }, function (err, resp, status) {
-                    var status_id = new Date().toDateString().replace(/ /g,'') +  '-' + campaign.id;
+                    var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
                     client.exists({
                         index: 'ivr',
                         type: 'statuses',
@@ -379,7 +379,7 @@ router.post('/elasticsearch/cdr/success', function (req, res, next) {
             id: req.body.uniqueid
         }, function (error, response) {
             var campaign_id = response._source.userfield;
-            var status_id = new Date().toDateString().replace(/ /g,'') +  '-' + campaign.id;
+            var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
             client.update({
                 index: 'ivr',
                 type: 'statuses',
@@ -651,12 +651,12 @@ router.get('/elasticsearch/data', function (req, res, next) {
             else {
                 yesterdayCDR = []
             }
-            console.log(yesterdayCDR);
-            console.log(todayCDR);
+            res.setHeader('Content-Type', 'application/json');
             return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
         });
+        res.setHeader('Content-Type', 'application/json');
+        return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
     });
-
 });
 
 // router.get('/elasticsearch/:campaign_id/data', function (req, res, next) {
