@@ -235,8 +235,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                     id: status_id,
                                     body: {
                                         doc: {
-                                            cdr_count: response._source.cdr_count + 1
-                                            // impressions_count: response._source.impressions_count + 1
+                                            cdr_count: response._source.cdr_count + 1,
+                                            impression_count: response._source.impression_count + 1
                                         }
                                     }
                                 }, function (error, response) {
