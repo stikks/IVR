@@ -323,7 +323,15 @@ router.get('/no_of_campaign', function (req, res, next) {
     }).then(function (resp) {
         var result = resp.hits.hits;
 
-        var ar = groupBy(result, "campaign_id");
+        if (result.length > 0) {
+            var data = result.map(function (_obj) {
+                return _obj._source
+            });
+            var ar = groupBy(_data, "campaign_id");
+        }
+        else {
+            ar = []
+        }
 
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({response: resp, result: ar}));
