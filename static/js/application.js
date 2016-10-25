@@ -114,11 +114,34 @@ app.controller('FileCtrl', function ($scope) {
     };
 });
 
-app.controller('HomeController', function ($scope) {
+
+app.controller('HomeController', function ($scope, $http) {
 
 	function filterAttr(value) {
 		return value.username == $scope.username;
 	}
+
+    $scope.response = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0};
+
+    $http({
+        method: 'GET',
+        url: 'http://voice.atp-sevas.com:4043/api/elasticsearch/data'
+    }).then(function successCallback(response) {
+        Object.keys(response.data.today).map(function(key, index) {
+            $scope.response.today.push(response.data.today[key][0]);
+            $scope.response.totalToday += response.data.today[key][0].cdr_count
+        });
+
+        Object.keys(response.data.yesterday).map(function(key, index) {
+            $scope.response.yesterday.push(response.data.yesterday[key][0]);
+            $scope.response.totalYday += response.data.yesterday[key][0].cdr_count
+        });
+
+    }, function errorCallback(err) {
+        console.log(err);
+    });
+
+    console.log($scope.response);
 
 	$scope.init = function (data, username) {
 
@@ -152,11 +175,7 @@ app.controller('HomeController', function ($scope) {
             return val.is_active = true
         });
 
-        $.get("http://voice.atp-sevas.com:4043/api/elasticsearch/data", function(data, status){
-            console.log("Data: " + data + "\nStatus: " + status);
-        });
 	};
-
 
 	$scope.changeActive = function (value) {
 		$scope.username = value;
