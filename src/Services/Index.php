@@ -14,7 +14,7 @@ class Index
     static public function index($type, $params=array()) {
 
         $ch = curl_init();
-        $url = 'http://localhost:4043/api/elasticsearch/'. $type.'/create';
+        $url = 'http://localhost:4043/elastic/elasticsearch/'. $type.'/create';
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS,
@@ -32,7 +32,7 @@ class Index
 
     static public function get_data($type) {
         $ch = curl_init();
-        $url = 'http://localhost:4043/api/elasticsearch/'. $type.'/get';
+        $url = 'http://localhost:4043/elastic/elasticsearch/'. $type.'/get';
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
@@ -45,7 +45,7 @@ class Index
 
     static public function filterBy($type, $params=array()) {
         $ch = curl_init();
-        $url = 'http://localhost:4043/api/elasticsearch/'. $type.'/create';
+        $url = 'http://localhost:4043/elastic/elasticsearch/'. $type.'/create';
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS,
