@@ -303,13 +303,13 @@ router.get('/no_of_campaign', function (req, res, next) {
         body: {
             "query": {}
         }
-    }, function (resp, err, status) {
+    }).then(function (resp) {
         var result = resp.hits.hits;
 
         var ar = groupBy(result, "created_at");
 
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({response: resp, error: err}));
+        res.send(JSON.stringify({response: resp, result: ar}));
     });
 });
 
