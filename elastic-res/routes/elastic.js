@@ -59,6 +59,10 @@ client.exists({
                                 "type": "string",
                                 "index": "not_analyzed"
                             },
+                            "name": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
                         }
                     }
                 }
@@ -187,7 +191,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         "billsec": req.body.billsec,
                         "is_successful": false,
                         "created_at": created,
-                        "file_path": req.body.file_path
+                        "file_path": req.body.file_path,
+                        "campaign_name": campaign.name
                         // "accountcode": req.body.accountcode,
                         // "dst": req.body.dst,
                         // "dcontext": req.body.dcontext,
@@ -618,7 +623,7 @@ router.get('/elasticsearch/data', function (req, res, next) {
             var data = result.map(function (_obj) {
                 return _obj._source
             });
-            var todayCDR = groupBy(data, "userfield");
+            var todayCDR = groupBy(data, "campaign_name");
         }
         else {
             todayCDR = []
