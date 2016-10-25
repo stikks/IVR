@@ -461,13 +461,13 @@ app.controller("ReportController", function($scope) {
 	    });
 	};
 
-	// $scope.getCampaigns = function() {
-	// 	$.get("", function(data, status){
-	//         alert("Data: " + data + "\nStatus: " + status);
-	//         $('#camp').highcharts({
-	//         	buildData(data)
-	//         })
-	//
-	//     });
-	// }
+	$scope.getCampaigns = function() {
+		$.get("localhost:4043/api/no_campaign", function(data, status){
+	        alert("Data: " + data + "\nStatus: " + status);
+	        // $('#camp').highcharts({
+	        // 	//buildData(data)
+	        // })
+	
+	    });
+	}
 });
