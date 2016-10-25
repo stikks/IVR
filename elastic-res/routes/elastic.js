@@ -299,14 +299,31 @@ router.get('/no_of_campaign', function (req, res, next) {
     //Add javacript check date
     client.search({
         index: "ivr",
-        type: "campaign",
+        type: "statuses",
         body: {
-            "query": {}
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "bool": {
+                            "should": [
+                                {
+                                    "range": {
+                                        "created_at": {
+                                            "from": sevenDays,
+                                            "to": today
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         }
     }).then(function (resp) {
         var result = resp.hits.hits;
 
-        var ar = groupBy(result, "created_at");
+        var ar = groupBy(result, "campaign_id");
 
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({response: resp, result: ar}));
