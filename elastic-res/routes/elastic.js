@@ -243,20 +243,16 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                 res.send(JSON.stringify({response: response, error: error}));
                             })
                         } else {
-                            var created = new Date(req.body.created_at);
-                            var update = new Date(req.body.updated_at);
-                            created.toDateString;
-                            update.toDateString;
                             client.index({
                                 index: 'ivr',
                                 type: 'statuses',
+                                id: status_id,
                                 body: {
-                                    "campaign_id": req.body.campaign_id,
+                                    "campaign_id": campaign.id,
                                     "impression_count": count,
                                     "success_count": 1,
                                     "cdr_count": 1,
-                                    "created_at": created,
-                                    "updated_at": update
+                                    "created_at": created
                                 }
                             })
                         }
