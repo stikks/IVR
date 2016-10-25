@@ -125,7 +125,7 @@ app.controller('HomeController', function ($scope, $http) {
 
     $http({
         method: 'GET',
-        url: 'http://localhost:4043/api/elasticsearch/data'
+        url: 'http://voice.atp-sevas.com:4043/api/elasticsearch/data'
     }).then(function successCallback(response) {
         Object.keys(response.data.today).map(function (key, index) {
             $scope.response.today.push(response.data.today[key][0]);
@@ -250,7 +250,7 @@ app.controller("ReportController", function ($scope) {
 
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
-        $.get("http://localhost:4043/api/no_of_campaign", function (data, status) {
+        $.get("http://voice.atp-sevas.com:4043/api/no_of_campaign", function (data, status) {
             // Object.keys(data.result).map(function(key, index) {
             //     $scope.response.data.push(data.result[key][0]);
             // });
