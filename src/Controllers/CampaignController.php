@@ -35,7 +35,7 @@ class CampaignController extends BaseController
         $files = Files::where('username', $user->username)->get();
 
         $options = [
-            array("name" => "Send Url", "value" => "send_url"),
+//            array("name" => "Send Url", "value" => "send_url"),
             array("name" => "Send Message", "value" => "send_message"),
 //            array("name" => "Send Image", "value" => "send_image"),
 //            array("name" => "Transfer Call", "value" => "transfer_call"),
@@ -66,7 +66,7 @@ class CampaignController extends BaseController
         {
             $files = Files::where('username', $user->username)->get();
             $options = [
-                array("name" => "Send Url", "value" => "send_url"),
+//                array("name" => "Send Url", "value" => "send_url"),
                 array("name" => "Send Message", "value" => "send_message"),
             ];
             $error =  "A campaign using this audio file already exists";

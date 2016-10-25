@@ -145,26 +145,27 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({response: resp, error: err, status: status}));
         });
-    } else if (req.params.type == "statuses") {
-        var created = new Date(req.body.created_at);
-        var update = new Date(req.body.updated_at);
-        created.toDateString;
-        update.toDateString;
-        client.index({
-            index: 'ivr',
-            type: req.params.type,
-            id: req.body.id,
-            body: {
-                "campaign_id": req.body.campaign_id,
-                "respond_type": req.body.response_type,
-                "created_at": created,
-                "updated_at": update
-            }
-        }, function (err, resp, status) {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({response: resp, error: err, status: status}));
-        });
-    } else if (req.params.type == "cdr") {
+    // } else if (req.params.type == "statuses") {
+    //     var created = new Date(req.body.created_at);
+    //     var update = new Date(req.body.updated_at);
+    //     created.toDateString;
+    //     update.toDateString;
+    //     client.index({
+    //         index: 'ivr',
+    //         type: req.params.type,
+    //         id: req.body.id,
+    //         body: {
+    //             "campaign_id": req.body.campaign_id,
+    //             "respond_type": req.body.response_type,
+    //             "created_at": created,
+    //             "updated_at": update
+    //         }
+    //     }, function (err, resp, status) {
+    //         res.setHeader('Content-Type', 'application/json');
+    //         res.send(JSON.stringify({response: resp, error: err, status: status}));
+    //     });
+    }
+    else if (req.params.type == "cdr") {
 
         client.search({
             index: 'ivr',
@@ -218,8 +219,55 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         //custom fields that need to be updated in db
                     }
                 }, function (err, resp, status) {
-                    redis_client.set("body", campaign.body);
-                    redis_client.set("value", campaign.value);
+                    var status_id = new Date().toDateString() + campaign.id;
+                    client.exists({
+                        index: 'ivr',
+                        type: 'statuses',
+                        id: status_id
+                    }, function (error, exists) {
+                        var count = 0;
+                        if (impression) {
+                            count++;
+                        }
+                        if (exists == true) {
+                            client.bulk({
+                                // index: 'ivr',
+                                // type: 'statuses',
+                                // id: status_id,
+                                // body: {
+                                //     script: 'ctx._source.cdr_count += 1'
+                                // }
+                                body: [
+                                    { update: { _index: 'ivr', _type: 'statuses', _id: status_id } },
+                                    { script: 'ctx._source.cdr_count += 1' },
+
+                                    { update: { _index: 'ivr', _type: 'statuses', _id: status_id } },
+                                    { script: 'ctx._source.impressions_count += count' }
+                                ]
+                            }, function (error, response) {
+                                res.setHeader('Content-Type', 'application/json');
+                                res.send(JSON.stringify({response: response, error: error}));
+                            })
+                        } else {
+                            var created = new Date(req.body.created_at);
+                            var update = new Date(req.body.updated_at);
+                            created.toDateString;
+                            update.toDateString;
+                            client.index({
+                                index: 'ivr',
+                                type: 'statuses',
+                                body: {
+                                    "campaign_id": req.body.campaign_id,
+                                    "impression_count": count,
+                                    "success_count": 1,
+                                    "cdr_count": 1,
+                                    "created_at": created,
+                                    "updated_at": update
+                                }
+                            })
+                        }
+                    });
+                    redis_client.hmset(req.body.uniqueid, "value", campaign.value, "body", campaign.body, function (err, res) {});
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify({response: resp, error: err}));
                 });
@@ -302,6 +350,33 @@ router.get('/impressions/:campaign_id', function (req, res, next) {
 
         var cat = Object.keys(ar);
     })
+
+});
+
+router.post('/elasticsearch/cdr/success', function (req, res, next) {
+
+        client.get({
+            index: 'ivr',
+            type: 'cdr',
+            id: req.body.uniqueid
+        }, function (error, response) {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({response: response, error: error}));
+        });
+
+        // client.update({
+        //     index: 'ivr',
+        //     type: 'cdr',
+        //     id: req.body.uniqueid,
+        //     body: {
+        //         doc: {
+        //             is_successful: true
+        //         }
+        //     }
+        // }, function (error, response) {
+        //     res.setHeader('Content-Type', 'application/json');
+        //     res.send(JSON.stringify({response: response, error: error}));
+        // })
 
 });
 
