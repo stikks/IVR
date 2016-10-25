@@ -308,11 +308,8 @@ router.get('/no_of_campaign', function (req, res, next) {
 
         var ar = groupBy(result, "created_at");
 
-        var cat = Object.keys(ar);
-
-        var data = {"series": res, "text": 'Campaign Impressions', "subtitle": "ivr", "categories": cat}
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({response: data, error: err, status: status}));
+        res.send(JSON.stringify({response: resp, error: err}));
     });
 });
 
