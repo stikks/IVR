@@ -313,10 +313,9 @@ router.get('/no_of_campaign', function (req, res, next) {
         var ar = groupBy(data, "campaign_name");
 
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({response: resp, result: ar}));
+        res.send(JSON.stringify({result: ar}));
     });
 });
-
 
 //Campign impressions
 router.get('/impressions/:campaign_id', function (req, res, next) {
@@ -523,8 +522,12 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
             }
         }
     }).then(function (resp) {
-        result = resp.hits.hits;
-        return res.send(JSON.stringify({message: result}));
+        var result = resp.hits.hits;
+        var data = result.map(function (_obj) {
+            return _obj._source
+        });
+        var _data = groupBy(data, "campaign_name");
+        return res.send(JSON.stringify({message: _data}));
     });
 });
 
