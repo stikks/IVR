@@ -151,17 +151,9 @@ app.controller('HomeController', function ($scope) {
         $scope.active_campaigns = $scope.campaigns.filter(function (val) {
             return val.is_active = true
         });
-        
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:4043/api/elasticsearch/data',
-            dataType: 'jsonp',
-            success: function(data, status) {
-                console.log(data, status);
-            },
-            error: function(err, status) {
-                console.log(err, status);
-            }
+
+        $.get("http://voice.atp-sevas.com:4043/api/elasticsearch/data", function(data, status){
+            console.log("Data: " + data + "\nStatus: " + status);
         });
 	};
 
