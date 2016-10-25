@@ -35,7 +35,7 @@ class CampaignController extends BaseController
         $files = Files::where('username', $user->username)->get();
 
         $options = [
-            array("name" => "Send Url", "value" => "send_url"),
+//            array("name" => "Send Url", "value" => "send_url"),
             array("name" => "Send Message", "value" => "send_message"),
 //            array("name" => "Send Image", "value" => "send_image"),
 //            array("name" => "Transfer Call", "value" => "transfer_call"),
@@ -66,7 +66,7 @@ class CampaignController extends BaseController
         {
             $files = Files::where('username', $user->username)->get();
             $options = [
-                array("name" => "Send Url", "value" => "send_url"),
+//                array("name" => "Send Url", "value" => "send_url"),
                 array("name" => "Send Message", "value" => "send_message"),
             ];
             $error =  "A campaign using this audio file already exists";
@@ -92,15 +92,6 @@ class CampaignController extends BaseController
         $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $user->username . '/'. $file->name;
 
         shell_exec($command);
-
-        $_script = $request->getParam('action');
-
-        if ($_script == 'send_message') {
-            $scr = "SendText(". $request->getParam('body') . ")";
-        }
-        else {
-            $scr = "SendURL(". $request->getParam('body') . ")";
-        }
         
         $campaign = Campaign::create([
             'username' => $user->username,
@@ -109,9 +100,8 @@ class CampaignController extends BaseController
             'name' => $request->getParam('name'),
             'file_path' => $file->file_path,
             'description' => $request->getParam('description'),
-            'value' => $request->getParam('action'),
+            'value' => $request->getParam('value'),
             'body' => $request->getParam('body'),
-            'script' => $scr,
             'play_path' => "/var/lib/asterisk/sounds/files/" . $user->username . '/'. $file->name
         ]);
 //        elseif ($_script == 'send_url') {
@@ -137,9 +127,9 @@ class CampaignController extends BaseController
             'id' => $campaign->id,
             'created_at' => $campaign->created_at->format('Y-m-d'),
             'updated_at' => $campaign->updated_at->format('Y-m-d'),
-            'value' => $campaign->action,
+            'value' => $campaign->value,
             'body' => $campaign->body,
-            'script' => $campaign->script,
+            'is_active' => $campaign->is_active
         ]);
 
         return $response->withRedirect($this->router->pathFor('campaigns'));

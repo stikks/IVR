@@ -22,6 +22,8 @@ class Campaign extends Model
         "end_date",
         "description",
         "is_active",
+        'value',
+        'body',
         'created_at',
         'updated_at'
     ];
