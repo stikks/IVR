@@ -141,8 +141,6 @@ app.controller('HomeController', function ($scope, $http) {
         console.log(err);
     });
 
-    console.log($scope.response);
-
 	$scope.init = function (data, username) {
 
 		$scope.username = username;
@@ -243,8 +241,18 @@ app.controller("ReportController", function($scope) {
 	    }
 	};
 
+    $scope.getCampaigns = function() {
+        $.get("http://voice.atp-sevas.com:4043/api/no_campaign", function(data, status){
+            console.log(data);
+            // $('#camp').highcharts({
+            // 	//buildData(data)
+            // })
+
+        });
+    };
+
 	$scope.init = function() {
-		getCampaigns();
+		$scope.getCampaigns();
 		$('#camp').highcharts({
 	        title: {
 	            text: 'No of Campaigns over a period',
@@ -482,14 +490,4 @@ app.controller("ReportController", function($scope) {
 	        ]
 	    });
 	};
-
-	$scope.getCampaigns = function() {
-		$.get("http://voice.atp-sevas.com:4043/api/no_campaign", function(data, status){
-	        alert("Data: " + data + "\nStatus: " + status);
-	        // $('#camp').highcharts({
-	        // 	//buildData(data)
-	        // })
-	
-	    });
-	}
 });
