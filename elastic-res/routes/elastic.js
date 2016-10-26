@@ -337,36 +337,39 @@ router.get('/impressions/:campaign_id', function (req, res, next) {
 
 router.post('/cdr/success', function (req, res, next) {
 
-    client.update({
-        index: 'ivr',
-        type: 'cdr',
-        id: req.body.uniqueid,
-        body: {
-            doc: {
-                is_successful: true
-            }
-        }
-    }, function (error, response) {
-        client.get({
-            index: 'ivr',
-            type: 'cdr',
-            id: req.body.uniqueid
-        }, function (error, response) {
-            var campaign_id = response._source.userfield;
-            var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
-            client.update({
-                index: 'ivr',
-                type: 'statuses',
-                id: status_id,
-                body: {
-                    script: 'ctx._source.success_count += 1'
-                }
-            }, function (error, response) {
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({response: response, error: error}));
-            })
-        });
-    })
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({response: req.body.uniqueid}));
+
+    // client.update({
+    //     index: 'ivr',
+    //     type: 'cdr',
+    //     id: req.body.uniqueid,
+    //     body: {
+    //         doc: {
+    //             is_successful: true
+    //         }
+    //     }
+    // }, function (error, response) {
+    //     client.get({
+    //         index: 'ivr',
+    //         type: 'cdr',
+    //         id: req.body.uniqueid
+    //     }, function (error, response) {
+    //         var campaign_id = response._source.userfield;
+    //         var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
+    //         client.update({
+    //             index: 'ivr',
+    //             type: 'statuses',
+    //             id: status_id,
+    //             body: {
+    //                 script: 'ctx._source.success_count += 1'
+    //             }
+    //         }, function (error, response) {
+    //             res.setHeader('Content-Type', 'application/json');
+    //             res.send(JSON.stringify({response: response, error: error}));
+    //         })
+    //     });
+    // })
 
 });
 
