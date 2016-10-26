@@ -364,7 +364,7 @@ router.get('/impressions/:campaign_id', function (req, res, next) {
 
 });
 
-router.post('/elasticsearch/cdr/success', function (req, res, next) {
+router.post('/cdr/success', function (req, res, next) {
 
     client.update({
         index: 'ivr',
