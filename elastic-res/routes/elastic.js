@@ -370,7 +370,7 @@ router.post('/cdr/success', function (req, res, next) {
         index: 'ivr',
         type: 'cdr',
         id: req.body.uniqueid
-    }, function (error, response) {
+    }, function (err, resp) {
         client.update({
             index: 'ivr',
             type: 'cdr',
@@ -381,11 +381,20 @@ router.post('/cdr/success', function (req, res, next) {
                 }
             }
         }, function (error, response) {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({response: response, error: error}));
+            var campaign_id = resp._source.userfield;
+            var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign_id;
+            client.update({
+                index: 'ivr',
+                type: 'statuses',
+                id: status_id,
+                body: {
+                    script: 'ctx._source.success_count += 1'
+                }
+            }, function (error, response) {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({response: response, error: error}));
+            });
         });
-        // res.setHeader('Content-Type', 'application/json');
-        // res.send(JSON.stringify({response: response, error: error}));
     });
 
     // client.update({
