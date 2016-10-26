@@ -121,7 +121,7 @@ app.controller('HomeController', function ($scope, $http) {
         return value.username == $scope.username;
     }
 
-    $scope.response = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0, "impressionToday"};
+    $scope.response = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0, "impressionToday": 0};
 
     $http({
         method: 'GET',
