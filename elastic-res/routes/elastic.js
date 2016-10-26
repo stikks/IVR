@@ -16,18 +16,6 @@ var client = elasticsearch.Client({
     log: 'trace'
 });
 
-//Search for campaign where this file_path matches
-
-// var findByID = function (campaign_id) {
-//     client.get({
-//         index: 'ivr',
-//         type: 'campagin',
-//         id: campaign_id
-//     }).then(function (resp) {
-//         return resp.hits.hits[0]._id;
-//     });
-// };
-
 client.ping({
     // ping usually has a 3000ms timeout
     requestTimeout: Infinity,
@@ -64,6 +52,14 @@ client.exists({
                                 "index": "not_analyzed"
                             }
                         }
+                    },
+                    "cdr": {
+                        "properties": {
+                            "uniqueid": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
                     }
                 }
             }
@@ -77,19 +73,6 @@ client.exists({
         });
     }
 });
-
-// client.indices.putMapping({
-//     index: 'ivr',
-//     type: 'campaign',
-//     body: {
-//         "properties": {
-//             "file_path": {
-//                 "type": "string",
-//                 "index": "not_analyzed"
-//             }
-//         }
-//     }
-// });
 
 router.post('/campaign/retrieve', function (req, res, next) {
     var variable = req.body.file_path || null;
@@ -180,7 +163,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 client.index({
                     index: 'ivr',
                     id: req.body.uniqueid,
-                    type: req.params.type,
+                    type: 'cdr',
                     body: {
                         "src": req.body.src,
                         "clid": req.body.clid,
@@ -212,18 +195,6 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         id: status_id
                     }, function (error, exists) {
                         if (exists == true) {
-                            // client.bulk({
-                            //     body: [
-                            //         {update: {_index: 'ivr', _type: 'statuses', _id: status_id}},
-                            //         {script: 'ctx._source.cdr_count += 1'},
-                            //
-                            //         {update: {_index: 'ivr', _type: 'statuses', _id: status_id}},
-                            //         {script: 'ctx._source.impressions_count += count'}
-                            //     ]
-                            // }, function (error, response) {
-                            //     res.setHeader('Content-Type', 'application/json');
-                            //     res.send(JSON.stringify({response: response, error: error}));
-                            // })
                             client.get({
                                 index: 'ivr',
                                 type: 'statuses',
