@@ -255,7 +255,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                     "success_count": 0,
                                     "cdr_count": 1,
                                     "campaign_name": campaign.name,
-                                    "created_at": created
+                                    "created_at": created,
+                                    "username": campaign.username
                                 }
                             })
                         }

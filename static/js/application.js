@@ -121,7 +121,7 @@ app.controller('HomeController', function ($scope, $http) {
         return value.username == $scope.username;
     }
 
-    $scope.response = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0};
+    $scope.response = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0, "impressionToday"};
 
     $http({
         method: 'GET',
@@ -129,7 +129,8 @@ app.controller('HomeController', function ($scope, $http) {
     }).then(function successCallback(response) {
         Object.keys(response.data.today).map(function (key, index) {
             $scope.response.today.push(response.data.today[key][0]);
-            $scope.response.totalToday += response.data.today[key][0].cdr_count
+            $scope.response.totalToday += response.data.today[key][0].cdr_count;
+            $scope.response.impressionToday += response.data.today[key][0].impression_count
         });
 
         Object.keys(response.data.yesterday).map(function (key, index) {
@@ -205,10 +206,6 @@ app.controller('HomeController', function ($scope, $http) {
 
 app.controller("ReportController", function ($scope) {
 
-    function getDayName(dateString) {
-        return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][new Date(dateString).getDay()];
-    }
-
     function buildData(data) {
         return {
             title: {
@@ -251,9 +248,6 @@ app.controller("ReportController", function ($scope) {
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
         $.get("http://voice.atp-sevas.com:4043/elastic/no_of_campaign", function (data, status) {
-            // Object.keys(data.result).map(function(key, index) {
-            //     $scope.response.data.push(data.result[key][0]);
-            // });
             Object.keys(data.result).map(function (key, index) {
                 var temp_object = {"name": data.result[key][0].campaign_name, "data": [0, 0, 0, 0, 0, 0, 0]};
                 var temp = data.result[key];
