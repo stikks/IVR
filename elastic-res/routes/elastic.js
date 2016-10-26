@@ -371,8 +371,21 @@ router.post('/cdr/success', function (req, res, next) {
         type: 'cdr',
         id: req.body.uniqueid
     }, function (error, response) {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({response: response, error: error}));
+        client.update({
+            index: 'ivr',
+            type: 'cdr',
+            id: req.body.uniqueid,
+            body: {
+                doc: {
+                    is_successful: true
+                }
+            }
+        }, function (error, response) {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({response: response, error: error}));
+        });
+        // res.setHeader('Content-Type', 'application/json');
+        // res.send(JSON.stringify({response: response, error: error}));
     });
 
     // client.update({
