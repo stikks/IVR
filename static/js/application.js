@@ -52,10 +52,6 @@ app.controller('UploadController', function ($scope, $location) {
 
 app.controller('FileCtrl', function ($scope) {
 
-    function filterAttr(value) {
-        return value.username == $scope.username;
-    }
-
     $scope.init = function (data, username) {
 
         $scope.username = username;
@@ -110,39 +106,33 @@ app.controller('FileCtrl', function ($scope) {
         else {
             $scope.data = $scope.data_bank;
         }
-        $scope.$apply();
     };
 });
 
 
-app.controller('HomeController', function ($scope, $http) {
+app.controller('HomeController', function ($scope, $http, $timeout) {
 
-    function filterAttr(value) {
-        return value.username == $scope.username;
-    }
-
-    $scope.response = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0, "impressionToday": 0};
+    var sum = function(items, prop){
+        return items.reduce( function(a, b){
+            return a + b[prop];
+        }, 0);
+    };
 
     $http({
         method: 'GET',
         url: 'http://voice.atp-sevas.com:4043/elastic/elasticsearch/data'
-    }).then(function successCallback(response) {
-        Object.keys(response.data.today).map(function (key, index) {
-            $scope.response.today.push(response.data.today[key][0]);
-            $scope.response.totalToday += response.data.today[key][0].cdr_count;
-            $scope.response.impressionToday += response.data.today[key][0].impression_count
-        });
+    }).success(function successCallback(response) {
 
-        Object.keys(response.data.yesterday).map(function (key, index) {
-            $scope.response.yesterday.push(response.data.yesterday[key][0]);
-            $scope.response.totalYday += response.data.yesterday[key][0].cdr_count
-        });
+        $scope.response_data = response;
 
-    }, function errorCallback(err) {
+    }).error(function errorCallback(err) {
         console.log(err);
     });
 
     $scope.init = function (data, username) {
+
+        $scope.data_bank = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0, "impressionToday": 0};
+        $scope.filtered_data = {"today": [], "yesterday": [], "totalToday": 0, "totalYday": 0, "impressionToday": 0};
 
         $scope.username = username;
         $scope.etisalat = false;
@@ -176,7 +166,41 @@ app.controller('HomeController', function ($scope, $http) {
 
     };
 
+    $timeout(function(){
+        Object.keys($scope.response_data.today).map(function (key) {
+            $scope.data_bank.today.push($scope.response_data.today[key][0]);
+            $scope.data_bank.totalToday += $scope.response_data.today[key][0].cdr_count;
+            $scope.data_bank.impressionToday += $scope.response_data.today[key][0].impression_count;
+        });
+
+        Object.keys($scope.response_data.yesterday).map(function (key) {
+            $scope.data_bank.yesterday.push($scope.response_data.yesterday[key][0]);
+            $scope.data_bank.totalYday += $scope.response_data.yesterday[key][0].cdr_count;
+        });
+
+        if ($scope.username != 'all') {
+            $scope.filtered_data.today = $scope.data_bank.today.filter(function (value) {
+                return value.username == $scope.username;
+            });
+
+            $scope.filtered_data.totalToday += $scope.filtered_data.today[key][0].cdr_count;
+            $scope.filtered_data.impressionToday += $scope.filtered_data.today[key][0].impression_count;
+
+            $scope.filtered_data.yesterday = $scope.data_bank.yesterday.filter(function (value) {
+                return value.username == $scope.username;
+            });
+            $scope.filtered_data.totalYday += $scope.filtered_data.yesterday[key][0].cdr_count;
+        }
+        else {
+            $scope.filtered_data = $scope.data_bank;
+        }
+
+    }, 1000);
+
     $scope.changeActive = function (value) {
+
+        var bank = $scope.data_bank;
+
         $scope.username = value;
         $scope.etisalat = false;
         $scope.tm30 = false;
@@ -193,14 +217,33 @@ app.controller('HomeController', function ($scope, $http) {
         }
 
         if (value != 'all') {
-            $scope.data = $scope.data_bank.filter(function (value) {
+            $scope.campaigns = $scope.campaigns_bank.filter(function (value) {
                 return value.username == $scope.username;
             });
+
+            $scope.filtered_data.today = $scope.data_bank.today.filter(function (value) {
+                return value.username == $scope.username;
+            });
+
+            $scope.filtered_data.totalToday = sum($scope.filtered_data.today, 'cdr_count');
+
+            $scope.filtered_data.impressionToday = sum($scope.filtered_data.today, 'impression_count');
+
+            $scope.filtered_data.yesterday = $scope.data_bank.yesterday.filter(function (value) {
+                return value.username == $scope.username;
+            });
+            $scope.filtered_data.totalYday = sum($scope.filtered_data.yesterday, 'cdr_count');
         }
         else {
-            $scope.data = $scope.data_bank;
+            $scope.campaigns = $scope.campaigns_bank;
+            $scope.filtered_data = $scope.data_bank;
         }
-        $scope.$apply();
+
+        $scope.active_campaigns = $scope.campaigns.filter(function (val) {
+            return val.is_active = true
+        });
+
+        $scope.data_bank = bank;
     };
 });
 

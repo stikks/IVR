@@ -119,7 +119,7 @@
                                 </ul>
                             </div>
 
-                            <h3 class="no-margin" ng-bind="response.totalToday"></h3>
+                            <h3 class="no-margin" ng-bind="filtered_data.totalToday"></h3>
                             Current Calls load
                             {#<div class="text-muted text-size-small">34.6% avg</div>#}
                         </div>
@@ -139,7 +139,7 @@
                                 <span class="icon-phone"></span>
                             </div>
 
-                            <h3 class="no-margin" ng-bind="response.impressionToday"></h3>
+                            <h3 class="no-margin" ng-bind="filtered_data.impressionToday"></h3>
                             Today's Call impressions
                         </div>
 
@@ -240,7 +240,7 @@
                                 </td>
                             </tr>
                             <tbody>
-                            <tr ng-repeat="val in response.today">
+                            <tr ng-repeat="val in filtered_data.today">
                                 <td>
                                     <div class="media-left media-middle">
                                         <a href="#"><img src="../../images/brands/facebook.png"
@@ -280,7 +280,7 @@
                                 </td>
                             </tr>
                             </tbody>
-                            <tbody ng-show="response.yesterday.length">
+                            <tbody ng-show="filtered_data.yesterday.length">
                             <tr class="active border-double">
                                 <td colspan="5">Yesterday now</td>
                                 <td class="text-right">

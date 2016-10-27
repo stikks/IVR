@@ -23,6 +23,7 @@ class IndexController extends BaseController
             'user' => $user,
             'data' => $campaigns,
             'username' => 'all'
+//            'username' => $user->username
         ]);
     }
 

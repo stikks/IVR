@@ -102,7 +102,8 @@ class UploadController extends BaseController
                         "description" => $request->getParam('description')
                     ]);
                     return $this->view->render($response, 'templates/upload.twig', [
-                        "message" => $file->name . " was successfully uploaded"
+                        "message" => $file->name . " was successfully uploaded",
+                        'user' => $user
                     ]);
                 }
             }
@@ -111,7 +112,8 @@ class UploadController extends BaseController
         {
             $error =  $_FILES["advert"]["name"] . " is an invalid file, No audio codec provided";
             return $this->view->render($response, 'templates/upload.twig', [
-                'error' => $error
+                'error' => $error,
+                'user' => $user
             ]);
         }
 
