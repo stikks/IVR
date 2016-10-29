@@ -21,7 +21,6 @@ return [
             'path' => __DIR__ . '/../logs/app.log',
         ],
         'db' => [
-//            'driver' => 'pgsql',
             'driver' => 'mysql',
             'host' => 'localhost',
             'username' => 'root',
@@ -30,6 +29,6 @@ return [
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci'
         ],
-        "default_index" => "ivr"
+        "default_index" => "unoidentity"
     ]
 ];
