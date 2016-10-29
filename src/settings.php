@@ -21,14 +21,15 @@ return [
             'path' => __DIR__ . '/../logs/app.log',
         ],
         'db' => [
-            'driver' => 'pgsql',
+//            'driver' => 'pgsql',
+            'driver' => 'mysql',
             'host' => 'localhost',
-            'username' => 'postgres',
-            'password' => 'postgres',
+            'username' => 'root',
+            'password' => 'fileopen',
             'database' => 'ivr',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci'
         ],
-        "default_index" => "unoidentity"
+        "default_index" => "ivr"
     ]
 ];
