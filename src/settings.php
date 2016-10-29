@@ -24,7 +24,7 @@ return [
             'driver' => 'mysql',
             'host' => 'localhost',
             'username' => 'root',
-            'password' => 'fileopen',
+            'password' => '',
             'database' => 'ivr',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci'

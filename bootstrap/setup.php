@@ -26,7 +26,7 @@ array_push($list, $users);
 
 $campaigns = "CREATE TABLE IF NOT EXISTS campaigns(
   id serial PRIMARY KEY,
-  username varchar REFERENCES users(username) NOT NULL,
+  FOREIGN KEY (username) REFERENCES users(username),
   name VARCHAR (255) NOT NULL,
   description VARCHAR (255) NULL,
   file_path VARCHAR (255) NOT NULL,
@@ -46,7 +46,7 @@ array_push($list, $campaigns);
 
 $actions = "CREATE TABLE IF NOT EXISTS actions(
   id serial,
-  campaign_id INTEGER REFERENCES campaigns(id) NOT NULL,
+  FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
   number INTEGER NOT NULL,
   body VARCHAR (255) NOT NULL,
   script VARCHAR (255) NOT NULL,
@@ -60,7 +60,7 @@ array_push($list, $actions);
 
 $status = "CREATE TABLE IF NOT EXISTS statuses(
   id serial,
-  campaign_id INTEGER REFERENCES campaigns(id) NOT NULL,
+  FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
   impressions_count INTEGER NOT NULL,
   success_count INTEGER NOT NULL,
   updated_at date DEFAULT NULL,
@@ -74,7 +74,7 @@ $files = "CREATE TABLE IF NOT EXISTS files(
   name VARCHAR (255) NOT NULL,
   description VARCHAR (255) NOT NULL,
   size FLOAT NOT NULL,
-  username varchar REFERENCES users(username) NOT NULL,
+  FOREIGN KEY (username) REFERENCES users(username),
   file_path VARCHAR (255) NOT NULL,
   file_type VARCHAR (255) NOT NULL,
   duration VARCHAR (255) NULL,
@@ -113,6 +113,9 @@ $obj->execute();
 //);";
 //
 //array_push($list, $subscribers);
+
+//username varchar REFERENCES users(username) NOT NULL,
+//campaign_id INTEGER REFERENCES campaigns(id) NOT NULL,
 
 //$details = "CREATE TABLE IF NOT EXISTS user_details(
 //  id serial PRIMARY KEY,
