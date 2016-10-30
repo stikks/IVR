@@ -14,8 +14,8 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 $list = array();    
-    $users = "CREATE TABLE IF NOT EXISTS users (
-        id serial,
+$users = "CREATE TABLE IF NOT EXISTS users (
+    id serial,
 	username varchar (50) PRIMARY KEY,
 	password varchar (255) NOT NULL,
 	updated_at date DEFAULT NULL,
@@ -26,7 +26,6 @@ array_push($list, $users);
 
 $campaigns = "CREATE TABLE IF NOT EXISTS campaigns(
   id serial PRIMARY KEY,
-  FOREIGN KEY (username) REFERENCES users(username),
   name VARCHAR (255) NOT NULL,
   description VARCHAR (255) NULL,
   file_path VARCHAR (255) NOT NULL,
@@ -39,14 +38,35 @@ $campaigns = "CREATE TABLE IF NOT EXISTS campaigns(
   script VARCHAR (255) NULL,
   value VARCHAR (255) NULL,
   updated_at date DEFAULT NULL,
-  created_at date DEFAULT NULL
+  created_at date DEFAULT NULL,
+  username VARCHAR(255) NOT NULL, 
+  FOREIGN KEY (username) REFERENCES users(username)
 );";
+
+//CREATE TABLE campaigns(
+//    id serial,
+//    name varchar(355) not null,
+//    description text,
+//    file_path text,
+//    play_path text,
+//    start_date date default null,
+//    end_date date default null,
+//    is_active BOOL default true,
+//    body varchar (255) null,
+//    script varchar (255) null,
+//    value varchar (255) null,
+//    updated_at date default null,
+//    created_at date default null,
+//    username varchar(255) not null
+//)ENGINE=InnoDB;
+//FOREIGN KEY (campaign_id) REFERENCES campaigns(id)
+
 
 array_push($list, $campaigns);
 
 $actions = "CREATE TABLE IF NOT EXISTS actions(
   id serial,
-  FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
+  campaign_id int not NULL,
   number INTEGER NOT NULL,
   body VARCHAR (255) NOT NULL,
   script VARCHAR (255) NOT NULL,
@@ -57,9 +77,9 @@ $actions = "CREATE TABLE IF NOT EXISTS actions(
 
 array_push($list, $actions);
 
-
 $status = "CREATE TABLE IF NOT EXISTS statuses(
   id serial,
+  campaign_id int not NULL,
   FOREIGN KEY (campaign_id) REFERENCES campaigns(id),
   impressions_count INTEGER NOT NULL,
   success_count INTEGER NOT NULL,
@@ -74,6 +94,7 @@ $files = "CREATE TABLE IF NOT EXISTS files(
   name VARCHAR (255) NOT NULL,
   description VARCHAR (255) NOT NULL,
   size FLOAT NOT NULL,
+  username VARCHAR(255) NOT NULL,
   FOREIGN KEY (username) REFERENCES users(username),
   file_path VARCHAR (255) NOT NULL,
   file_type VARCHAR (255) NOT NULL,
