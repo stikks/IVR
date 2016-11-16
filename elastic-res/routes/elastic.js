@@ -241,7 +241,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                 id: status_id,
                                 body: {
                                     "campaign_id": campaign.id,
-                                    "impression_count": impression ? 1: 0,
+                                    "impression_count": impression ? 1 : 0,
                                     "success_count": 0,
                                     "cdr_count": 1,
                                     "campaign_name": campaign.name,
@@ -270,7 +270,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         var data = result.map(function (_obj) {
                             return _obj._source;
                         });
-                        for (i=0; i < data.length; i++) {
+                        for (i = 0; i < data.length; i++) {
                             var _source = data[i];
                             redis_client.hmset('unique_' + _source.number, "value", _source.value, "body", _source.body, "number", _source.number, function (err, res) {
                             });
@@ -350,7 +350,7 @@ router.get('/no_of_campaign', function (req, res, next) {
 //Campign impressions
 router.get('/impressions/:campaign_id', function (req, res, next) {
     var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
-    var today = new Date()
+    var today = new Date();
     sevenDays.toDateString
     today.toDateString
 
@@ -434,37 +434,6 @@ router.post('/cdr/success', function (req, res, next) {
             });
         });
     });
-
-    // client.update({
-    //     index: 'ivr',
-    //     type: 'cdr',
-    //     id: req.body.uniqueid,
-    //     body: {
-    //         doc: {
-    //             is_successful: true
-    //         }
-    //     }
-    // }, function (error, response) {
-    //     client.get({
-    //         index: 'ivr',
-    //         type: 'cdr',
-    //         id: req.body.uniqueid
-    //     }, function (error, response) {
-    //         var campaign_id = response._source.userfield;
-    //         var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
-    //         client.update({
-    //             index: 'ivr',
-    //             type: 'statuses',
-    //             id: status_id,
-    //             body: {
-    //                 script: 'ctx._source.success_count += 1'
-    //             }
-    //         }, function (error, response) {
-    //             res.setHeader('Content-Type', 'application/json');
-    //             res.send(JSON.stringify({response: response, error: error}));
-    //         })
-    //     });
-    // })
 });
 
 router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
@@ -597,6 +566,30 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
         res.send(JSON.stringify({message: data}));
     });
 });
+
+router.get('/elasticsearch/cdr/missing', function (req, res, next) {
+
+    client.index({
+        index: 'ivr',
+        id: req.body.uniqueid,
+        type: req.params.type,
+        body: {
+            "src": req.body.src,
+            "clid": req.body.clid,
+            "duration": req.body.duration,
+            "userfield": req.body.name,
+            "uniqueid": req.body.uniqueid,
+            "impression": impression,
+            "billsec": req.body.billsec,
+            "is_successful": false,
+            "created_at": created
+        }
+    }, function (err, resp, status) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({response: response, error: error}));
+    });
+});
+
 
 /*
  All capaign status for today and group by campaign_id
