@@ -148,29 +148,35 @@ class CampaignController extends BaseController
         }
 
         foreach ($actions as $value) {
-            Action::create([
+            $action = Action::create([
                 'number' => $value['number'],
                 'value' => $value['value'],
                 'body' => $value['body'],
                 'campaign_id' => $campaign->id
             ]);
+
+            Index::index('action', [
+                'number' => $action->number,
+                'value' => $action->value,
+                'body' => $action->body,
+                'campaign_id' => $campaign->id,
+                'id' => $action->id,
+            ]);
         }
 
-//        Index::index('campaign', [
-//            'username' => $campaign->username,
-//            'start_date' => $campaign->start_date,
-//            'end_date' => $campaign->end_date,
-//            'name' => $campaign->name,
-//            'file_path' => $campaign->file_path,
-//            'play_path' => $campaign->play_path,
-//            'description' => $campaign->description,
-//            'id' => $campaign->id,
-//            'created_at' => $campaign->created_at->format('Y-m-d'),
-//            'updated_at' => $campaign->updated_at->format('Y-m-d'),
-//            'value' => $campaign->value,
-//            'body' => $campaign->body,
-//            'is_active' => $campaign->is_active
-//        ]);
+        Index::index('campaign', [
+            'username' => $campaign->username,
+            'start_date' => $campaign->start_date,
+            'end_date' => $campaign->end_date,
+            'name' => $campaign->name,
+            'file_path' => $campaign->file_path,
+            'play_path' => $campaign->play_path,
+            'description' => $campaign->description,
+            'id' => $campaign->id,
+            'created_at' => $campaign->created_at->format('Y-m-d'),
+            'updated_at' => $campaign->updated_at->format('Y-m-d'),
+            'is_active' => $campaign->is_active
+        ]);
 
         return $response->withRedirect($this->router->pathFor('campaigns'));
 

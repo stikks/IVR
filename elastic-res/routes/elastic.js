@@ -193,16 +193,6 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         "created_at": created,
                         "file_path": req.body.file_path,
                         "campaign_name": campaign.name
-                        // "accountcode": req.body.accountcode,
-                        // "dst": req.body.dst,
-                        // "dcontext": req.body.dcontext,
-                        // "channel": req.body.channel,
-                        // "dstchannel": req.body.dstchannel,
-                        // "start": req.body.start,
-                        // "answer": req.body.answer,
-                        // "end": req.body.end,
-                        // "disposition": req.body.disposition,
-                        //custom fields that need to be updated in db
                     }
                 }, function (err, resp, status) {
                     var status_id = new Date().toDateString().replace(/ /g, '') + '-' + campaign.id;
@@ -261,14 +251,53 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                             })
                         }
                     });
-                    redis_client.hmset(req.body.uniqueid, "value", campaign.value, "body", campaign.body, function (err, res) {
+                    client.search({
+                        index: 'ivr',
+                        type: 'action',
+                        body: {
+                            "query": {
+                                "constant_score": {
+                                    "filter": {
+                                        "term": {
+                                            "campaign_id": campaign.id
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }).then(function (resp) {
+                        result = resp.hits.hits;
+                        var data = result.map(function (_obj) {
+                            return _obj._source;
+                        });
+                        for (i=0; i < data.length; i++) {
+                            var _source = data[i];
+                            redis_client.hmset('unique_' + _source.number, "value", _source.value, "body", _source.body, "number", _source.number, function (err, res) {
+                            });
+                        }
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send(JSON.stringify({response: resp, error: err}));
                     });
-                    res.setHeader('Content-Type', 'application/json');
-                    res.send(JSON.stringify({response: resp, error: err}));
                 });
             }
         });
-    } else {
+    }
+    else if (req.params.type == 'action') {
+        client.index({
+            index: 'ivr',
+            type: req.params.type,
+            id: req.body.id,
+            body: {
+                "id": req.body.id,
+                "number": req.body.number,
+                "campaign_id": req.body.campaign_id,
+                "value": req.body.value,
+                "body": req.body.body
+            }
+        }, function (err, resp, status) {
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({response: resp, error: err, status: status}));
+        });
     }
 
 });
@@ -277,9 +306,9 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
 router.get('/no_of_campaign', function (req, res, next) {
 
     var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
-    var today = new Date()
-    sevenDays.toDateString
-    today.toDateString
+    var today = new Date();
+    sevenDays.toDateString;
+    today.toDateString;
     //Add javacript check date
     client.search({
         index: "ivr",
@@ -565,11 +594,9 @@ router.get('/elasticsearch/:type/all', function (req, res, next) {
         var data = result.map(function (_obj) {
             return _obj._source
         });
-        var todayCDR = groupBy(data, "campaign_name");
-        return res.send(JSON.stringify({message: data}));
+        res.send(JSON.stringify({message: data}));
     });
 });
-
 
 /*
  All capaign status for today and group by campaign_id
@@ -856,10 +883,6 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-
-// var ivrSearch = {
-//
-// }
 
 function IvrDataFilter(search_date) {
     this.search_date = search_date;
