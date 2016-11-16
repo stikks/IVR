@@ -35,7 +35,7 @@ class CampaignController extends BaseController
         $files = Files::where('username', $user->username)->get();
 
         $options = [
-//            array("name" => "Send Url", "value" => "send_url"),
+            array("name" => "Subscribe", "value" => "subscribe"),
             array("name" => "Send Message", "value" => "send_message"),
 //            array("name" => "Send Image", "value" => "send_image"),
 //            array("name" => "Transfer Call", "value" => "transfer_call"),
@@ -66,7 +66,7 @@ class CampaignController extends BaseController
         {
             $files = Files::where('username', $user->username)->get();
             $options = [
-//                array("name" => "Send Url", "value" => "send_url"),
+                array("name" => "Subscribe", "value" => "subscribe"),
                 array("name" => "Send Message", "value" => "send_message"),
             ];
             $error =  "A campaign using this audio file already exists";
@@ -92,7 +92,7 @@ class CampaignController extends BaseController
         $command = 'cp '. $file->file_path. ' '. "/var/lib/asterisk/sounds/files/" . $user->username . '/'. $file->name;
 
         shell_exec($command);
-        
+
         $campaign = Campaign::create([
             'username' => $user->username,
             'start_date' => $start_date,
@@ -104,33 +104,73 @@ class CampaignController extends BaseController
             'body' => $request->getParam('body'),
             'play_path' => "/var/lib/asterisk/sounds/files/" . $user->username . '/'. $file->name
         ]);
-//        elseif ($_script == 'send_url') {
-//            $scr = "SendImage(". $request->getParam('body') . ")";
-//        }
-        
-//        Action::create([
-//            'number' => $request->getParam('number'),
-//            'value' => $request->getParam('action'),
-//            'body' => $request->getParam('body'),
-//            'campaign_id' => $campaign->id,
-//            'script' => $scr
-//        ]);
 
-        Index::index('campaign', [
-            'username' => $campaign->username,
-            'start_date' => $campaign->start_date,
-            'end_date' => $campaign->end_date,
-            'name' => $campaign->name,
-            'file_path' => $campaign->file_path,
-            'play_path' => $campaign->play_path,
-            'description' => $campaign->description,
-            'id' => $campaign->id,
-            'created_at' => $campaign->created_at->format('Y-m-d'),
-            'updated_at' => $campaign->updated_at->format('Y-m-d'),
-            'value' => $campaign->value,
-            'body' => $campaign->body,
-            'is_active' => $campaign->is_active
-        ]);
+        $actions = [];
+
+        if ($request->getParam('star_body')) {
+            array_push($actions, array('number'=>'*', 'value'=>$request->getParam('star_value'), 'body' => $request->getParam('star_body')));
+        }
+
+        if ($request->getParam('one_body')) {
+            array_push($actions, array('number'=>'1', 'value'=>$request->getParam('one_value'), 'body' => $request->getParam('one_body')));
+        }
+
+        if ($request->getParam('two_body')) {
+            array_push($actions, array('number'=>'2', 'value'=>$request->getParam('two_value'), 'body' => $request->getParam('two_body')));
+        }
+
+        if ($request->getParam('three_body')) {
+            array_push($actions, array('number'=>'3', 'value'=>$request->getParam('three_value'), 'body' => $request->getParam('three_body')));
+        }
+
+        if ($request->getParam('four_body')) {
+            array_push($actions, array('number'=>'4', 'value'=>$request->getParam('four_value'), 'body' => $request->getParam('four_body')));
+        }
+
+        if ($request->getParam('five_body')) {
+            array_push($actions, array('number'=>'5', 'value'=>$request->getParam('five_value'), 'body' => $request->getParam('five_body')));
+        }
+
+        if ($request->getParam('six_body')) {
+            array_push($actions, array('number'=>'6', 'value'=>$request->getParam('six_value'), 'body' => $request->getParam('six_body')));
+        }
+
+        if ($request->getParam('seven_body')) {
+            array_push($actions, array('number'=>'7', 'value'=>$request->getParam('seven_value'), 'body' => $request->getParam('seven_body')));
+        }
+
+        if ($request->getParam('eight_body')) {
+            array_push($actions, array('number'=>'8', 'value'=>$request->getParam('eight_value'), 'body' => $request->getParam('eight_body')));
+        }
+
+        if ($request->getParam('nine_body')) {
+            array_push($actions, array('number'=>'9', 'value'=>$request->getParam('nine_value'), 'body' => $request->getParam('nine_body')));
+        }
+
+        foreach ($actions as $value) {
+            Action::create([
+                'number' => $value['number'],
+                'value' => $value['value'],
+                'body' => $value['body'],
+                'campaign_id' => $campaign->id
+            ]);
+        }
+
+//        Index::index('campaign', [
+//            'username' => $campaign->username,
+//            'start_date' => $campaign->start_date,
+//            'end_date' => $campaign->end_date,
+//            'name' => $campaign->name,
+//            'file_path' => $campaign->file_path,
+//            'play_path' => $campaign->play_path,
+//            'description' => $campaign->description,
+//            'id' => $campaign->id,
+//            'created_at' => $campaign->created_at->format('Y-m-d'),
+//            'updated_at' => $campaign->updated_at->format('Y-m-d'),
+//            'value' => $campaign->value,
+//            'body' => $campaign->body,
+//            'is_active' => $campaign->is_active
+//        ]);
 
         return $response->withRedirect($this->router->pathFor('campaigns'));
 

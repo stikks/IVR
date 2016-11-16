@@ -284,24 +284,159 @@
                                     {#<label class="control-label col-lg-2"><strong>Number (between 2 and 9)</strong></label>#}
                                     {#<div class="col-lg-10">#}
                                         {#<input type="number" name="number" id="number" class="form-control" min="2" max="9" placeholder="Enter Call to action number here" value="{{ old.number }}" required>#}
-                                    {#</div>#}
+                                    {#</div>Number (between 2 and 9)#}
                                 {#</div>#}
+
+                                {#configure actions for Number *#}
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>Value</strong></label>
-                                    <div class="col-lg-10">
-                                        <select name="value" class="form-control" id="value" required>
+                                    <label class="control-label col-lg-2"><strong>*</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="star_value" class="form-control" id="star_value">
                                             {% for option in options  %}
                                                 <option value="{{ option.value }}">{{ option.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>Extension/Text/Url</strong></label>
-                                    <div class="col-lg-10">
-                                        <input type="text" name="body" id="body" class="form-control" value="{{ old.body }}" placeholder="Enter url, text or extension here" required>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="star_body" id="star_body" class="form-control" value="{{ old.star_body }}" placeholder="Enter subscription url or text messages here">
                                     </div>
                                 </div>
+
+                                {#configure actions for Number 1#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>1</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="one_value" class="form-control" id="one_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="one_body" id="one_body" class="form-control" value="{{ old.one_body }}" placeholder="Enter subscription url or text messages here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 2#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>2</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="two_value" class="form-control" id="two_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="two_body" id="two_body" class="form-control" value="{{ old.two_body }}" placeholder="Enter subscription url or text messages here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 3#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>3</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="three_value" class="form-control" id="three_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="three_body" id="three_body" class="form-control" value="{{ old.three_body }}" placeholder="Enter subscription url or text message here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 4#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>4</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="four_value" class="form-control" id="four_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="four_body" id="four_body" class="form-control" value="{{ old.four_body }}" placeholder="Enter subscription url or text message here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 5#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>5</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="five_value" class="form-control" id="five_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="five_body" id="five_body" class="form-control" value="{{ old.five_body }}" placeholder="Enter subscription url or text message here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 6#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>6</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="six_value" class="form-control" id="six_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="six_body" id="six_body" class="form-control" value="{{ old.six_body }}" placeholder="Enter subscription url or text message here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 7#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>7</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="seven_value" class="form-control" id="seven_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="seven_body" id="seven_body" class="form-control" value="{{ old.seven_body }}" placeholder="Enter subscription url or text message here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 8#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>8</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="eight_value" class="form-control" id="eight_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="eight_body" id="eight_body" class="form-control" value="{{ old.eight_body }}" placeholder="Enter subscription url or text message here">
+                                    </div>
+                                </div>
+
+                                {#configure actions for Number 9#}
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>9</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="nine_value" class="form-control" id="nine_value">
+                                            {% for option in options  %}
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="nine_body" id="nine_body" class="form-control" value="{{ old.nine_body }}" placeholder="Enter subscription url or text message here">
+                                    </div>
+                                </div>
+
                             </fieldset>
 
 

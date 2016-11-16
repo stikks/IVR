@@ -21,10 +21,10 @@ return [
             'path' => __DIR__ . '/../logs/app.log',
         ],
         'db' => [
-            'driver' => 'pgsql',
+            'driver' => 'mysql',
             'host' => 'localhost',
-            'username' => 'postgres',
-            'password' => 'postgres',
+            'username' => 'root',
+            'password' => 'root',
             'database' => 'ivr',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci'

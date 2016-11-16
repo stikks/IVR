@@ -9,7 +9,7 @@ require 'app.php';
 
 $container = $app->getContainer();
 $db = $container->get('settings')['db'];
-$pdo = new PDO('pgsql:dbname='.$db['database'].';host=localhost;user='.$db['username'].';password='.$db['password']);
+$pdo = new PDO('mysql:dbname='.$db['database'].';host=localhost;user='.$db['username'].';password='.$db['password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
@@ -67,9 +67,8 @@ array_push($list, $campaigns);
 $actions = "CREATE TABLE IF NOT EXISTS actions(
   id serial,
   campaign_id int not NULL,
-  number INTEGER NOT NULL,
+  number varchar(10) NOT NULL,
   body VARCHAR (255) NOT NULL,
-  script VARCHAR (255) NOT NULL,
   value VARCHAR (255) NOT NULL,
   updated_at date DEFAULT NULL,
   created_at date DEFAULT NULL

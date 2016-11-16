@@ -124,6 +124,7 @@ app.controller('HomeController', function ($scope, $http, $timeout) {
     }).success(function successCallback(response) {
 
         $scope.response_data = response;
+        console.log(response);
 
     }).error(function errorCallback(err) {
         console.log(err);
@@ -196,6 +197,7 @@ app.controller('HomeController', function ($scope, $http, $timeout) {
         }
 
     }, 1000);
+
 
     $scope.changeActive = function (value) {
 
