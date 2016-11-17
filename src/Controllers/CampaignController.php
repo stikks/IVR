@@ -190,11 +190,11 @@ class CampaignController extends BaseController
             return $response->withRedirect($this->router->pathFor('campaigns'));
         }
 
-        $files = Files::where('username', $user->username)->get();
-
         $campaign_id = $args['campaign_id'];
 
         $campaign = Campaign::where('id', $campaign_id)->first();
+
+        $files = Files::where('file_path', $campaign->file_path)->get();
 
         $start_date = new DateTime($campaign->start_date);
         $start = $start_date->format('d/m/Y');
@@ -202,15 +202,7 @@ class CampaignController extends BaseController
         $end_date = new DateTime($campaign->end_date);
         $end = $end_date->format('d/m/Y');
 
-        $action = Action::where('campaign_id', $campaign->id)->first();
-
-        $options = [
-            array("name" => "Send Url", "value" => "send_url"),
-            array("name" => "Send Message", "value" => "send_message"),
-//            array("name" => "Send Image", "value" => "send_image"),
-//            array("name" => "Transfer Call", "value" => "transfer_call"),
-//            array("name" => "Play File", "value" => "play_file")
-        ];
+        $actions = Action::where('campaign_id', $campaign->id)->get();
 
         return $this->view->render($response, 'templates/forms/update_campaign.twig', [
             'campaign' => $campaign,
@@ -218,8 +210,11 @@ class CampaignController extends BaseController
             'files' => $files,
             'start' => $start,
             'end' => $end,
-            'action' => $action,
-            'options' => $options
+            'actions' => $actions,
+            'options' => [
+                array("name" => "Subscribe", "value" => "subscribe"),
+                array("name" => "Send Message", "value" => "send_message")
+            ]
         ]);
     }
 
@@ -243,23 +238,79 @@ class CampaignController extends BaseController
             'end_date' => $end_date
         ]);
 
-        $action = Action::where('campaign_id', $campaign->id)->first();
-
-        $_script = $request->getParam('action');
-
-        if ($_script == 'send_message') {
-            $scr = "SendText(". $request->getParam('body') . ")";
-        }
-        else {
-            $scr = "SendURL(". $request->getParam('body') . ")";
-        }
-
-        $action->update([
-            'number' => $request->getParam('number'),
-            'value' => $request->getParam('action'),
-            'body' => $request->getParam('body'),
-            'script' => $scr
+        Index::update('campaign', $campaign->id, [
+            'name' => $campaign->name,
+            'description' => $campaign->description,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'id' => $campaign->id,
         ]);
+
+        $actions = [];
+
+        if ($request->getParam('*_body')) {
+            array_push($actions, array('number'=>'*', 'value'=>$request->getParam('*_value'), 'body' => $request->getParam('*_body')));
+        }
+
+        if ($request->getParam('1_body')) {
+            array_push($actions, array('number'=>'1', 'value'=>$request->getParam('1_value'), 'body' => $request->getParam('1_body')));
+        }
+
+        if ($request->getParam('2_body')) {
+            array_push($actions, array('number'=>'2', 'value'=>$request->getParam('2_value'), 'body' => $request->getParam('2_body')));
+        }
+
+        if ($request->getParam('3_body')) {
+            array_push($actions, array('number'=>'3', 'value'=>$request->getParam('3_value'), 'body' => $request->getParam('3_body')));
+        }
+
+        if ($request->getParam('4_body')) {
+            array_push($actions, array('number'=>'4', 'value'=>$request->getParam('4_value'), 'body' => $request->getParam('4_body')));
+        }
+
+        if ($request->getParam('5_body')) {
+            array_push($actions, array('number'=>'5', 'value'=>$request->getParam('5_value'), 'body' => $request->getParam('5_body')));
+        }
+
+        if ($request->getParam('6_body')) {
+            array_push($actions, array('number'=>'6', 'value'=>$request->getParam('6_value'), 'body' => $request->getParam('6_body')));
+        }
+
+        if ($request->getParam('7_body')) {
+            array_push($actions, array('number'=>'7', 'value'=>$request->getParam('7_value'), 'body' => $request->getParam('7_body')));
+        }
+
+        if ($request->getParam('8_body')) {
+            array_push($actions, array('number'=>'8', 'value'=>$request->getParam('8_value'), 'body' => $request->getParam('8_body')));
+        }
+
+        if ($request->getParam('9_body')) {
+            array_push($actions, array('number'=>'9', 'value'=>$request->getParam('9_value'), 'body' => $request->getParam('9_body')));
+        }
+
+        foreach ($actions as $value) {
+
+            $match = ['campaign_id' => $campaign->id, 'number' => $value['number']];
+
+            $action = Action::where($match)->first();
+
+            if ($action) {
+
+                $action->update([
+                    'number' => $value['number'],
+                    'value' => $value['value'],
+                    'body' => $value['body']
+                ]);
+
+                Index::update('action', $action->id, [
+                    'number' => $action->number,
+                    'value' => $action->value,
+                    'body' => $action->body,
+                    'campaign_id' => $campaign->id,
+                    'id' => $action->id,
+                ]);
+            }
+        }
         
         return $response->withRedirect($this->router->pathFor('campaigns'));
 

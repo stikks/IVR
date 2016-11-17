@@ -439,109 +439,164 @@ router.post('/cdr/success', function (req, res, next) {
 router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
 
     if (req.params.type == "campaign") {
-        var created = new Date(req.body.created_at);
-        var updated = new Date(req.body.updated_at);
-        var sd = new Date(req.body.start_date);
-        var ed = new Date(req.body.end_date);
-        created.toDateString
-        updated.toDateString
-        sd.toDateString
-        ed.toDateString
-
-        client.index({
+        var start_date = new Date(req.body.start_date);
+        var end_date = new Date(req.body.end_date);
+        start_date.toDateString;
+        end_date.toDateString;
+        client.get({
             index: 'ivr',
-            type: req.params.type,
-            id: req.body.id,
-            body: {
-                "name": req.body.name,
-                "description": req.body.description,
-                "username": req.body.username,
-                "is_active": req.body.is_active,
-                "file_path": req.body.file_path,
-                "play_path": req.body.play_path,
-                "created_at": created,
-                "updated_at": updated,
-                "start_date": sd,
-                "end_date": ed
-            }
-        }, function (err, resp, status) {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({response: resp, error: err, status: status}));
+            type: 'campaign',
+            id: req.body.id
+        }, function (err, resp) {
+            client.update({
+                index: 'ivr',
+                type: 'campaign',
+                id: req.body.id,
+                body: {
+                    doc: {
+                        name: req.body.name,
+                        description: req.body.description,
+                        start_date: start_date,
+                        end_date: end_date
+                    }
+                }
+            }, function (error, response) {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({response: response, error: error}));
+            });
         });
-    } else if (req.params.type == "statuses") {
-        var created = new Date(req.body.created_at);
-        var update = new Date(req.body.updated_at);
-        created.toDateString;
-        update.toDateString;
-        client.index({
-            index: 'ivr',
-            type: req.params.type,
-            id: req.body.id,
-            body: {
-                "campaign_id": req.body.campaign_id,
-                "impressions_count": req.body.impressions_count,
-                "success_count": req.body.success_count,
-                "created_at": created,
-                "updated_at": update
-            }
-        }, function (err, resp, status) {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({response: resp, error: err, status: status}));
-        });
-    } else if (req.params.type == "cdr") {
-
-        var campaign = findCampaignID(req.body.file_path);
-        var created = new Date(req.body.created_at);
-        created.toDateString;
-        var impression = false;
-
-        if (req.body.billsec > 25) {
-            impression = true;
-        }
-
-        client.index({
-            index: 'ivr',
-            id: req.body.uniqueid,
-            type: req.params.type,
-            body: {
-                "src": req.body.src,
-                "clid": req.body.clid,
-                "duration": req.body.duration,
-                "userfield": campaign.id,
-                "uniqueid": req.body.uniqueid,
-                "impression": impression,
-                "billsec": req.body.billsec,
-                "is_successful": false,
-                "created_at": created,
-                "file_path": req.body.file_path
-                // "accountcode": req.body.accountcode,
-                // "dst": req.body.dst,
-                // "dcontext": req.body.dcontext,
-                // "channel": req.body.channel,
-                // "dstchannel": req.body.dstchannel,
-                // "start": req.body.start,
-                // "answer": req.body.answer,
-                // "end": req.body.end,
-                // "disposition": req.body.disposition,
-                //custom fields that need to be updated in db
-            }
-        }, function (err, resp, status) {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify({response: resp, error: err}));
-        });
-    } else {
-        // res.setHeader('Content-Type', 'application/json');
-        // res.send(JSON.stringify({error: 'Wrong type, please provide a valid type'}));
     }
-
-    // if (req.body.id == null || req.body.uniqueid == null) {
-    //     res.setHeader('Content-Type', 'application/json');
-    //     res.send(JSON.stringify({message: 'Missing parameters'}));
-    // } else {
-    //     // check or create index type
-    //
-    // }
+    else if (req.params.type == "action") {
+        client.get({
+            index: 'ivr',
+            type: 'action',
+            id: req.body.id
+        }, function (err, resp) {
+            client.update({
+                index: 'ivr',
+                type: 'action',
+                id: req.body.id,
+                body: {
+                    doc: {
+                        value: req.body.value,
+                        number: req.body.number,
+                        body: req.body.body
+                    }
+                }
+            }, function (error, response) {
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify({response: response, error: error}));
+            });
+        });
+    }
 });
+
+// router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
+//
+//     if (req.params.type == "campaign") {
+//         var created = new Date(req.body.created_at);
+//         var updated = new Date(req.body.updated_at);
+//         var sd = new Date(req.body.start_date);
+//         var ed = new Date(req.body.end_date);
+//         created.toDateString
+//         updated.toDateString
+//         sd.toDateString
+//         ed.toDateString
+//
+//         client.index({
+//             index: 'ivr',
+//             type: req.params.type,
+//             id: req.body.id,
+//             body: {
+//                 "name": req.body.name,
+//                 "description": req.body.description,
+//                 "username": req.body.username,
+//                 "is_active": req.body.is_active,
+//                 "file_path": req.body.file_path,
+//                 "play_path": req.body.play_path,
+//                 "created_at": created,
+//                 "updated_at": updated,
+//                 "start_date": sd,
+//                 "end_date": ed
+//             }
+//         }, function (err, resp, status) {
+//             res.setHeader('Content-Type', 'application/json');
+//             res.send(JSON.stringify({response: resp, error: err, status: status}));
+//         });
+//     } else if (req.params.type == "statuses") {
+//         var created = new Date(req.body.created_at);
+//         var update = new Date(req.body.updated_at);
+//         created.toDateString;
+//         update.toDateString;
+//         client.index({
+//             index: 'ivr',
+//             type: req.params.type,
+//             id: req.body.id,
+//             body: {
+//                 "campaign_id": req.body.campaign_id,
+//                 "impressions_count": req.body.impressions_count,
+//                 "success_count": req.body.success_count,
+//                 "created_at": created,
+//                 "updated_at": update
+//             }
+//         }, function (err, resp, status) {
+//             res.setHeader('Content-Type', 'application/json');
+//             res.send(JSON.stringify({response: resp, error: err, status: status}));
+//         });
+//     } else if (req.params.type == "cdr") {
+//
+//         var campaign = findCampaignID(req.body.file_path);
+//         var created = new Date(req.body.created_at);
+//         created.toDateString;
+//         var impression = false;
+//
+//         if (req.body.billsec > 25) {
+//             impression = true;
+//         }
+//
+//         client.index({
+//             index: 'ivr',
+//             id: req.body.uniqueid,
+//             type: req.params.type,
+//             body: {
+//                 "src": req.body.src,
+//                 "clid": req.body.clid,
+//                 "duration": req.body.duration,
+//                 "userfield": campaign.id,
+//                 "uniqueid": req.body.uniqueid,
+//                 "impression": impression,
+//                 "billsec": req.body.billsec,
+//                 "is_successful": false,
+//                 "created_at": created,
+//                 "file_path": req.body.file_path
+//                 // "accountcode": req.body.accountcode,
+//                 // "dst": req.body.dst,
+//                 // "dcontext": req.body.dcontext,
+//                 // "channel": req.body.channel,
+//                 // "dstchannel": req.body.dstchannel,
+//                 // "start": req.body.start,
+//                 // "answer": req.body.answer,
+//                 // "end": req.body.end,
+//                 // "disposition": req.body.disposition,
+//                 //custom fields that need to be updated in db
+//             }
+//         }, function (err, resp, status) {
+//             res.setHeader('Content-Type', 'application/json');
+//             res.send(JSON.stringify({response: resp, error: err}));
+//         });
+//     } else {
+//         // res.setHeader('Content-Type', 'application/json');
+//         // res.send(JSON.stringify({error: 'Wrong type, please provide a valid type'}));
+//     }
+//
+//     // if (req.body.id == null || req.body.uniqueid == null) {
+//     //     res.setHeader('Content-Type', 'application/json');
+//     //     res.send(JSON.stringify({message: 'Missing parameters'}));
+//     // } else {
+//     //     // check or create index type
+//     //
+//     // }
+// });
 
 router.get('/elasticsearch/:type/all', function (req, res, next) {
     //All index object for a type

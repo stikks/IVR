@@ -18,7 +18,7 @@
     <link href="../../../static/css/core.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/components.css" rel="stylesheet" type="text/css">
     <link href="../../../static/css/colors.css" rel="stylesheet" type="text/css">
-    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
     <link href="../../../static/ionicons/css/ionicons.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 </head>
@@ -291,31 +291,25 @@
 
                             <fieldset class="content-group">
                                 <legend class="text-bold">CONFIGURE CALL TO ACTION</legend>
+
+                                {#configure actions for Number *#}
+                                {% for action in actions %}
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>Number (between 2 and 9)</strong></label>
-                                    <div class="col-lg-10">
-                                        <input type="number" name="number" id="number" class="form-control" min="2" max="9" placeholder="Enter Call to action number here" value="{{ action.number }}" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>Action</strong></label>
-                                    <div class="col-lg-10">
-                                        <select name="action" class="form-control" id="action" required>
+                                    <label class="control-label col-lg-2"><strong>{{ action.number }}</strong></label>
+                                    <div class="col-lg-5">
+                                        <select name="{{ action.number }}_value" class="form-control" id="{{ action.number }}_value">
                                             {% for option in options  %}
-                                                <option {% if action.value == option.value %}selected{% endif %}
-                                                        value="{{ option.value }}">{{ option.name }}</option>
+                                                <option value="{{ option.value }}">{{ option.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>Extension/Text/Url</strong></label>
-                                    <div class="col-lg-10">
-                                        <input type="text" name="body" id="body" class="form-control" value="{{ action.body }}" placeholder="Enter url, text or extension here" required>
+                                    <div class="col-lg-5">
+                                        <input type="text" name="{{ action.number }}_body" id="{{ action.number }}_body" class="form-control" value="{{ action.body }}" placeholder="Enter subscription url or text messages here">
                                     </div>
                                 </div>
-                            </fieldset>
+                                {% endfor %}
 
+                            </fieldset>
 
                             <div class="text-right">
                                 <button type="submit" class="btn btn-success">Submit <i
