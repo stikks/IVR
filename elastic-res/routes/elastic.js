@@ -230,8 +230,8 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                                         }
                                     }
                                 }, function (error, response) {
-                                    res.setHeader('Content-Type', 'application/json');
-                                    res.send(JSON.stringify({response: response, error: error}));
+                                    //res.setHeader('Content-Type', 'application/json');
+                                    //res.send(JSON.stringify({response: response, error: error}));
                                 })
                             });
                         } else {
@@ -272,7 +272,7 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                         });
                         for (i = 0; i < data.length; i++) {
                             var _source = data[i];
-                            redis_client.hmset('unique_' + _source.number, "value", _source.value, "body", _source.body, "number", _source.number, function (err, res) {
+                            redis_client.hmset(req.body.uniqueid + ':' + _source.number, "value", _source.value, "body", _source.body, "number", _source.number, function (err, res) {
                             });
                         }
                         res.setHeader('Content-Type', 'application/json');
