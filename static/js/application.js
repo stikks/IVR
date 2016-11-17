@@ -124,7 +124,7 @@ app.controller('HomeController', function ($scope, $http, $timeout) {
         url: '/dashboard'
     }).success(function successCallback(response) {
 
-        $scope.response_data = JSON.parse(response);
+        $scope.response_data = response;
         console.log(response);
 
     }).error(function errorCallback(err) {
