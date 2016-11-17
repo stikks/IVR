@@ -81,7 +81,7 @@ $app->group('', function (){
 
     $this->get('/campaign/period', function($request, $response) {
         $ch = curl_init();
-        $url = 'http://voice.atp-sevas.com:4043/elastic/no_of_campaign';
+        $url = 'http://localhost:4043/elastic/no_of_campaign';
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         $res = curl_exec($ch);
