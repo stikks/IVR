@@ -243,8 +243,10 @@
                             <tr ng-repeat="val in filtered_data.today">
                                 <td>
                                     <div class="media-left media-middle">
-                                        <a href="#"><img src="../../images/brands/facebook.png"
-                                                         class="img-circle img-xs" alt=""></a>
+                                        <img ng-show="val.username == 'etisalat" src="../../images/etisalat.png"
+                                                         class="img-circle img-xs">
+                                        <img ng-show="val.username == 'tm30" src="../../images/tm.png"
+                                             class="img-circle img-xs">
                                     </div>
                                     <div class="media-left">
                                         <div class=""><a href="#" class="text-default text-semibold" ng-bind="val.campaign_name"></a>
