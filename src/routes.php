@@ -68,6 +68,16 @@ $app->group('', function (){
     $this->get('/campaigns/{campaign_id}/report', 'ReportController:getCampaign')->setName('campaign_report');
 
     $this->get('/reports', 'ReportController:getPage')->setName('reports');
+
+    // javascript data for pages
+    $this->get('/dashboard', function($request, $response) {
+        $ch = curl_init();
+        $url = 'http://localhost:4043/elastic/elasticsearch/data';
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        $res = curl_exec($ch);
+        return $res;
+    });
     
 })->add(new AuthMiddleware($container));
 

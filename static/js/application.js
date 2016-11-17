@@ -120,10 +120,11 @@ app.controller('HomeController', function ($scope, $http, $timeout) {
 
     $http({
         method: 'GET',
-        url: 'http://voice.atp-sevas.com:4043/elastic/elasticsearch/data'
+        // url: 'http://voice.atp-sevas.com:4043/elastic/elasticsearch/data'
+        url: '/dashboard'
     }).success(function successCallback(response) {
 
-        $scope.response_data = response;
+        $scope.response_data = JSON.parse(response);
         console.log(response);
 
     }).error(function errorCallback(err) {

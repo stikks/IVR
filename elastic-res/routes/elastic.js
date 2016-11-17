@@ -699,14 +699,6 @@ router.get('/elasticsearch/cdr/missing', function (req, res, next) {
 // }
 
 router.get('/elasticsearch/data', function (req, res, next) {
-    // var ivrDataFilterToday = new IvrDataFilter(today);
-    // var ivrDataFilterYesterday = new IvrDataFilter(yesterday);
-    //
-    // var todayStatusesGroupBy = groupBy(ivrDataFilterToday.searchCampaignStatusByDate(), "campaign_id");
-    // var yesterdayStatusesGroupBy = groupBy(ivrDataFilterYesterday.searchCampaignStatusByDate(), "campaign_id");
-
-    // var todayCDRgroup = groupBy(ivrDataFilterToday.searchCDRByDate(), "userfield");
-    // var yesterdayCDRGroupBy = groupBy(ivrDataFilterYesterday.searchCDRByDate(), "userfield");
 
     var day = new Date();
     day.setHours(0, 0, 0, 0);
@@ -772,11 +764,11 @@ router.get('/elasticsearch/data', function (req, res, next) {
             else {
                 yesterdayCDR = []
             }
-            res.setHeader('Content-Type', 'application/json');
-            return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
+            //res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR}));
         });
-        res.setHeader('Content-Type', 'application/json');
-        return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
+        //res.setHeader('Content-Type', 'application/json');
+        //return next(res.send(JSON.stringify({today: todayCDR, yesterday: yesterdayCDR})));
     });
 });
 
