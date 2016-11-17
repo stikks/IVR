@@ -292,7 +292,7 @@ app.controller("ReportController", function ($scope) {
 
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
-        $.get("http://voice.atp-sevas.com:4043/elastic/no_of_campaign", function (data, status) {
+        $.get("/campaign/period", function (data, status) {
             Object.keys(data.result).map(function (key, index) {
                 var temp_object = {"name": data.result[key][0].campaign_name, "data": [0, 0, 0, 0, 0, 0, 0]};
                 var temp = data.result[key];

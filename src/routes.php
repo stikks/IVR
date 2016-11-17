@@ -78,6 +78,15 @@ $app->group('', function (){
         $res = curl_exec($ch);
         return $res;
     });
+
+    $this->get('/campaign/period', function($request, $response) {
+        $ch = curl_init();
+        $url = 'http://voice.atp-sevas.com:4043/elastic/no_of_campaign';
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        $res = curl_exec($ch);
+        return $res;
+    });
     
 })->add(new AuthMiddleware($container));
 
