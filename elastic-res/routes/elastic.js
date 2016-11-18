@@ -387,8 +387,10 @@ router.get('/campaign/:id/data', function (req, res, next) {
             }
         });
 
+        var ar = groupBy(result, "created_at");
+
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({result: data}));
+        res.send(JSON.stringify({result: ar}));
     });
 });
 
