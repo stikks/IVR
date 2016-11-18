@@ -381,8 +381,10 @@ router.get('/campaign/:id/data', function (req, res, next) {
     }).then(function (resp) {
         var result = resp.hits.hits;
 
-        var data = result.map(function (_obj) {
-            return _obj._source.campaign_id == campaign_id
+        var data = result.filter(function (_obj) {
+            if (_obj._source.campaign_id == campaign_id) {
+                return _obj._source
+            }
         });
 
         res.setHeader('Content-Type', 'application/json');
