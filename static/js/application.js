@@ -533,7 +533,7 @@ app.controller("ReportController", function ($scope) {
             var cam_data = {
                 "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
                 "text": "Call Records over a week",
-                "subtitle": "All campaigns",
+                "subtitle": "Campaign",
                 "yaxis_text": "Call Record",
                 "series": camp_data.data
             };
@@ -553,7 +553,7 @@ app.controller("ReportController", function ($scope) {
             var advert_data = {
                 "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
                 "text": "Adverts played/Call Impressions over a week",
-                "subtitle": "All campaigns",
+                "subtitle": "Campaign",
                 "yaxis_text": "Call Impressions",
                 "series": camp_data.advert_data
             };
@@ -574,7 +574,7 @@ app.controller("ReportController", function ($scope) {
             var clicked_data = {
                 "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
                 "text": "Successful Conversions over a week",
-                "subtitle": "All campaigns",
+                "subtitle": "Campaign",
                 "yaxis_text": "Successful Conversions",
                 "series": camp_data.clicked_data
             };
