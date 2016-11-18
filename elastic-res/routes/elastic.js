@@ -349,6 +349,7 @@ router.get('/no_of_campaign', function (req, res, next) {
 
 router.get('/campaign/:id/data', function (req, res, next) {
 
+    var campaign_id = req.params.id;
     var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
     var today = new Date();
     sevenDays.toDateString;
@@ -362,13 +363,6 @@ router.get('/campaign/:id/data', function (req, res, next) {
                 "constant_score": {
                     "filter": {
                         "bool": {
-                            "must": [
-                                {
-                                    "term": {
-                                        "userfield": body.params.campaign_id
-                                    }
-                                }
-                            ],
                             "should": [
                                 {
                                     "range": {
@@ -388,7 +382,7 @@ router.get('/campaign/:id/data', function (req, res, next) {
         var result = resp.hits.hits;
 
         var data = result.map(function (_obj) {
-            return _obj._source
+            return _obj._source.campaign_id == campaign_id
         });
 
         res.setHeader('Content-Type', 'application/json');
