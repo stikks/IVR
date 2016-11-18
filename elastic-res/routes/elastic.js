@@ -347,6 +347,55 @@ router.get('/no_of_campaign', function (req, res, next) {
     });
 });
 
+router.get('/campaign/:id/data', function (req, res, next) {
+
+    var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
+    var today = new Date();
+    sevenDays.toDateString;
+    today.toDateString;
+    //Add javacript check date
+    client.search({
+        index: "ivr",
+        type: "statuses",
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "term": {
+                                        "userfield": body.params.campaign_id
+                                    }
+                                }
+                            ],
+                            "should": [
+                                {
+                                    "range": {
+                                        "created_at": {
+                                            "from": sevenDays,
+                                            "to": today
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+
+        var data = result.map(function (_obj) {
+            return _obj._source
+        });
+
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({result: data}));
+    });
+});
+
 //Campign impressions
 router.get('/impressions/:campaign_id', function (req, res, next) {
     var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));

@@ -87,6 +87,22 @@ $app->group('', function (){
         $res = curl_exec($ch);
         return $res;
     });
+
+    $this->get('/campaign/{campaign_id}/period', function($request, $response, $args) {
+
+        $campaign_id = $args['campaign_id'];
+
+        if (!$campaign_id) {
+            return null;
+        }
+
+        $ch = curl_init();
+        $url = 'http://localhost:4043/elastic/campaign/'.$campaign_id.'/data';
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        $res = curl_exec($ch);
+        return $res;
+    });
     
 })->add(new AuthMiddleware($container));
 
