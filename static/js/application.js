@@ -519,7 +519,7 @@ app.controller("ReportController", function ($scope) {
 
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
-        $.get("/campaign" + campaign_id + "/data", function (_data, status) {
+        $.get("/campaign/" + campaign_id + "/data", function (_data, status) {
             var data = JSON.parse(_data);
             Object.keys(data.result).map(function (key, index) {
                 var temp_object = {"name": data.result[key][0].campaign_name, "data": [0, 0, 0, 0, 0, 0, 0]};
