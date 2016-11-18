@@ -88,7 +88,7 @@ $app->group('', function (){
         return $res;
     });
 
-    $this->get('/campaign/{campaign_id}/period', function($request, $response, $args) {
+    $this->get('/campaign/{campaign_id}/data', function($request, $response, $args) {
 
         $campaign_id = $args['campaign_id'];
 

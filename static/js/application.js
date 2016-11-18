@@ -293,7 +293,8 @@ app.controller("ReportsController", function ($scope) {
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
         $.get("/campaign/period", function (data, status) {
-            Object.keys(data.result).map(function (key, index) {
+            var _data = JSON.parse(data);
+            Object.keys(_data.result).map(function (key, index) {
                 var temp_object = {"name": data.result[key][0].campaign_name, "data": [0, 0, 0, 0, 0, 0, 0]};
                 var temp = data.result[key];
                 temp.map(function (i, j) {
@@ -518,8 +519,9 @@ app.controller("ReportController", function ($scope) {
 
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
-        $.get("/campaign" + campaign_id + "/period", function (data, status) {
-            Object.keys(data.result).map(function (key, index) {
+        $.get("/campaign" + campaign_id + "/data", function (data, status) {
+            var _data = JSON.parse(data);
+            Object.keys(_data.result).map(function (key, index) {
                 var temp_object = {"name": data.result[key][0].campaign_name, "data": [0, 0, 0, 0, 0, 0, 0]};
                 var temp = data.result[key];
                 temp.map(function (i, j) {
