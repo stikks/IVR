@@ -103,6 +103,14 @@ $app->group('', function (){
         $res = curl_exec($ch);
         return $res;
     });
+
+    $this->get('/reports/{campaign_id}/download', 'ReportController:DownloadCampaign')->setName('download_campaign');
+
+    $this->post('/reports/{campaign_id}/download', 'ReportController:postDownloadCampaign');
+
+    $this->get('/reports/download', 'ReportController:Download')->setName('download');
+
+    $this->post('/reports/download', 'ReportController:postDownload');
     
 })->add(new AuthMiddleware($container));
 
