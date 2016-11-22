@@ -355,7 +355,7 @@ router.get('/campaign/:id/data', function (req, res, next) {
     var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
     sevenDays.setHours(0,0,0,0);
     var today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(23,59,59,59);
     sevenDays.toDateString;
     today.toDateString;
     //Add javacript check date
