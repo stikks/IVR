@@ -292,21 +292,21 @@ app.controller("ReportsController", function ($scope) {
 
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
-var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
-sevenDays.setHours(0,0,0,0);
-var weekday = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+        var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
+        sevenDays.setHours(0,0,0,0);
+        var weekday = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
 
-var today = new Date();
-today.setHours(23,59,59,59);
-var date_range = [today.getDay()];
+        var today = new Date();
+        today.setHours(23,59,59,59);
+        var date_range = [today.getDay()];
 
-for (var i=1; i < 7; i++) {
-    var x = new Date(new Date().getTime() - (i * 24 * 60 * 60 * 1000));
-    x.setHours(0,0,0,0);
-    date_range.push(x.getDay());
-}
+        for (var i=1; i < 7; i++) {
+            var x = new Date(new Date().getTime() - (i * 24 * 60 * 60 * 1000));
+            x.setHours(0,0,0,0);
+            date_range.push(x.getDay());
+        }
 
-        var week_map = [];
+        var week_map = [weekday[date_range[0]]];
 
         for (var j=1; j < 7; j++) {
             var y = date_range[j];
@@ -337,7 +337,7 @@ for (var i=1; i < 7; i++) {
             });
 
             var cam_data = {
-                "categories": ,
+                "categories": week_map,
                 "text": "Call Records over a week",
                 "subtitle": "All campaigns",
                 "yaxis_text": "Call Record",
