@@ -492,6 +492,48 @@ router.post('/campaign/:id/download', function (req, res, next) {
     });
 });
 
+router.post('/campaign/download', function (req, res, next) {
+
+    var start = new Date(req.body.start_date);
+    var end = new Date(req.body.end_date);
+    start.toDateString;
+    end.toDateString;
+    //Add javacript check date
+    client.search({
+        index: "ivr",
+        type: "statuses",
+        body: {
+            "query": {
+                "constant_score": {
+                    "filter": {
+                        "bool": {
+                            "should": [
+                                {
+                                    "range": {
+                                        "created_at": {
+                                            "from": start,
+                                            "to": end
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }).then(function (resp) {
+        var result = resp.hits.hits;
+
+        var data = result.map(function (_obj) {
+            return _obj._source
+        });
+
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({result: data}));
+    });
+});
+
 router.post('/cdr/success', function (req, res, next) {
 
     client.get({
