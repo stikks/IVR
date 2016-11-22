@@ -321,20 +321,13 @@ app.controller("ReportsController", function ($scope) {
                 var temp = data.result[key];
                 temp.map(function (i, j) {
                     var pos = new Date(temp[j].created_at).getDay();
-                    temp_object['data'][pos] = temp[j].cdr_count;
+                    var b = date_range.indexOf(pos);
+                    temp_object['data'][b] = temp[j].cdr_count;
                 });
 
                 camp_data.data.push(temp_object);
             });
 
-
-            Object.keys(data.result).map(function (key,index) {
-                var temp = data.result[key];
-                temp.map(function (i, j) {
-                    var pos = new Date(temp[j].created_at).getDay();
-                    console.log(pos);
-                });
-            });
 
             var cam_data = {
                 "categories": week_map,
@@ -350,14 +343,15 @@ app.controller("ReportsController", function ($scope) {
                 var _object = data.result[key];
                 _object.map(function (i, j) {
                     var pos = new Date(_object[j].created_at).getDay();
-                    advert_object['data'][pos] = _object[j].impression_count;
+                    var b = date_range.indexOf(pos);
+                    advert_object['data'][b] = _object[j].impression_count;
                 });
 
                 camp_data.advert_data.push(advert_object);
             });
 
             var advert_data = {
-                "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                "categories": week_map,
                 "text": "Adverts played/Call Impressions over a week",
                 "subtitle": "All campaigns",
                 "yaxis_text": "Call Impressions",
@@ -371,6 +365,7 @@ app.controller("ReportsController", function ($scope) {
                 var c_object = data.result[key];
                 c_object.map(function (i, j) {
                     var pos = new Date(c_object[j].created_at).getDay();
+                    var b = date_range.indexOf(pos);
                     clicked_object['data'][pos] = c_object[j].success_count;
                 });
 
@@ -378,7 +373,7 @@ app.controller("ReportsController", function ($scope) {
             });
 
             var clicked_data = {
-                "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                "categories": week_map,
                 "text": "Successful Conversions over a week",
                 "subtitle": "All campaigns",
                 "yaxis_text": "Successful Conversions",
@@ -550,6 +545,28 @@ app.controller("ReportController", function ($scope) {
 
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
+        var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
+        sevenDays.setHours(0,0,0,0);
+        var weekday = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+
+        var today = new Date();
+        today.setHours(23,59,59,59);
+        var date_range = [today.getDay()];
+
+        for (var i=1; i < 7; i++) {
+            var x = new Date(new Date().getTime() - (i * 24 * 60 * 60 * 1000));
+            x.setHours(0,0,0,0);
+            date_range.push(x.getDay());
+        }
+
+        var week_map = [weekday[date_range[0]]];
+
+        for (var j=1; j < 7; j++) {
+            var y = date_range[j];
+            var z = weekday[y];
+            week_map.push(z);
+        }
+
         $.get("/campaign/" + campaign_id + "/data", function (_data, status) {
             var data = JSON.parse(_data);
 
@@ -559,16 +576,17 @@ app.controller("ReportController", function ($scope) {
             var temp = data.result;
             temp.map(function (i, j) {
                 var pos = new Date(temp[j].created_at).getDay();
-                temp_object['data'][pos] = temp[j].cdr_count;
-                advert_object['data'][pos] = temp[j].impression_count;
-                clicked_object['data'][pos] = temp[j].success_count;
+                var b = date_range.indexOf(pos);
+                temp_object['data'][b] = temp[j].cdr_count;
+                advert_object['data'][b] = temp[j].impression_count;
+                clicked_object['data'][b] = temp[j].success_count;
             });
             camp_data.data.push(temp_object);
             camp_data.advert_data.push(advert_object);
             camp_data.clicked_data.push(clicked_object);
 
             var cam_data = {
-                "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                "categories": week_map,
                 "text": "Call Records over a week",
                 "subtitle": data.result[0].campaign_name,
                 "yaxis_text": "Call Record",
@@ -577,7 +595,7 @@ app.controller("ReportController", function ($scope) {
             $('#camp').highcharts(buildData(cam_data));
 
             var advert_data = {
-                "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                "categories": week_map,
                 "text": "Adverts played/Call Impressions over a week",
                 "subtitle": "Campaign",
                 "yaxis_text": "Call Impressions",
@@ -586,7 +604,7 @@ app.controller("ReportController", function ($scope) {
             $('#success').highcharts(buildData(advert_data));
 
             var clicked_data = {
-                "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                "categories": week_map,
                 "text": "Successful Conversions over a week",
                 "subtitle": "Campaign",
                 "yaxis_text": "Successful Conversions",
