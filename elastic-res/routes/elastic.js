@@ -305,8 +305,10 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
 /*Number of campaign over a certain period*/
 router.get('/no_of_campaign', function (req, res, next) {
 
-    var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
+    var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
+    sevenDays.setHours(0,0,0,0);
     var today = new Date();
+    today.setHours(0,0,0,0);
     sevenDays.toDateString;
     today.toDateString;
     //Add javacript check date
@@ -350,8 +352,10 @@ router.get('/no_of_campaign', function (req, res, next) {
 router.get('/campaign/:id/data', function (req, res, next) {
 
     var campaign_id = req.params.id;
-    var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
+    var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
+    sevenDays.setHours(0,0,0,0);
     var today = new Date();
+    today.setHours(0,0,0,0);
     sevenDays.toDateString;
     today.toDateString;
     //Add javacript check date
@@ -398,8 +402,10 @@ router.get('/campaign/:id/data', function (req, res, next) {
 
 //Campign impressions
 router.get('/impressions/:campaign_id', function (req, res, next) {
-    var sevenDays = new Date(new Date().getTime() - (7 * 24 * 60 * 60 * 1000));
+    var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
+    sevenDays.setHours(0,0,0,0);
     var today = new Date();
+    today.setHours(0,0,0,0);
     sevenDays.toDateString
     today.toDateString
 

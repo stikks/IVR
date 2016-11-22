@@ -304,7 +304,7 @@ app.controller("ReportsController", function ($scope) {
 
                 camp_data.data.push(temp_object);
             });
-
+            
             var cam_data = {
                 "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
                 "text": "Call Records over a week",
