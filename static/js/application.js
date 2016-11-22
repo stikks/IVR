@@ -292,6 +292,28 @@ app.controller("ReportsController", function ($scope) {
 
         var camp_data = {"data": [], "advert_data": [], "clicked_data": []};
 
+var sevenDays = new Date(new Date().getTime() - (6 * 24 * 60 * 60 * 1000));
+sevenDays.setHours(0,0,0,0);
+var weekday = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+
+var today = new Date();
+today.setHours(23,59,59,59);
+var date_range = [today.getDay()];
+
+for (var i=1; i < 7; i++) {
+    var x = new Date(new Date().getTime() - (i * 24 * 60 * 60 * 1000));
+    x.setHours(0,0,0,0);
+    date_range.push(x.getDay());
+}
+
+        var week_map = [];
+
+        for (var j=1; j < 7; j++) {
+            var y = date_range[j];
+            var z = weekday[y];
+            week_map.push(z);
+        }
+
         $.get("/campaign/period", function (_data, status) {
             var data = JSON.parse(_data);
             Object.keys(data.result).map(function (key, index) {
@@ -304,9 +326,18 @@ app.controller("ReportsController", function ($scope) {
 
                 camp_data.data.push(temp_object);
             });
-            
+
+
+            Object.keys(data.result).map(function (key,index) {
+                var temp = data.result[key];
+                temp.map(function (i, j) {
+                    var pos = new Date(temp[j].created_at).getDay();
+                    console.log(pos);
+                });
+            });
+
             var cam_data = {
-                "categories": ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'],
+                "categories": ,
                 "text": "Call Records over a week",
                 "subtitle": "All campaigns",
                 "yaxis_text": "Call Record",
