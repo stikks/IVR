@@ -208,7 +208,6 @@
                                         <label class="control-label col-lg-2"><strong>Select Campaign</strong></label>
                                         <div class="col-lg-10">
                                             <select name="campaign_id" class="form-control" id="campaign_id" required>
-                                                <option value="0">All</option>
                                                 {% for campaign in campaigns  %}
                                                     <option value="{{ campaign.id }}">{{ campaign.name }}</option>
                                                 {% endfor %}
