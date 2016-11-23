@@ -263,7 +263,7 @@ class CampaignController extends BaseController
                 'value' => $request->getParam('value'),
                 'body' => $request->getParam('body'),
                 'request' => $request->getParam('request'),
-                'parameter' => $request->getParam('paramter'),
+                'parameter' => $request->getParam('parameter'),
                 'repeat_param' => $request->getParam('repeat_param'),
                 'confirm' => $request->getParam('confirm')
             ]);
