@@ -9,17 +9,17 @@
     <title>IVR Advertising Platform</title>
 
     <!-- Global stylesheets -->
-    <link href="../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
-    <link href="../../static/fonts/font-awesome.css" rel="stylesheet" type="text/css">
-    <link href="../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-    <link href="../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="../../static/css/datepicker.css">
-    <link rel="stylesheet" href="../../static/css/timepicker.css">
-    <link href="../../static/css/core.css" rel="stylesheet" type="text/css">
-    <link href="../../static/css/components.css" rel="stylesheet" type="text/css">
-    <link href="../../static/css/colors.css" rel="stylesheet" type="text/css">
-    <link href="../../static/ionicons/css/ionicons.css" rel="stylesheet" type="text/css">
-    <link href="../../static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/fonts/fonts.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../../../static/css/datepicker.css">
+    <link rel="stylesheet" href="../../../static/css/timepicker.css">
+    <link href="../../../static/css/core.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/components.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/ionicons/css/ionicons.css" rel="stylesheet" type="text/css">
+    <link href="../../../static/css/custom.css" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 </head>
 
@@ -130,7 +130,7 @@
             <div class="page-header page-header-default">
                 <div class="page-header-content">
                     <div class="page-title">
-                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Campaigns</span> - Download Report</h4>
+                        <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Settings</span></h4>
                     </div>
 
                 </div>
@@ -138,8 +138,8 @@
                 <div class="breadcrumb-line">
                     <ul class="breadcrumb">
                         <li><a href="{{ path_for('index') }}"><i class="icon-home2 position-left"></i> Home</a></li>
-                        <li><a href="{{ path_for('campaigns') }}">Campaigns</a></li>
-                        <li class="active">Download Report</li>
+                        {#<li class><a href="{{ path_for('settings') }}">Settings</a></li>#}
+                        <li class="active">Settings</li>
                     </ul>
 
                     <ul class="breadcrumb-elements">
@@ -165,56 +165,33 @@
 
                     <div class="panel-body">
                         <form class="form-horizontal" action="{{ path_for('download') }}" method="post">
-                                <fieldset class="content-group">
-                                    <div class="form-group">
-                                        <label class="control-label col-lg-2"><strong>Start Date:</strong></label>
-                                        <div class="col-lg-10">
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    {#<i class="fa fa-calendar"></i>#}
-                                                    <i class="ion-calendar"></i>
-                                                </div>
-                                                <input type="text" class="form-control pull-right" name="start_date"
-                                                       id="start_date" required>
-                                            </div>
-                                        </div>
-                                        <!-- /.input group -->
+                            <fieldset class="content-group">
+                                <div class="form-group">
+                                    <label class="control-label col-lg-2"><strong>Advert Limit/Call</strong></label>
+                                    <div class="col-lg-10">
+                                        <span style="color: red;">{{ error }}</span>
+                                        <input type="number" min="1" max="9" name="limit" id="limit" class="form-control" placeholder="Enter Advert Limit/Call here" value="{{ old.limit }}" required>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-lg-2"><strong>End Date:</strong></label>
-                                        <div class="col-lg-10">
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    {#<i class="fa fa-calendar"></i>#}
-                                                    <i class="ion-calendar"></i>
-                                                </div>
-                                                <input type="text" class="form-control pull-right" name="end_date"
-                                                       id="end_date" required>
-                                            </div>
-                                        </div>
-                                        <!-- /.input group -->
-                                    </div>
-
-                                </fieldset>
-
-                                <fieldset class="content-group">
-                                    <div class="form-group">
-                                        <label class="control-label col-lg-2"><strong>Select Campaign</strong></label>
-                                        <div class="col-lg-10">
-                                            <select name="campaign_id" class="form-control" id="campaign_id" required>
-                                                {% for campaign in campaigns  %}
-                                                    <option value="{{ campaign.id }}">{{ campaign.name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </fieldset>
-
-                                <div class="text-right">
-                                    <button type="submit" class="btn btn-success">Submit <i class="icon-arrow-right14 position-right"></i></button>
                                 </div>
-                            </form>
+                            </fieldset>
+
+                            {#<fieldset class="content-group">#}
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-lg-2"><strong>Select Incorrect Prompt</strong></label>#}
+                                    {#<div class="col-lg-10">#}
+                                        {#<select name="campaign_id" class="form-control" id="campaign_id" required>#}
+                                            {#{% for campaign in campaigns  %}#}
+                                                {#<option value="{{ campaign.id }}">{{ campaign.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</fieldset>#}
+
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Submit <i class="icon-arrow-right14 position-right"></i></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!-- /form horizontal -->
@@ -229,22 +206,22 @@
 </div>
 
 <!-- Core JS files -->
-<script type="text/javascript" src="../../static/js/plugins/loaders/pace.min.js"></script>
-<script type="text/javascript" src="../../static/js/core/libraries/jquery.min.js"></script>
-<script type="text/javascript" src="../../static/js/core/libraries/bootstrap.min.js"></script>
-<script type="text/javascript" src="../../static/js/plugins/loaders/blockui.min.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/loaders/pace.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/jquery.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/libraries/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/loaders/blockui.min.js"></script>
 <!-- /core JS files -->
 
-<script src="../../static/js/angular.min.js"></script>
-<script src="../../static/js/application.js"></script>
+<script src="../../../static/js/angular.min.js"></script>
+<script src="../../../static/js/application.js"></script>
 
 <!-- Theme JS files -->
-<script type="text/javascript" src="../../static/js/plugins/forms/styling/uniform.min.js"></script>
-<script type="text/javascript" src="../../static/js/core/app.js"></script>
-<script type="text/javascript" src="../../static/js/pages/form_inputs.js"></script>
-<script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
-<script src="../../static/js/bootstrap-datepicker.js"></script>
-<script src="../../static/js/bootstrap-timepicker.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/forms/styling/uniform.min.js"></script>
+<script type="text/javascript" src="../../../static/js/core/app.js"></script>
+<script type="text/javascript" src="../../../static/js/pages/form_inputs.js"></script>
+<script type="text/javascript" src="../../../static/js/plugins/ui/ripple.min.js"></script>
+<script src="../../../static/js/bootstrap-datepicker.js"></script>
+<script src="../../../static/js/bootstrap-timepicker.js"></script>
 <script>
     // When the document is ready
     $(document).ready(function () {

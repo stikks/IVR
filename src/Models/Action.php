@@ -21,6 +21,10 @@ class Action extends Model
         "number",
         "body",
         "value",
-        "script"
+        "script",
+        "repeat_param",
+        "confirm",
+        "request",
+        "parameter"
     ];
 }

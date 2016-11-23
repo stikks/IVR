@@ -292,7 +292,11 @@ router.post('/elasticsearch/:type/create', function (req, res, next) {
                 "number": req.body.number,
                 "campaign_id": req.body.campaign_id,
                 "value": req.body.value,
-                "body": req.body.body
+                "body": req.body.body,
+                "request": req.body.request,
+                "parameter": req.body.parameter,
+                "repeat_param": req.body.repeat_param,
+                "confirm": req.body.confirm
             }
         }, function (err, resp, status) {
             res.setHeader('Content-Type', 'application/json');
@@ -626,7 +630,11 @@ router.post('/elasticsearch/:type/:id/update', function (req, res, next) {
                     doc: {
                         value: req.body.value,
                         number: req.body.number,
-                        body: req.body.body
+                        body: req.body.body,
+                        request: req.body.request,
+                        parameter: req.body.parameter,
+                        repeat_param: req.body.repeat_param,
+                        confirm: req.body.confirm
                     }
                 }
             }, function (error, response) {

@@ -70,6 +70,10 @@ $actions = "CREATE TABLE IF NOT EXISTS actions(
   number varchar(10) NOT NULL,
   body VARCHAR (255) NOT NULL,
   value VARCHAR (255) NOT NULL,
+  repeat_param VARCHAR (255) NULL,
+  confirm VARCHAR (255) NULL,
+  request VARCHAR (255) NULL,
+  parameter VARCHAR (255) NULL,
   updated_at date DEFAULT NULL,
   created_at date DEFAULT NULL
 );";

@@ -154,13 +154,8 @@
                     </ul>
 
                     <ul class="breadcrumb-elements">
-                        <li><a href="/support"><i class="icon-comment-discussion position-left"></i> Support</a></li>
-                        <li class="dropdown">
-                            <a href="/settings" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon-gear position-left"></i>
-                                Settings
-                            </a>
-                        </li>
+                        {#<li><a href=""><i class="icon-comment-discussion position-left"></i> Support</a></li>#}
+                        <li><a href="{{ path_for('settings') }}"><i class="icon-gear position-left"></i> Settings</a></li>
                     </ul>
                 </div>
             </div>
@@ -283,153 +278,225 @@
 
                                 {#configure actions for Number *#}
                                 <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>*</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="star_value" class="form-control" id="star_value">
+                                    <div class="col-sm-1">
+                                        <input type="text" name="number" id="number" maxlength="1" class="form-control" value="{{ old.number }}" placeholder="Number">
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input type="text" name="repeat_param" id="repeat_param" maxlength="1" class="form-control" value="{{ old.repeat_param }}" placeholder="Enter repeat advert key">
+                                        <span id='message'></span>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input type="text" name="confirm" id="confirm" maxlength="1" class="form-control" value="{{ old.confirm }}" placeholder="Enter confirmation key">
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <select name="value" class="form-control" id="value">
                                             {% for option in options  %}
                                                 <option value="{{ option.value }}">{{ option.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="star_body" id="star_body" class="form-control" value="{{ old.star_body }}" placeholder="Enter subscription url or text messages here">
+                                    <div class="col-sm-1">
+                                        <select name="request" class="form-control" id="request">
+                                            <option value='GET'>GET</option>
+                                            <option value='POST'>POST</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" name="body" id="body" class="form-control" value="{{ old.body }}" placeholder="Enter subscription url here">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input type="text" name="parameter" id="parameter" class="form-control" value="{{ old.parameter }}" placeholder="Phone/Msisdn parameter">
                                     </div>
                                 </div>
 
                                 {#configure actions for Number 1#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>1</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="one_value" class="form-control" id="one_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="one_body" id="one_body" class="form-control" value="{{ old.one_body }}" placeholder="Enter subscription url or text messages here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>1</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="one_repeat" id="one_repeat" class="form-control" value="{{ old.one_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="one_confirm" id="one_confirm" class="form-control" value="{{ old.one_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="one_value" class="form-control" id="one_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="one_body" id="one_body" class="form-control" value="{{ old.one_body }}" placeholder="Enter subscription url or text messages here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 2#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>2</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="two_value" class="form-control" id="two_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="two_body" id="two_body" class="form-control" value="{{ old.two_body }}" placeholder="Enter subscription url or text messages here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>2</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="two_repeat" id="two_repeat" class="form-control" value="{{ old.two_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="two_confirm" id="two_confirm" class="form-control" value="{{ old.two_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="two_value" class="form-control" id="two_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="two_body" id="two_body" class="form-control" value="{{ old.two_body }}" placeholder="Enter subscription url or text messages here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 3#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>3</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="three_value" class="form-control" id="three_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="three_body" id="three_body" class="form-control" value="{{ old.three_body }}" placeholder="Enter subscription url or text message here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>3</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="three_repeat" id="three_repeat" class="form-control" value="{{ old.three_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="three_confirm" id="three_confirm" class="form-control" value="{{ old.three_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="three_value" class="form-control" id="three_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="three_body" id="three_body" class="form-control" value="{{ old.three_body }}" placeholder="Enter subscription url or text message here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 4#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>4</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="four_value" class="form-control" id="four_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="four_body" id="four_body" class="form-control" value="{{ old.four_body }}" placeholder="Enter subscription url or text message here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>4</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="four_repeat" id="star_repeat" class="form-control" value="{{ old.star_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="star_confirm" id="star_confirm" class="form-control" value="{{ old.star_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="four_value" class="form-control" id="four_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="four_body" id="four_body" class="form-control" value="{{ old.four_body }}" placeholder="Enter subscription url or text message here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 5#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>5</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="five_value" class="form-control" id="five_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="five_body" id="five_body" class="form-control" value="{{ old.five_body }}" placeholder="Enter subscription url or text message here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>5</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="five_repeat" id="five_repeat" class="form-control" value="{{ old.five_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="five_confirm" id="five_confirm" class="form-control" value="{{ old.five_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="five_value" class="form-control" id="five_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="five_body" id="five_body" class="form-control" value="{{ old.five_body }}" placeholder="Enter subscription url or text message here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 6#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>6</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="six_value" class="form-control" id="six_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="six_body" id="six_body" class="form-control" value="{{ old.six_body }}" placeholder="Enter subscription url or text message here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>6</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="six_repeat" id="six_repeat" class="form-control" value="{{ old.six_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="six_confirm" id="six_confirm" class="form-control" value="{{ old.six_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="six_value" class="form-control" id="six_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="six_body" id="six_body" class="form-control" value="{{ old.six_body }}" placeholder="Enter subscription url or text message here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 7#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>7</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="seven_value" class="form-control" id="seven_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="seven_body" id="seven_body" class="form-control" value="{{ old.seven_body }}" placeholder="Enter subscription url or text message here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>7</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="seven_repeat" id="seven_repeat" class="form-control" value="{{ old.seven_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="seven_confirm" id="seven_confirm" class="form-control" value="{{ old.seven_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="seven_value" class="form-control" id="seven_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="seven_body" id="seven_body" class="form-control" value="{{ old.seven_body }}" placeholder="Enter subscription url or text message here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 8#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>8</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="eight_value" class="form-control" id="eight_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="eight_body" id="eight_body" class="form-control" value="{{ old.eight_body }}" placeholder="Enter subscription url or text message here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>8</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="eight_repeat" id="eight_repeat" class="form-control" value="{{ old.eight_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="eight_confirm" id="eight_confirm" class="form-control" value="{{ old.eight_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="eight_value" class="form-control" id="eight_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="eight_body" id="eight_body" class="form-control" value="{{ old.eight_body }}" placeholder="Enter subscription url or text message here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                                 {#configure actions for Number 9#}
-                                <div class="form-group">
-                                    <label class="control-label col-lg-2"><strong>9</strong></label>
-                                    <div class="col-lg-5">
-                                        <select name="nine_value" class="form-control" id="nine_value">
-                                            {% for option in options  %}
-                                                <option value="{{ option.value }}">{{ option.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" name="nine_body" id="nine_body" class="form-control" value="{{ old.nine_body }}" placeholder="Enter subscription url or text message here">
-                                    </div>
-                                </div>
+                                {#<div class="form-group">#}
+                                    {#<label class="control-label col-sm-1"><strong>9</strong></label>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="nine_repeat" id="nine_repeat" class="form-control" value="{{ old.nine_repeat }}" placeholder="Enter repeat advert key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<input type="text" name="nine_confirm" id="nine_confirm" class="form-control" value="{{ old.nine_confirm }}" placeholder="Enter confirmation key">#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-2">#}
+                                        {#<select name="nine_value" class="form-control" id="nine_value">#}
+                                            {#{% for option in options  %}#}
+                                                {#<option value="{{ option.value }}">{{ option.name }}</option>#}
+                                            {#{% endfor %}#}
+                                        {#</select>#}
+                                    {#</div>#}
+                                    {#<div class="col-lg-5">#}
+                                        {#<input type="text" name="nine_body" id="nine_body" class="form-control" value="{{ old.nine_body }}" placeholder="Enter subscription url or text message here">#}
+                                    {#</div>#}
+                                {#</div>#}
 
                             </fieldset>
 
@@ -486,6 +553,13 @@
         });
 
         $('#scheduled_time').timepicker();
+
+        $('#number, #repeat_param').on('keyup', function () {
+            if ($('#number').val() != $('#repeat_param').val()) {
+                $('#message').html('Correct').css('color', 'green');
+            } else
+                $('#message').html('Invalid, Check Key Selected').css('color', 'red');
+        });
 
     });
 </script>

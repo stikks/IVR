@@ -306,6 +306,8 @@ app.controller("ReportsController", function ($scope) {
             date_range.push(x.getDay());
         }
 
+        date_range.reverse();
+
         var week_map = [weekday[date_range[0]]];
 
         for (var j=1; j < 7; j++) {
@@ -558,6 +560,8 @@ app.controller("ReportController", function ($scope) {
             x.setHours(0,0,0,0);
             date_range.push(x.getDay());
         }
+
+        date_range.reverse();
 
         var week_map = [weekday[date_range[0]]];
 

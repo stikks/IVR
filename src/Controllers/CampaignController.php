@@ -35,8 +35,8 @@ class CampaignController extends BaseController
         $files = Files::where('username', $user->username)->get();
 
         $options = [
-            array("name" => "Subscribe", "value" => "subscribe"),
-            array("name" => "Send Message", "value" => "send_message"),
+            array("name" => "Subscribe", "value" => "subscribe")
+//            array("name" => "Send Message", "value" => "send_message"),
 //            array("name" => "Send Image", "value" => "send_image"),
 //            array("name" => "Transfer Call", "value" => "transfer_call"),
 //            array("name" => "Play File", "value" => "play_file")
@@ -66,8 +66,8 @@ class CampaignController extends BaseController
         {
             $files = Files::where('username', $user->username)->get();
             $options = [
-                array("name" => "Subscribe", "value" => "subscribe"),
-                array("name" => "Send Message", "value" => "send_message"),
+                array("name" => "Subscribe", "value" => "subscribe")
+//                array("name" => "Send Message", "value" => "send_message"),
             ];
             $error =  "A campaign using this audio file already exists";
             return $this->view->render($response, 'templates/forms/campaign.twig', [
@@ -105,53 +105,19 @@ class CampaignController extends BaseController
             'play_path' => "/var/lib/asterisk/sounds/files/" . $user->username . '/'. $file->name
         ]);
 
-        $actions = [];
+        if ($request->getParam('body') && $request->getParam('number') && $request->getParam('value')) {
+            $value = array('number'=>$request->getParam('number'), 'value'=>$request->getParam('value'), 'parameter' => $request->getParam('parameter'),
+                'body' => $request->getParam('body'), "repeat_param"=>$request->getParam('repeat_param'),
+                "confirm"=>$request->getParam('confirm'), "request"=>$request->getParam('request'));
 
-        if ($request->getParam('star_body')) {
-            array_push($actions, array('number'=>'*', 'value'=>$request->getParam('star_value'), 'body' => $request->getParam('star_body')));
-        }
-
-        if ($request->getParam('one_body')) {
-            array_push($actions, array('number'=>'1', 'value'=>$request->getParam('one_value'), 'body' => $request->getParam('one_body')));
-        }
-
-        if ($request->getParam('two_body')) {
-            array_push($actions, array('number'=>'2', 'value'=>$request->getParam('two_value'), 'body' => $request->getParam('two_body')));
-        }
-
-        if ($request->getParam('three_body')) {
-            array_push($actions, array('number'=>'3', 'value'=>$request->getParam('three_value'), 'body' => $request->getParam('three_body')));
-        }
-
-        if ($request->getParam('four_body')) {
-            array_push($actions, array('number'=>'4', 'value'=>$request->getParam('four_value'), 'body' => $request->getParam('four_body')));
-        }
-
-        if ($request->getParam('five_body')) {
-            array_push($actions, array('number'=>'5', 'value'=>$request->getParam('five_value'), 'body' => $request->getParam('five_body')));
-        }
-
-        if ($request->getParam('six_body')) {
-            array_push($actions, array('number'=>'6', 'value'=>$request->getParam('six_value'), 'body' => $request->getParam('six_body')));
-        }
-
-        if ($request->getParam('seven_body')) {
-            array_push($actions, array('number'=>'7', 'value'=>$request->getParam('seven_value'), 'body' => $request->getParam('seven_body')));
-        }
-
-        if ($request->getParam('eight_body')) {
-            array_push($actions, array('number'=>'8', 'value'=>$request->getParam('eight_value'), 'body' => $request->getParam('eight_body')));
-        }
-
-        if ($request->getParam('nine_body')) {
-            array_push($actions, array('number'=>'9', 'value'=>$request->getParam('nine_value'), 'body' => $request->getParam('nine_body')));
-        }
-
-        foreach ($actions as $value) {
             $action = Action::create([
                 'number' => $value['number'],
                 'value' => $value['value'],
                 'body' => $value['body'],
+                'repeat_param' => $value['repeat_param'],
+                'confirm' => $value['confirm'],
+                'request' => $value['request'],
+                'parameter' => $value['parameter'],
                 'campaign_id' => $campaign->id
             ]);
 
@@ -159,10 +125,52 @@ class CampaignController extends BaseController
                 'number' => $action->number,
                 'value' => $action->value,
                 'body' => $action->body,
+                'repeat_param' => $action->repeat_param,
+                'confirm' => $action->confirm,
+                'parameter' => $action->parameter,
+                'request' => $action->request,
                 'campaign_id' => $campaign->id,
                 'id' => $action->id,
             ]);
         }
+//        if ($request->getParam('one_body')) {
+//            array_push($actions, array('number'=>'1', 'value'=>$request->getParam('one_value'), 'body' => $request->getParam('one_body'),
+//                "repeat"=>$request->getParam('one_repeat'), "confirm"=>$request->getParam('one_confirm')));
+//        }
+//
+//        if ($request->getParam('two_body')) {
+//            array_push($actions, array('number'=>'2', 'value'=>$request->getParam('two_value'), 'body' => $request->getParam('two_body'),
+//                "repeat"=>$request->getParam('two_repeat'), "confirm"=>$request->getParam('two_confirm')));
+//        }
+//
+//        if ($request->getParam('three_body')) {
+//            array_push($actions, array('number'=>'3', 'value'=>$request->getParam('three_value'), 'body' => $request->getParam('three_body'),
+//                "repeat"=>$request->getParam('star_repeat'), "confirm"=>$request->getParam('star_confirm')));
+//        }
+//
+//        if ($request->getParam('four_body')) {
+//            array_push($actions, array('number'=>'4', 'value'=>$request->getParam('four_value'), 'body' => $request->getParam('four_body')));
+//        }
+//
+//        if ($request->getParam('five_body')) {
+//            array_push($actions, array('number'=>'5', 'value'=>$request->getParam('five_value'), 'body' => $request->getParam('five_body')));
+//        }
+//
+//        if ($request->getParam('six_body')) {
+//            array_push($actions, array('number'=>'6', 'value'=>$request->getParam('six_value'), 'body' => $request->getParam('six_body')));
+//        }
+//
+//        if ($request->getParam('seven_body')) {
+//            array_push($actions, array('number'=>'7', 'value'=>$request->getParam('seven_value'), 'body' => $request->getParam('seven_body')));
+//        }
+//
+//        if ($request->getParam('eight_body')) {
+//            array_push($actions, array('number'=>'8', 'value'=>$request->getParam('eight_value'), 'body' => $request->getParam('eight_body')));
+//        }
+//
+//        if ($request->getParam('nine_body')) {
+//            array_push($actions, array('number'=>'9', 'value'=>$request->getParam('nine_value'), 'body' => $request->getParam('nine_body')));
+//        }
 
         Index::index('campaign', [
             'username' => $campaign->username,
@@ -202,7 +210,7 @@ class CampaignController extends BaseController
         $end_date = new DateTime($campaign->end_date);
         $end = $end_date->format('d/m/Y');
 
-        $actions = Action::where('campaign_id', $campaign->id)->get();
+        $action = Action::where('campaign_id', $campaign->id)->first();
 
         return $this->view->render($response, 'templates/forms/update_campaign.twig', [
             'campaign' => $campaign,
@@ -210,10 +218,10 @@ class CampaignController extends BaseController
             'files' => $files,
             'start' => $start,
             'end' => $end,
-            'actions' => $actions,
+            'action' => $action,
             'options' => [
-                array("name" => "Subscribe", "value" => "subscribe"),
-                array("name" => "Send Message", "value" => "send_message")
+                array("name" => "Subscribe", "value" => "subscribe")
+//                array("name" => "Send Message", "value" => "send_message")
             ]
         ]);
     }
@@ -246,71 +254,96 @@ class CampaignController extends BaseController
             'id' => $campaign->id,
         ]);
 
-        $actions = [];
+        $action = Action::where('campaign_id', $campaign->id)->first();
 
-        if ($request->getParam('*_body')) {
-            array_push($actions, array('number'=>'*', 'value'=>$request->getParam('*_value'), 'body' => $request->getParam('*_body')));
+        if ($action) {
+
+            $action->update([
+                'number' => $request->getParam('number'),
+                'value' => $request->getParam('value'),
+                'body' => $request->getParam('body'),
+                'request' => $request->getParam('request'),
+                'parameter' => $request->getParam('paramter'),
+                'repeat_param' => $request->getParam('repeat_param'),
+                'confirm' => $request->getParam('confirm')
+            ]);
+
+            Index::update('action', $action->id, [
+                'number' => $action->number,
+                'value' => $action->value,
+                'body' => $action->body,
+                'request' => $action->request,
+                'repeat_param' => $action->repeat_param,
+                'confirm' => $action->confirm,
+                'parameter' => $action->parameter,
+                'campaign_id' => $campaign->id,
+                'id' => $action->id,
+            ]);
         }
 
-        if ($request->getParam('1_body')) {
-            array_push($actions, array('number'=>'1', 'value'=>$request->getParam('1_value'), 'body' => $request->getParam('1_body')));
-        }
+//        if ($request->getParam('*_body')) {
+//            array_push($actions, array('number'=>'*', 'value'=>$request->getParam('*_value'), 'body' => $request->getParam('*_body')));
+//        }
+//
+//        if ($request->getParam('1_body')) {
+//            array_push($actions, array('number'=>'1', 'value'=>$request->getParam('1_value'), 'body' => $request->getParam('1_body')));
+//        }
+//
+//        if ($request->getParam('2_body')) {
+//            array_push($actions, array('number'=>'2', 'value'=>$request->getParam('2_value'), 'body' => $request->getParam('2_body')));
+//        }
+//
+//        if ($request->getParam('3_body')) {
+//            array_push($actions, array('number'=>'3', 'value'=>$request->getParam('3_value'), 'body' => $request->getParam('3_body')));
+//        }
+//
+//        if ($request->getParam('4_body')) {
+//            array_push($actions, array('number'=>'4', 'value'=>$request->getParam('4_value'), 'body' => $request->getParam('4_body')));
+//        }
+//
+//        if ($request->getParam('5_body')) {
+//            array_push($actions, array('number'=>'5', 'value'=>$request->getParam('5_value'), 'body' => $request->getParam('5_body')));
+//        }
+//
+//        if ($request->getParam('6_body')) {
+//            array_push($actions, array('number'=>'6', 'value'=>$request->getParam('6_value'), 'body' => $request->getParam('6_body')));
+//        }
+//
+//        if ($request->getParam('7_body')) {
+//            array_push($actions, array('number'=>'7', 'value'=>$request->getParam('7_value'), 'body' => $request->getParam('7_body')));
+//        }
+//
+//        if ($request->getParam('8_body')) {
+//            array_push($actions, array('number'=>'8', 'value'=>$request->getParam('8_value'), 'body' => $request->getParam('8_body')));
+//        }
+//
+//        if ($request->getParam('9_body')) {
+//            array_push($actions, array('number'=>'9', 'value'=>$request->getParam('9_value'), 'body' => $request->getParam('9_body')));
+//        }
 
-        if ($request->getParam('2_body')) {
-            array_push($actions, array('number'=>'2', 'value'=>$request->getParam('2_value'), 'body' => $request->getParam('2_body')));
-        }
-
-        if ($request->getParam('3_body')) {
-            array_push($actions, array('number'=>'3', 'value'=>$request->getParam('3_value'), 'body' => $request->getParam('3_body')));
-        }
-
-        if ($request->getParam('4_body')) {
-            array_push($actions, array('number'=>'4', 'value'=>$request->getParam('4_value'), 'body' => $request->getParam('4_body')));
-        }
-
-        if ($request->getParam('5_body')) {
-            array_push($actions, array('number'=>'5', 'value'=>$request->getParam('5_value'), 'body' => $request->getParam('5_body')));
-        }
-
-        if ($request->getParam('6_body')) {
-            array_push($actions, array('number'=>'6', 'value'=>$request->getParam('6_value'), 'body' => $request->getParam('6_body')));
-        }
-
-        if ($request->getParam('7_body')) {
-            array_push($actions, array('number'=>'7', 'value'=>$request->getParam('7_value'), 'body' => $request->getParam('7_body')));
-        }
-
-        if ($request->getParam('8_body')) {
-            array_push($actions, array('number'=>'8', 'value'=>$request->getParam('8_value'), 'body' => $request->getParam('8_body')));
-        }
-
-        if ($request->getParam('9_body')) {
-            array_push($actions, array('number'=>'9', 'value'=>$request->getParam('9_value'), 'body' => $request->getParam('9_body')));
-        }
-
-        foreach ($actions as $value) {
-
-            $match = ['campaign_id' => $campaign->id, 'number' => $value['number']];
-
-            $action = Action::where($match)->first();
-
-            if ($action) {
-
-                $action->update([
-                    'number' => $value['number'],
-                    'value' => $value['value'],
-                    'body' => $value['body']
-                ]);
-
-                Index::update('action', $action->id, [
-                    'number' => $action->number,
-                    'value' => $action->value,
-                    'body' => $action->body,
-                    'campaign_id' => $campaign->id,
-                    'id' => $action->id,
-                ]);
-            }
-        }
+//        foreach ($actions as $value) {
+//
+//            $match = ['campaign_id' => $campaign->id, 'number' => $value['number']];
+//
+//            $action = Action::where($match)->first();
+//
+//            if ($action) {
+//
+//                $action->update([
+//                    'number' => $value['number'],
+//                    'value' => $value['value'],
+//                    'body' => $value['body']
+//                ]);
+//
+//                Index::update('action', $action->id, [
+//                    'number' => $action->number,
+//                    'value' => $action->value,
+//                    'body' => $action->body,
+//                    'campaign_id' => $campaign->id,
+//                    'id' => $action->id,
+//                ]);
+//            }
+//        }
         
         return $response->withRedirect($this->router->pathFor('campaigns'));
 

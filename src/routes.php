@@ -61,6 +61,8 @@ $app->group('', function (){
 
     $this->get('/file', 'FileController:getPage')->setName('files');
 
+    $this->get('/settings', 'SettingsController:getPage')->setName('settings');
+
     $this->post('/settings', 'SettingsController:postData');
 
     $this->get('/logout', 'IndexController:logOut')->setName('logout');
