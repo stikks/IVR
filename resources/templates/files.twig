@@ -25,6 +25,8 @@
     <!-- /core JS files -->
 
     <script src="../../static/js/angular.min.js"></script>
+    <script src="../../node_modules/angular-audio/app/angular.audio.js"></script>
+    <script src="../../bower_components/ngWebAudio/src/ngWebAudio.js"></script>
     <script src="../../static/js/application.js"></script>
 
     <!-- Theme JS files -->
@@ -33,8 +35,6 @@
     <script type="text/javascript" src="../../static/js/core/app.js"></script>
     <script type="text/javascript" src="../../static/js/pages/datatables_basic.js"></script>
     <script type="text/javascript" src="../../static/js/plugins/ui/ripple.min.js"></script>
-    <!-- /theme JS files -->
-
 </head>
 
 <body ng-app="mainApp">
@@ -102,7 +102,7 @@
                             <div class="profile-userbuttons">
                                 <a href="{{ path_for('upload') }}"><button type="button" class="btn btn-success btn-sm"><span style="font-size:smaller;">Upload</span></button></a>
                                 <a href="{{ path_for('create_campaign') }}"><button type="button" class="btn btn-primary btn-sm"><span style="font-size:smaller;">Campaign</span></button></a>
-                            </div></a>
+                            </div>
 
                             <!-- Main -->
                             <li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i>
@@ -195,14 +195,24 @@
                         <thead>
                         <tr>
                             <th><strong>Name</strong></th>
-                            <th><strong>Description</strong></th>
+                            <th></th>
+                            <th><strong>Tag</strong></th>
                             <th>Size <strong>(kb)</strong></th>
                             <th><strong>Duration</strong></th>
                         </tr>
                         </thead>
                         <tbody ng-repeat="_file in data">
-                        <td ng-bind="_file.name"></td>
-                        <td ng-bind="_file.description"></td>
+                        <td>
+                            <span ng-bind="_file.name"></span><br>
+                            <em style="color: grey; font-size: 12px"><small ng-bind="_file.description"></small></em>
+                        </td>
+                        <td>
+                            <button ng-click="buffer()">Buffer</button>
+                            <button ng-click="play()">Play</button>
+                            <button ng-click="pause()">Pause</button>
+                            <button ng-click="stop()">Stop</button>
+                        </td>
+                        <td ng-bind="_file.tag"></td>
                         <td ng-bind="_file.size | number"></td>
                         <td ng-bind="_file.duration"></td>
                         </tbody>

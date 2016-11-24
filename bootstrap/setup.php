@@ -102,6 +102,7 @@ $files = "CREATE TABLE IF NOT EXISTS files(
   file_path VARCHAR (255) NOT NULL,
   file_type VARCHAR (255) NOT NULL,
   duration VARCHAR (255) NULL,
+  tag VARCHAR (255) NULL,
   updated_at date DEFAULT NULL,
   created_at date DEFAULT NULL
 );";

@@ -23,7 +23,8 @@ class Files extends Model
         "name",
         "file_type",
         "size",
-        "description"
+        "description",
+        "tag"
     ];
     
 }

@@ -1,4 +1,4 @@
-var app = angular.module('mainApp', []);
+var app = angular.module('mainApp', ['ngAudio']);
 
 app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('[[').endSymbol(']]');
@@ -81,7 +81,6 @@ app.controller('FileCtrl', function ($scope) {
         }
     };
 
-
     $scope.changeActive = function (value) {
         $scope.username = value;
         $scope.etisalat = false;
@@ -105,6 +104,22 @@ app.controller('FileCtrl', function ($scope) {
         }
         else {
             $scope.data = $scope.data_bank;
+        }
+    };
+
+    $scope.playAudio = function() {
+        $scope.buffer = function() {
+            $scope.audio.buffer();
+        };
+        $scope.play = function(file_path) {
+            $scope.audio = WebAudio(file_path, {buffer: false});
+            $scope.audio.play();
+        };
+        $scope.pause = function() {
+            $scope.audio.pause();
+        };
+        $scope.stop = function() {
+            $scope.audio.stop();
         }
     };
 });
